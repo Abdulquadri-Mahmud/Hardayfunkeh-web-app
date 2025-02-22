@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 .moving-gradient {
-  background: linear-gradient(to right, #d1820c, #ef4444, #facc15); /* Yellow to Red */
+  background: linear-gradient(to right, #e4b266, #ee7a7a, #f3ce39); /* Yellow to Red */
   background-size: 300% 100%; /* Increase size for better movement */
   animation: gradientMove1 4s ease-in-out infinite; /* Smooth transition */
 }
