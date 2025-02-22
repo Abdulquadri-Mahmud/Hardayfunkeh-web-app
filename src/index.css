@@ -1,0 +1,108 @@
+@import "tailwindcss";
+
+.moving-gradient {
+  background: linear-gradient(to right, #d1820c, #ef4444, #facc15); /* Yellow to Red */
+  background-size: 300% 100%; /* Increase size for better movement */
+  animation: gradientMove1 4s ease-in-out infinite; /* Smooth transition */
+}
+
+@keyframes gradientMove1 {
+  0% {
+      background-position: 0% 50%;
+  }
+  50% {
+      background-position: 100% 50%;
+  }
+  100% {
+      background-position: 0% 50%;
+  }
+}
+
+.glass-card {
+    background: linear-gradient(90deg, rgba(255, 204, 1, 0.2), rgba(255, 0, 234, 0.2));
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background-size: 300% 300%;
+    animation: gradientMove 6s ease infinite;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
+  }
+  
+  @keyframes gradientMove {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+}
+
+@keyframes bounce {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(10px);
+    }
+  }
+  
+  .bounce {
+    animation: bounce 1.5s infinite;
+  }
+  
+  /* Style odd rows */
+tr:nth-child(even) {
+  background-color: rgb(248, 248, 248);
+}
+
+.navlink > a > .icon{
+  color: #C70039;
+}
+.navlink > a:hover > .icon{
+  color: white;
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  opacity: 0;
+}
+
+
+.anime{
+  background: linear-gradient(to right, #e9a5b4, #ecdb78, #e9a5b4);
+  background-size: 300% 100%; /* Increase size for better movement */
+  animation: gradientMove1 4s ease-in-out infinite; /* Smooth transition */
+}
+@keyframes animate {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+      background-position: 100% 50%;
+  }
+  100% {
+      background-position: 0% 50%;
+  }
+}
+
+.glass{
+  background: rgba(158, 143, 143, 0.2);
+  box-shadow: 0 4px 30px rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(1px);
+}
+
+.addTocart{
+  transition: all 0.3s;
+}
+
+.addTocartCont:hover > .addTocart{
+  height: 40px;
+}
