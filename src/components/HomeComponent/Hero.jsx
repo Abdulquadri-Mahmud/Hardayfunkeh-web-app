@@ -25,7 +25,7 @@ const HeroSection = () => {
   const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
 
   return (
-    <div className="relative h-[70vh] moving-gradient flex flex-col gap-8 md:flex-row items-center justify-center text-center md:text-left py-20 px-2">
+    <div className="relative moving-gradient flex flex-col gap-8 md:flex-row items-center justify-center text-center md:text-left py-20 px-2">
       <motion.div key={currentSlide} className="md:w-1/2" animate={{ opacity: 1 }} initial={{ opacity: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
         <h2 className="lg:text-5xl md:text-4xl sm:text-3xl text-2xl font-bold mb-4 text-center text-gray-100">
           {slides[currentSlide].text}
