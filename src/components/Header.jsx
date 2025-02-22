@@ -161,21 +161,21 @@ export default function Header() {
 
         <div className="sm:block hidden lg:hidden">
           <div className="flex justify-center items-center gap-6 ">
-            <Link to="/wishlist" className="text-white flex flex-col items-center">
+            {/* <Link to="/wishlist" className="text-white flex flex-col items-center">
               <div className="relative">
                 <FaRegHeart size={22} />
                 <span className="absolute -top-4 -right-4 bg-yellow-400 text-xs px-2 py-0.5 rounded-full">{wishlistsLength}</span>
               </div>
               <p className="font-normal text-sm">Your Wishlist</p>
-            </Link>
+            </Link> */}
 
-            <Link to="/cart" className="text-white flex flex-col items-center">
+            {/* <Link to="/cart" className="text-white flex flex-col items-center">
               <div className="relative">
                 <FaShoppingCart size={22} />
                 <span className="absolute -top-4 -right-4 bg-yellow-400 text-xs px-2 py-0.5 rounded-full">{cartLength}</span>
               </div>
               <p className="font-normal text-sm">Your Cart</p>
-            </Link>
+            </Link> */}
           </div>
         </div>
 
