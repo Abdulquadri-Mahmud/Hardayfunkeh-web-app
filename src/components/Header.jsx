@@ -114,7 +114,7 @@ export default function Header() {
         <TopHeader/>
       </div>
       <header className="bg-pink-700 shado border-b-3 border-b-pink-400">
-        <div className="container mx-auto flex justify-between items-center flex-wrap gap-3 lg:py-6 py-3 px-4">
+        <div className="container mx-auto flex justify-between items-center flex-wrap gap-3 lg:py-7 md:py-5 py-5 px-4">
           {/* Logo */}
           <Link to="/" className="lg:text-3xl md:text-2xl text-xl font-bold text-white">Hardayfunkeh</Link>
 
