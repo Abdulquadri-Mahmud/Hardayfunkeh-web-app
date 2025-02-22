@@ -57,7 +57,7 @@ export default function FabricPage() {
   };
 
   return (
-    <div className="">
+    <div className="bg-pink-100">
       <Header />
       <div className="container mx-auto p-6">
         <div className="bg-black mb-16 rounded-2xl relative">
