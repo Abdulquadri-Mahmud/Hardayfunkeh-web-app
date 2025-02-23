@@ -70,9 +70,9 @@ export default function Contact() {
           {success && <p className="text-green-500 text-sm mb-3">{success}</p>}
           
           <form onSubmit={handleSubmit} className="space-y-4">
-            <input type="text" name="name" placeholder="Your Name" className="input-field" value={formData.name} onChange={handleChange} />
-            <input type="email" name="email" placeholder="Your Email" className="input-field" value={formData.email} onChange={handleChange} />
-            <textarea name="message" placeholder="Your Message" className="input-field h-32" value={formData.message} onChange={handleChange}></textarea>
+            <input type="text" name="name" placeholder="Your Name" className="input-field bg-gray-200" value={formData.name} onChange={handleChange} />
+            <input type="email" name="email" placeholder="Your Email" className="input-field bg-gray-200" value={formData.email} onChange={handleChange} />
+            <textarea name="message" placeholder="Your Message" className="input-field bg-gray-200 h-32" value={formData.message} onChange={handleChange}></textarea>
             <button type="submit" className="w-full bg-red-500 text-white font-semibold py-3 px-4 rounded-md hover:bg-red-600 transition flex justify-center">
               {loading ? <span className="animate-spin border-2 border-white border-t-transparent rounded-full h-5 w-5"></span> : "Send Message"}
             </button>
