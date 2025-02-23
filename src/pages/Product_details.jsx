@@ -51,7 +51,6 @@ export default function Details() {
                 const data = await res.json();
 
                 if (data.success === false) {
-                    console.log(data.message);
                     setLoading(false);
                 }
     
@@ -61,7 +60,6 @@ export default function Details() {
             fetchData();
         } catch (error) {
             setLoading(false);
-            console.log(error);
         }
     }, []);
 
@@ -376,14 +374,13 @@ export default function Details() {
                     </div>
             </div>
             </div>
-            <div className='hidden md:block bg-white px-3 py-3 rounded-md mt-6'>
+            <div className='hidden lg:block bg-white px-3 py-3 rounded-md mt-6'>
                 <div className="mb-2">
-                    <h2 className='font-medium text-[16px] text-gray-800'>Products Details:</h2>
+                    <h2 className='font-medium text-[16px] text-gray-700'>Products Details:</h2>
                 </div>
-                <p className="pb-2" dangerouslySetInnerHTML={{
+                <p className="pb-2 text-sm text-gray-600" dangerouslySetInnerHTML={{
                     __html: description ? description.replace(/\n/g, "<br />") : description,
                 }}></p>
-                {/* <ReactMarkdown className={'text-gray-600'}>{description}</ReactMarkdown> */}
             </div>
         </div>
         <Advert/>

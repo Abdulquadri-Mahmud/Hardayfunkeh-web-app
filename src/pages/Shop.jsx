@@ -3,9 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
-import { FaAngleRight, FaCartShopping, FaRegHeart } from "react-icons/fa6";
+import { FaAngleRight, FaCartShopping } from "react-icons/fa6";
 import { TbCurrencyNaira } from "react-icons/tb";
-import { addWishlist } from "../store/wishlists/Wishlists";
 import { addToCart } from "../store/cart/cartsReucer";
 import Advert from "../components/Advert";
 
@@ -17,6 +16,12 @@ export default function Shop() {
   const cartItems = useSelector((state) => state.cart.items); 
 
   const categories = ["Abaya", "Jalab", "Jewellery", "Fabric"];
+  const itemsPerPage = 8; // Products per page
+
+  // State to track the current page for each category
+  const [currentPage, setCurrentPage] = useState(
+    categories.reduce((acc, category) => ({ ...acc, [category]: 1 }), {})
+  );
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -46,22 +51,36 @@ export default function Shop() {
     dispatch(addToCart(cartItem));
   };
 
+  const handlePageChange = (category, direction) => {
+    setCurrentPage((prev) => ({
+      ...prev,
+      [category]: prev[category] + direction,
+    }));
+  };
+
   return (
     <div className="bg-gray-100">
       <Header />
       <div className="max-w-7xl mx-auto px-6 py-10">
-        <div className="bg-black  mb-16 rounded-2xl relative">
-          <div className="relative text-white flex items-center justify-center min-h-[300px] md:p-8 px-2 rounded-lg shadow-2xl overflow-hidden glass-card">
-            <h2 className="md:text-4xl text-2xl font-bold mb-4">Explore Our Collection</h2>
+        <div className="bg-black mb-16 rounded-2xl relative">
+          <div className="relative text-white flex items-center justify-center flex-col min-h-[300px] md:p-8 px-2 rounded-lg shadow-2xl overflow-hidden glass-card">
+            <h2 className="md:text-4xl text-2xl font-bold mb-4">Discover Timeless Elegance</h2>
+            <p className="text-center text-gray-300 md:text-lg text-sm max-w-xl">
+              Explore our carefully curated selection of abayas, jalabs, jewelry, and fabrics—crafted for style, comfort, and sophistication.
+            </p>
           </div>
         </div>
 
+
         {categories.map((category) => {
           const filteredProducts = products.filter((item) => item.category === category);
+          const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+          const startIndex = (currentPage[category] - 1) * itemsPerPage;
+          const paginatedProducts = filteredProducts.slice(startIndex, startIndex + itemsPerPage);
 
           return (
             <section key={category} className="mb-16 bg-white p-4 rounded-lg">
-              <div className="mb-4 moving-gradient py-3 px-3 text-white bg-pink-600 rounded-md flex justify-between items-center">
+              <div className="mb-4 py-3 px-3 text-white bg-pink-600 rounded-md flex justify-between items-center">
                 <h2 className="text-xl font-semibold">{category} Collection</h2>
                 <Link to="/" className="text-[12px] font-medium text-white uppercase flex items-center">
                   See All <FaAngleRight className="text-[20px]" />
@@ -77,9 +96,9 @@ export default function Shop() {
                         <div className="h-4 bg-gray-300 rounded w-1/2"></div>
                       </div>
                     ))
-                  : filteredProducts.length === 0
+                  : paginatedProducts.length === 0
                   ? (<p className="text-center text-gray-500">No products available at the moment.</p>)
-                  : filteredProducts.map((product) => (
+                  : paginatedProducts.map((product) => (
                       <div key={product._id} className="relative shadow-lg rounded-lg bg-white overflow-hidden transform transition-transform duration-300 hover:scale-105">
                         <Link to={`/product-details/${product._id}`} className="block relative">
                           <img src={product.image?.length > 0 ? product.image[0] : "/placeholder.png"} alt={product.name} className="w-full h-[180px] object-cover" />
@@ -101,6 +120,27 @@ export default function Shop() {
                         </div>
                       </div>
                     ))}
+              </div>
+
+              {/* Pagination Controls */}
+              <div className="flex justify-center mt-6 gap-4">
+                <button 
+                  onClick={() => handlePageChange(category, -1)}
+                  disabled={currentPage[category] === 1}
+                  className={`px-4 py-2 rounded-md ${currentPage[category] === 1 ? "bg-gray-300 cursor-not-allowed" : "bg-pink-600 text-white hover:bg-pink-700"}`}
+                >
+                  Previous
+                </button>
+
+                <span className="font-medium text-gray-700">Page {currentPage[category]} of {totalPages || 1}</span>
+
+                <button 
+                  onClick={() => handlePageChange(category, 1)}
+                  disabled={currentPage[category] === totalPages}
+                  className={`px-4 py-2 rounded-md ${currentPage[category] === totalPages ? "bg-gray-300 cursor-not-allowed" : "bg-pink-600 text-white hover:bg-pink-700"}`}
+                >
+                  Next
+                </button>
               </div>
             </section>
           );

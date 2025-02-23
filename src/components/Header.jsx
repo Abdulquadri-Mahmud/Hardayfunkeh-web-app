@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaShoppingCart, FaBars, FaTimes } from "react-icons/fa";
+import { BsCart4 } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { RxAvatar } from "react-icons/rx";
 import TopHeader from "./TopHeader";
@@ -65,8 +66,9 @@ const BottomNavs = () => {
 
   return (
     <div className="bg-white shadow-lg py-4 px-3 border-b-1 border-gray-300">
-      <div className="container mx-auto space-x-6">
+      <div className="container mx-auto flex justify-center space-x-6">
         <Link to="/" className="nav-link text-black hover:text-[#C70039] duration-200 ">Home</Link>
+        <Link to="/about" className="nav-link text-black hover:text-[#C70039] duration-200 ">About</Link>
         <Link to="/abaya" className="nav-link text-black hover:text-[#C70039] duration-200">Abaya</Link>
         <Link to="/jalab" className="nav-link text-black hover:text-[#C70039] duration-200">Jalab</Link>
         <Link to="/jewellery" className="nav-link text-black hover:text-[#C70039] duration-200">Jewellery</Link>
@@ -113,8 +115,8 @@ export default function Header() {
       <div className="">
         <TopHeader/>
       </div>
-      <header className="bg-pink-700 shado border-b-3 border-b-pink-400">
-        <div className="container mx-auto flex justify-between items-center flex-wrap gap-3 lg:py-7 md:py-5 py-5 px-4">
+      <header className="bg-pink-700 shado border-b-5 border-b-gray-50">
+        <div className="container mx-auto flex justify-between items-center flex-wrap gap-3 lg:py-5 md:py-5 py-5 px-4">
           {/* Logo */}
           <Link to="/" className="lg:text-3xl md:text-2xl text-xl font-bold text-white">Hardayfunkeh</Link>
 
@@ -135,7 +137,7 @@ export default function Header() {
 
             <Link to="/cart" className="text-white flex flex-col items-center">
               <div className="relative">
-                <FaShoppingCart size={22} />
+                <BsCart4 size={22} />
                 <span className="absolute -top-4 -right-4 bg-yellow-400 text-xs px-2 py-0.5 rounded-full">{cartLength}</span>
               </div>
               <p className="font-normal text-sm">Your Cart</p>
@@ -147,7 +149,7 @@ export default function Header() {
           <div className="flex gap-4">
             <Link to="/cart" className="text-white lg:hidden flex flex-col items-center">
               <div className="relative">
-                <FaShoppingCart className="textxl"/>
+                <BsCart4 className="textxl"/>
                 <span className="absolute -top-4 -right-4 bg-yellow-400 text-xs h-5 w-5 flex justify-center items-center rounded-full">{cartLength}</span>
               </div>
               <p className="font-normal text-sm">Your Cart</p>
@@ -156,26 +158,6 @@ export default function Header() {
               onClick={() => setMenuOpen(!menuOpen)}>
               {menuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
             </button>
-          </div>
-        </div>
-
-        <div className="sm:block hidden lg:hidden">
-          <div className="flex justify-center items-center gap-6 ">
-            {/* <Link to="/wishlist" className="text-white flex flex-col items-center">
-              <div className="relative">
-                <FaRegHeart size={22} />
-                <span className="absolute -top-4 -right-4 bg-yellow-400 text-xs px-2 py-0.5 rounded-full">{wishlistsLength}</span>
-              </div>
-              <p className="font-normal text-sm">Your Wishlist</p>
-            </Link> */}
-
-            {/* <Link to="/cart" className="text-white flex flex-col items-center">
-              <div className="relative">
-                <FaShoppingCart size={22} />
-                <span className="absolute -top-4 -right-4 bg-yellow-400 text-xs px-2 py-0.5 rounded-full">{cartLength}</span>
-              </div>
-              <p className="font-normal text-sm">Your Cart</p>
-            </Link> */}
           </div>
         </div>
 
@@ -188,7 +170,7 @@ export default function Header() {
             <Link to="/contact" className="block nav-link text-gray-800 hover:text-[#C70039] duration-200" onClick={() => setMenuOpen(false)}>Contact</Link>
             <Link to="/login" className="block nav-link text-gray-800 hover:text-[#C70039] duration-200" onClick={() => setMenuOpen(false)}>Login</Link>
             <Link to="/cart" className="block nav-link text-gray-800 hover:text-[#C70039] duration-200" onClick={() => setMenuOpen(false)}>
-              <FaShoppingCart className="inline-block mr-2" />
+              <BsCart4 className="inline-block mr-2" />
               Cart
             </Link>
           </div>

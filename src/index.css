@@ -1,7 +1,12 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
+* {
+  font-family: "Roboto", serif;
+  /* font-optical-sizing: auto; */
+}
 .moving-gradient {
-  background: linear-gradient(to right, #e4b266, #ee7a7a, #f3ce39); /* Yellow to Red */
+  background: linear-gradient(to right, #f3a530, #ee7a7a, rgb(226, 100, 121)); /* Yellow to Red */
   background-size: 300% 100%; /* Increase size for better movement */
   animation: gradientMove1 4s ease-in-out infinite; /* Smooth transition */
 }
@@ -103,6 +108,10 @@ tr:nth-child(even) {
   transition: all 0.3s;
 }
 
-.addTocartCont:hover > .addTocart{
+.addTocartCont:hover .addTocart{
   height: 40px;
 }
+
+/* @media screen and {
+  
+} */

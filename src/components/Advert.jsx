@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function Advert() {
   return (
-    <div class="2xl:max-w-[80%] xl:max-w-[90%] lg:max-w-[100%] max-w-[97%] mx-auto my-10 bg-white p-3 rounded-md">
+    <div class="2xl:max-w-[80%] xl:max-w-[90%] lg:max-w-[100%] max-w-[97%] mx-auto my-10 bg-white text-gray-600 p-3 rounded-md">
         <div>
             <h2 class="font-medium text-lg">Shop Elegant Abayas, Jalabs, Jewelry, and Fabrics at Hardayfunkeh</h2>
             <p class="text-sm mt-2">Discover a carefully curated collection of stylish and high-quality abayas, jalabs, exquisite jewelry, and premium fabrics at Hardayfunkeh. Whether you’re looking for modest yet fashionable attire or unique jewelry pieces to elevate your look, we have a diverse selection to suit your taste. Our collection embraces cultural elegance with a modern touch, ensuring you find the perfect outfit or accessory for any occasion. Start shopping today and experience timeless beauty and sophistication with Hardayfunkeh.</p>

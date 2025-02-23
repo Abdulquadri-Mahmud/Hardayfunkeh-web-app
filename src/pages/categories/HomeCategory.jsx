@@ -13,7 +13,7 @@ export default function HomeCategory() {
   const [filter, setFilter] = useState('All');
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 20;
+  const productsPerPage = 10;
   
   useEffect(() => {
     const fetchProducts = async () => {

@@ -6,9 +6,9 @@ import { TbCurrencyNaira } from "react-icons/tb";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../store/cart/cartsReucer";
 import Header from "../components/Header";
-import Loader from "../components/Loader";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
+import SearchLoader from "../components/SearchLoader";
 
 export default function SearchPage() {
   const [products, setProducts] = useState([]);
@@ -136,7 +136,7 @@ export default function SearchPage() {
             </h2>
             <p className="text-gray-500 text-sm">({products.length} products found)</p>
           </div>
-          {loading && <Loader/>}
+          {loading && <SearchLoader/>}
           {error && <p className="text-red-500">{error}</p>}
           {products.length === 0 && !loading && (
             <p className="text-gray-500">No products found.</p>

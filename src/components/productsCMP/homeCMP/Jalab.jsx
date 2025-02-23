@@ -32,7 +32,7 @@ const JalabProducts = () => {
     };
 
   return (
-    <div key={products._id} className="relative shadow-lg rounded-lg bg-white overflow-hidden transform transition-transform duration-300 hover:scale-105">
+    <div key={products._id} className="relative shadow-lg rounded-lg addTocartCont bg-white overflow-hidden transform transition-transform duration-300 hover:scale-105">
       <Link to={`/product-details/${products._id}`} className="block relative">
         <img src={products.image?.length > 0 ? products.image[0] : "/placeholder.png"} alt={products.name} className="w-full h-[180px] object-cover"/>
       </Link>
@@ -55,7 +55,7 @@ const JalabProducts = () => {
           </p>
           <p className="text-gray-500 text-sm px-2 rounded-full bg-pink-200">{products.category}</p>
         </div>
-        <button onClick={handleCart} className="mt-4 w-full cursor-pointer bg-pink-600 text-white py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-pink-700 transition-all">
+        <button onClick={handleCart} className="addTocart mt-4 w-full h-[0px] cursor-pointer bg-pink-600 text-white rounded-lg flex items-center justify-center gap-2 hover:bg-pink-700 transition-all">
           <FaCartShopping />
           Add to Cart
         </button>

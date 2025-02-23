@@ -1,8 +1,8 @@
 import React from 'react'
 
-export default function Loader() {
+export default function SearchLoader() {
   return (
-    <div className="">
+    <div className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 md:gap-4 gap-3">
         {
           [...Array(10)].map((_, index) => (
             <div key={index} className="shadow-lg rounded-lg bg-gray-200 p-4 animate-pulse">
