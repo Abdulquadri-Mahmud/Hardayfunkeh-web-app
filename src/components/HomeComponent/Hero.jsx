@@ -26,7 +26,7 @@ const HeroSection = () => {
   return (
     <div className="bg-gradient-to-r from-pink-600 to-yellow-500">
 
-      <div className="relative w-full lg:container mx-auto flex lg:gap-4 flex-col md:flex-row items-center justify-center 2xl:py-30 py-20 px-6">
+      <div className="relative w-full lg:container mx-auto flex gap-4 flex-col md:flex-row items-center justify-center 2xl:py-30 md:py-20 py-10 md:px-6 p-3">
         {/* Text Section */}
         <div className="md:w-1/2 text-center md:text-left">
           <AnimatePresence mode="wait">
@@ -48,12 +48,12 @@ const HeroSection = () => {
 
           <div className="flex justify-center md:justify-start gap-4">
             <Link to="/shop">
-              <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold px-6 py-3 rounded-lg shadow-md transition">
+              <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold md:px-6 px-3 md:py-3 py-2 rounded-md shadow-md transition">
                 Shop Now
               </button>
             </Link>
             <Link to="/collections">
-              <button className="border border-white text-white font-bold px-6 py-3 rounded-lg shadow-md hover:bg-white hover:text-pink-600 transition">
+              <button className="border border-white text-white font-bold md:px-6 px-3 md:py-3 py-2 rounded-md shadow-md hover:bg-white hover:text-pink-600 transition">
                 Explore Collection
               </button>
             </Link>

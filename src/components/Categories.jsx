@@ -16,7 +16,7 @@ const Categories = () => {
     <div className="relative py-16 my-10 px-6 sm:px-12 bg-gradient-to-r from-pink-200 to-pink-300 shadow-lg rounded-3xl max-w-[97%] xl:w-[95%] 2xl:max-w-[80%] mx-auto">
       {/* Title & Subtitle */}
       <div className="text-center mb-12">
-        <h2 className="text-4xl font-extrabold text-gray-900 drop-shadow-md">Shop by Category</h2>
+        <h2 className="lg:text-4xl text-2xl font-extrabold text-gray-900 drop-shadow-md">Shop by Category</h2>
         <p className="text-lg text-gray-700 mt-3">
           Discover the perfect Abayas, Jalabs, Fabrics & Jewellery to elevate your style.
         </p>

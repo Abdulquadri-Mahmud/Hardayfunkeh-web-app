@@ -59,12 +59,12 @@ export default function Shop() {
   };
 
   return (
-    <div className="bg-gray-100">
+    <div className="bg-pink-100">
       <Header />
-      <div className="max-w-7xl mx-auto px-6 py-10">
+      <div className="md:max-w-7xl max-w-full mx-auto md:px-6 px-3 py-10">
         <div className="bg-black mb-16 rounded-2xl relative">
-          <div className="relative text-white flex items-center justify-center flex-col min-h-[300px] md:p-8 px-2 rounded-lg shadow-2xl overflow-hidden glass-card">
-            <h2 className="md:text-4xl text-2xl font-bold mb-4">Discover Timeless Elegance</h2>
+          <div className="relative text-white flex items-center justify-center flex-col md:min-h-[300px] py-8 md:p-8 px-2 rounded-lg shadow-2xl overflow-hidden glass-card">
+            <h2 className="md:text-4xl text-2xl font-bold mb-4 text-center">Discover Timeless Elegance</h2>
             <p className="text-center text-gray-300 md:text-lg text-sm max-w-xl">
               Explore our carefully curated selection of abayas, jalabs, jewelry, and fabrics—crafted for style, comfort, and sophistication.
             </p>
@@ -79,7 +79,7 @@ export default function Shop() {
           const paginatedProducts = filteredProducts.slice(startIndex, startIndex + itemsPerPage);
 
           return (
-            <section key={category} className="mb-16 bg-white p-4 rounded-lg">
+            <section key={category} className="mb-16 bg-white p-2 rounded-lg">
               <div className="mb-4 py-3 px-3 text-white bg-pink-600 rounded-md flex justify-between items-center">
                 <h2 className="text-xl font-semibold">{category} Collection</h2>
                 <Link to="/" className="text-[12px] font-medium text-white uppercase flex items-center">
@@ -104,10 +104,10 @@ export default function Shop() {
                           <img src={product.image?.length > 0 ? product.image[0] : "/placeholder.png"} alt={product.name} className="w-full h-[180px] object-cover" />
                         </Link>
                         <div className="p-2">
-                          <h2 className="font-semibold text-lg truncate mb-2 text-gray-800">{product.name}</h2>
-                          <p className="text-gray-600 text-sm mb-2 truncate">{product.description}</p>
+                          <h2 className="font-semibold text-sm truncate mb-2 text-gray-800">{product.name}</h2>
+                          <p className="text-gray-600 text-[12px] mb-2 truncate">{product.description}</p>
                           <div className="flex items-center justify-between">
-                            <p className="flex items-center font-semibold text-pink-600">
+                            <p className="flex items-center font-semibold text-pink-600 lg:text-lg text-sm">
                               <TbCurrencyNaira className="mr-1" />
                               {product.price?.toLocaleString() || "N/A"}
                             </p>

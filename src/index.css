@@ -5,6 +5,13 @@
   font-family: "Roboto", serif;
   /* font-optical-sizing: auto; */
 }
+
+html, body {
+  -webkit-text-size-adjust: 100%; /* Prevents auto text resizing */
+  -webkit-overflow-scrolling: touch; /* Improves scrolling */
+}
+
+
 .moving-gradient {
   background: linear-gradient(to right, #f3a530, #ee7a7a, rgb(226, 100, 121)); /* Yellow to Red */
   background-size: 300% 100%; /* Increase size for better movement */

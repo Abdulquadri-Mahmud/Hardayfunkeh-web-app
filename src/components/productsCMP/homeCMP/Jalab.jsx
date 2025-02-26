@@ -48,7 +48,7 @@ const JalabProducts = () => {
             -{((products.oldprice - products.price) / products.oldprice * 100).toFixed(2)}%
           </div>
         )}
-        <div className="mt-2 flex items-center justify-between">
+        <div className="mt-2 flex items-center flex-wrap justify-between">
           <p className="flex items-center font-semibold text-pink-600">
             <TbCurrencyNaira className="mr-1" />
             {products.price?.toLocaleString() || "N/A"}

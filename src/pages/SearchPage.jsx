@@ -83,10 +83,10 @@ export default function SearchPage() {
   return (
     <div className="bg-pink-100">
       <Header />
-      <div className="container mx-auto p-6 flex flex-wrap gap-6">
-        <div className="lg:w-[300px] h-[400px] bg-white p-4 shadow-md rounded-md">
+      <div className="container mx-auto lg:p-6 p-3 flex flex-wrap gap-6">
+        <div className="lg:w-[300px] w-full h-[400px] bg-white p-4 shadow-md rounded-md">
           <h3 className="text-xl font-bold mb-4">Filters</h3>
-          <input type="text" value={query} onChange={(e) => updateFilters("query", e.target.value)} placeholder="Search for products" className="w-full px-3 py-2 border-2 border-gray-200 rounded-md mb-4"/>
+          <input type="text" value={query} onChange={(e) => updateFilters("query", e.target.value)} placeholder="Search for products" className="w-full px-3 py-2 border border-gray-300 rounded-md mb-4"/>
           
           <div className="mb-4">
             <h4 className="font-semibold">Price Range</h4>
@@ -110,7 +110,7 @@ export default function SearchPage() {
 
           <div className="mb-4">
             <h4 className="font-semibold">Size</h4>
-            <select className="w-full px-3 py-2 border rounded-md" value={size} onChange={(e) => updateFilters("size", e.target.value)}>
+            <select className="w-full px-3 py-2 border rounded-md border-gray-300" value={size} onChange={(e) => updateFilters("size", e.target.value)}>
               <option value="">All Sizes</option>
               <option value="S">Small</option>
               <option value="M">Medium</option>
@@ -121,7 +121,7 @@ export default function SearchPage() {
 
           <div className="mb-4">
             <h4 className="font-semibold">Deals</h4>
-            <select className="w-full px-3 py-2 border rounded-md" value={deal} onChange={(e) => updateFilters("deal", e.target.value)}>
+            <select className="w-full px-3 py-2 border rounded-md border-gray-300" value={deal} onChange={(e) => updateFilters("deal", e.target.value)}>
               <option value="">All Deals</option>
               <option value="good">Good</option>
               <option value="great">Great</option>
@@ -130,11 +130,11 @@ export default function SearchPage() {
         </div>
         
         <div className="flex-1 bg-white shadow-xl rounded-2xl lg:p-4 p-2">
-          <div className="flex justify-between">
-            <h2 className="text-2xl font-bold mb-4">
+          <div className="flex flex-wrap items-center justify-between mb-4">
+            <h2 className=";g:text-2xl text-lg font-bold">
               Search Results for: <span className="text-pink-600">{query}</span>
             </h2>
-            <p className="text-gray-500 text-sm">({products.length} products found)</p>
+            <p className="text-gray-500 lg:text-sm text-[12px]">({products.length} products found)</p>
           </div>
           {loading && <SearchLoader/>}
           {error && <p className="text-red-500">{error}</p>}
@@ -150,15 +150,15 @@ export default function SearchPage() {
                 </Link>
                 <div className="p-2">
                   <h2 className="font-semibold text-lg truncate mb-2 text-gray-800">{product.name}</h2>
-                  <p className="text-gray-600 text-sm truncate">{product.description}</p>
+                  <p className="text-gray-600 lg:text-sm text-[12px] truncate">{product.description}</p>
                   {product.oldprice && (
                     <div className="absolute left-3 top-3 text-pink-600 bg-yellow-100 py-1 px-2 text-[12px] rounded-full capitalize">
                       -{((product.oldprice - product.price) / product.oldprice * 100).toFixed(2)}%
                     </div>
                   )}
-                  <div className="mt-2 flex items-center justify-between">
-                    <p className="flex items-center font-semibold text-pink-600">
-                      <TbCurrencyNaira className="mr-1" />
+                  <div className="mt-2 flex items-center gap-2 justify-between">
+                    <p className="flex items-center text-sm font-semibold text-pink-600">
+                      <TbCurrencyNaira className="" />
                       {product.price?.toLocaleString() || "N/A"}
                     </p>
                     <p className="text-gray-500 text-sm px-2 rounded-full bg-pink-200">{product.category}</p>
