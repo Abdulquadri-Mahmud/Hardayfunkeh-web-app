@@ -101,7 +101,7 @@ const HomePage = () => {
 
 
   return (
-    <div className="bg-pink-600">
+    <div className="bg-pink-100">
       <Header />
       <div className="absolute">
         <SearchProductInput/>

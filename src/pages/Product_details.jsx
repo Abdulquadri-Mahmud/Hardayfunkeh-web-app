@@ -203,13 +203,13 @@ export default function Details() {
                                             <>
                                                 {
                                                 image !== undefined ? (
-                                                    <div className='flex items-center gap-2'>
+                                                    <div className='flex items-center flex-wrap gap-2'>
                                                         {
                                                             image.length > 0 && image.map((img) => {
                                                                 return (
-                                                                        <div className="max-w-14 cursor-pointer bg-pink-600 p-1 rounded-md">
-                                                                            <img src={img} onMouseEnter={() => handleClick(img)} className='rounded-md' alt="" />
-                                                                        </div>
+                                                                    <div className="max-w-14 cursor-pointer bg-pink-600 p-1 rounded-md">
+                                                                        <img src={img} onMouseEnter={() => handleClick(img)} className='rounded-md' alt="" />
+                                                                    </div>
                                                                 )
                                                             })
                                                         }
@@ -301,7 +301,7 @@ export default function Details() {
                                         <div className="my-3 bg-pink-200 p-2 rounded-md">
                                             <p className="text-sm font-semibold text-pink-500">Available Sizes</p>
                                             <div className="flex items-center gap-5">
-                                                <div className="flex gap-2">
+                                                <div className="flex gap-2 flex-wrap">
                                                     {
                                                         size.map((size) => (
                                                             <label key={size} className="flex items-center gap-1 cursor-pointer">
