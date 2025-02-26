@@ -97,7 +97,7 @@
 
 
 .moving-gradient {
-  background: linear-gradient(to right, #f3a530, #ee7a7a, rgb(226, 100, 121)); /* Yellow to Red */
+  background: linear-gradient(to right, #f3a530, #db2777, #eab308); /* Yellow to Red */
   background-size: 300% 100%; /* Increase size for better movement */
   animation: gradientMove1 4s ease-in-out infinite; /* Smooth transition */
 }
