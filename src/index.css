@@ -9,7 +9,7 @@
 :root {
   --pink-600: #db2777;
   --pink-700: #be185d;
-  --pink-900: #831843;
+  --pink-900: #5a0627;
   --yellow-500: #facc15;
   --yellow-600: #eab308;
   --green-500: #22c55e;
@@ -29,6 +29,9 @@
 }
 .bg-pink-700 {
   background-color: var(--pink-700);
+}
+.bg-pink-900 {
+  background-color: var(--pink-900);
 }
 
 .bg-yellow-500 {
