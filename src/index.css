@@ -7,14 +7,41 @@
 }
 
 :root {
+  --pink-100: #fce7f3;
+  --pink-200: #fbcfe8;
   --pink-600: #db2777;
   --pink-700: #be185d;
   --pink-900: #5a0627;
+  --yellow-100: #fef9c3;
+  --yellow-400: #facc15;
   --yellow-500: #facc15;
   --yellow-600: #eab308;
   --green-500: #22c55e;
   --gray-100: #f3f4f6;
   --white: #ffffff;
+}
+/* Background Colors */
+.bg-yellow-400 {
+  background-color: var(--yellow-400);
+}
+
+.bg-pink-200 {
+  background-color: var(--pink-200);
+}
+
+.bg-yellow-100 {
+  background-color: var(--yellow-100);
+}
+
+/* Large Shadow */
+.shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 
+  0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Gradient Background */
+.bg-gradient-to-r {
+  background: linear-gradient(to right, var(--pink-200), var(--pink-100));
 }
 
 .from-pink-600 {
@@ -24,6 +51,9 @@
   background-color: var(--yellow-500);
 }
 
+.bg-pink-100 {
+  background-color: var(--pink-100);
+}
 .bg-pink-600 {
   background-color: var(--pink-600);
 }
@@ -172,6 +202,9 @@ tr:nth-child(even) {
   border-radius: 5px;
 }
 
+.varaint-color1{
+  background: linear-gradient(to right, #fbcfe8, #f9a8d4); /* Pink-200 to Pink-300 */
+}
 
 .anime{
   background: linear-gradient(to right, #e9a5b4, #ecdb78, #e9a5b4);
