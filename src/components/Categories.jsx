@@ -13,7 +13,7 @@ const Categories = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="relative py-16 my-10 px-6 sm:px-12 varaint-color1 shadow-lg rounded-3xl max-w-[97%] xl:w-[95%] 2xl:max-w-[80%] mx-auto">
+    <div className="relative py-16 my-10 lg:px-6 px-3 sm:px-12 varaint-color1 shadow-lg rounded-3xl max-w-[97%] xl:w-[95%] 2xl:max-w-[80%] mx-auto">
       {/* Title & Subtitle */}
       <div className="text-center mb-12">
         <h2 className="lg:text-4xl text-2xl font-extrabold text-gray-900 drop-shadow-md">Shop by Category</h2>

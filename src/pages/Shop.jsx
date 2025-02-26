@@ -62,7 +62,7 @@ export default function Shop() {
     <div className="bg-pink-100">
       <Header />
       <div className="md:max-w-7xl max-w-full mx-auto md:px-6 px-3 py-10">
-        <div className="bg-black mb-16 rounded-2xl relative">
+        <div className="bg-black mb-10 rounded-2xl relative">
           <div className="relative text-white flex items-center justify-center flex-col md:min-h-[300px] py-8 md:p-8 px-2 rounded-lg shadow-2xl overflow-hidden glass-card">
             <h2 className="md:text-4xl text-2xl font-bold mb-4 text-center">Discover Timeless Elegance</h2>
             <p className="text-center text-gray-300 md:text-lg text-sm max-w-xl">
@@ -79,7 +79,7 @@ export default function Shop() {
           const paginatedProducts = filteredProducts.slice(startIndex, startIndex + itemsPerPage);
 
           return (
-            <section key={category} className="mb-16 bg-white p-2 rounded-lg">
+            <section key={category} className="mb-10 bg-white p-2 rounded-lg">
               <div className="mb-4 py-3 px-3 text-white bg-pink-600 rounded-md flex justify-between items-center">
                 <h2 className="text-xl font-semibold">{category} Collection</h2>
                 <Link to="/" className="text-[12px] font-medium text-white uppercase flex items-center">

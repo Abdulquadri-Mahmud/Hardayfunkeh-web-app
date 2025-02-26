@@ -92,8 +92,8 @@ export default function CartPage() {
   return (
     <div className='bg-zinc-100'>
         <Header/>
-        <div className="md:py-10 py-5 2xl:max-w-[80%] xl:max-w-[90%] lg:max-w-[100%] max-w-[97%] mx-auto">
-            <div className="bg-white p-4 rounded-lg">
+        <div className="md:py-10 py-5 2xl:max-w-[80%] xl:max-w-[90%] lg:max-w-[100%] max-w-[100%] mx-auto">
+            <div className="bg-white lg:p-4 p-2 rounded-lg">
                 <div className="flex justify-between">
                     <div className="flex gap-1 items-center">
                         <Link to={'/'} className='text-[13px] text-gray-500'>Home</Link>
@@ -111,11 +111,11 @@ export default function CartPage() {
                 </div>
                 <div className="flex justify-between items-center bg-pink-200 rounded-md py-2 px-4">
                     <div className='font-medium text-xl rounded-md' >
-                        <Link to={'/shop'} fontWeight={500} className='text- flex items-center justify-center gap-2 text-[#C70039]'><BiLeftArrowAlt/> Continue Shopping</Link>
+                        <Link to={'/shop'} fontWeight={500} className='lg:text-lg text-sm flex items-center justify-center lg:gap-2 text-[#C70039]'><BiLeftArrowAlt/> Continue Shopping</Link>
                     </div>
                     <div className="">
                         {/* <Link to={'/cart'}>My wishlist</Link> */}
-                        <button onClick={handleCheckWishlist} className="bg-pink-600 text-white px-4 py-2 rounded-md">
+                        <button onClick={handleCheckWishlist} className="bg-pink-600 text-white lg:px-4 px-2  py-2 lg:text-lg text-sm rounded-md">
                             Check Wishlist
                         </button>
                     </div>
@@ -124,7 +124,7 @@ export default function CartPage() {
             
             <div className="md:flex mt-4 block justify-center gap-2 flex-wrap">
                 <div className="flex-1 relative bg-white md:p-4 p-2 rounded-md">
-                    <div className="max-w-[90vw] mx-auto overflow-auto">
+                    <div className="max-w-[100vw] mx-auto overflow-auto">
                         <table className='w-full'>
                             <thead className='bg-pink-600 text-white'>
                                 <tr>
@@ -141,10 +141,10 @@ export default function CartPage() {
                                         
                                         return (
                                         <tr className="px-2" key={index}>
-                                            <td className="py-2 flex gap-3 w-[200px]">
+                                            <td className="py-2 flex gap-3 lg:w-[200px]">
                                                 <img src={item.productImage} alt="" className="rounded-md max-w-[50px] max-h-[50]"/>
                                                 {item.productName && (
-                                                    <p className="text-sm">{item.productName.slice(0, 30)}...</p>
+                                                    <p className="text-sm">{item.productName.slice(0, 20)}...</p>
                                                 )}
                                             </td>
                                             <td className="py-2 font-medium">
@@ -188,7 +188,7 @@ export default function CartPage() {
                         </table>
                     </div>
                 </div>
-                <div className='md:max-w-[300px] w-[100%] mx-auto bg-white p-3 rounded-md'>
+                <div className='md:max-w-[300px] h-[300px] w-[100%] mx-auto bg-white p-3 rounded-md'>
                     <div className='flex justify-between items-center pb-3 bottom-2 border-gray-300'>
                         <h1 className='text-sm font-medium'>Order Summary</h1>
                         <p className='text-sm'>Subtotal ({items.length} Item)</p>

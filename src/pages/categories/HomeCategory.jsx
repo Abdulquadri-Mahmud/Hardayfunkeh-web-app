@@ -43,7 +43,7 @@ export default function HomeCategory() {
     <div className="p-4 bg-white rounded-md md:max-w-7xl mx-auto">
       <div className="flex flex-wrap gap-5">
         {/* Sidebar */}
-        <aside className="w-full md:w-72 h-[550px] bg-white rounded-md p-2">
+        <aside className="w-full md:w-72 lg:h-[400px] bg-white shadow-lg rounded-md p-2">
           <h2 className="font-semibold text-lg">Category</h2>
           {categories.map((category, index) => (
             <Link key={index} to={`/${category.toLowerCase()}`} className="block py-2 px-8 hover:bg-gray-200 duration-150">
