@@ -90,7 +90,7 @@ export default function CartPage() {
     };
 
   return (
-    <div className='bg-zinc-100'>
+    <div className='bg-gray-100'>
         <Header/>
         <div className="md:py-10 py-5 2xl:max-w-[80%] xl:max-w-[90%] lg:max-w-[100%] max-w-[100%] mx-auto">
             <div className="bg-white lg:p-4 p-2 rounded-lg">
@@ -130,7 +130,7 @@ export default function CartPage() {
                                 <tr>
                                     <th className='rounded-tl-md font-medium p-[10px] text-start'>Products</th>
                                     <th className='font-medium p-[10px] text-start'>Quantity</th>
-                                    <th className='font-medium p-[10px] text-start'>Items Price</th>
+                                    <th className='font-medium p-[10px] text-start'>Price</th>
                                     <th className='rounded-tr-md font-medium p-[10px] text-start'>Action</th>
                                 </tr>
                             </thead>
@@ -141,12 +141,14 @@ export default function CartPage() {
                                         
                                         return (
                                         <tr className="px-2" key={index}>
-                                            <td className="py-2 flex gap-3 lg:w-[200px]">
-                                                <img src={item.productImage} alt="" className="rounded-md max-w-[50px] max-h-[50]"/>
-                                                {item.productName && (
-                                                    <p className="text-sm">{item.productName.slice(0, 20)}...</p>
-                                                )}
-                                            </td>
+                                            <Link to={`/product-details/${item.productID}`}>
+                                                <td className="py-2 flex gap-3 lg:w-[200px]">
+                                                    <img src={item.productImage} alt="" className="rounded-md max-w-[50px] max-h-[50]"/>
+                                                    {item.productName && (
+                                                        <p className="text-sm">{item.productName.slice(0, 20)}...</p>
+                                                    )}
+                                                </td>
+                                            </Link>
                                             <td className="py-2 font-medium">
                                                 <div className="flex justify-start items-start h-full gap-2">
                                                     <button type="button" className="rounded-sm bg-zinc-100 w-6 h-6 flex justify-center items-center" onClick={() => decreaseQuantity(item.productID)} >

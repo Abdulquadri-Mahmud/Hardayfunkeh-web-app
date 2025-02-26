@@ -8,7 +8,7 @@ export default function About() {
       <Header />
       
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-yellow-700 to-red-500 py-16 text-white text-center">
+      <div className="bg-gradient-to-r from-yellow-500 to-pink-500 py-16 text-white text-center">
         <h1 className="text-4xl font-bold">About Hardayfunkeh</h1>
         <p className="mt-2 text-lg">Discover quality fashion & accessories at unbeatable prices.</p>
       </div>

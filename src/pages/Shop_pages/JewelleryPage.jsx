@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { TbCurrencyNaira } from "react-icons/tb";
-import { FaCartShopping } from "react-icons/fa6";
+import { FaCartShopping, FaRegHeart } from "react-icons/fa6";
 import { addToCart } from "../../store/cart/cartsReucer";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import Advert from "../../components/Advert";
+import { addWishlist } from "../../store/wishlists/Wishlists";
 
 export default function JewelleryPage() {
   const [jewellery, setJewellery] = useState([]);
@@ -46,6 +47,18 @@ export default function JewelleryPage() {
     dispatch(addToCart(cartItem));
   };
 
+  const handleWishlistItem = (product) => {
+      const cartItem = {
+        productID: product._id || '',
+        productName: product.name || [],
+        productImage: product.image?.length > 0 ? product.image[0] :  product.image || [],
+        productPrice: product.price || '',
+        stock: product.stock || [],
+        quantity: 1,
+      };
+      dispatch(addWishlist(cartItem))
+    };
+
   // Pagination Logic
   const totalPages = Math.ceil(jewellery.length / itemsPerPage);
   const paginatedItems = jewellery.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
@@ -56,16 +69,16 @@ export default function JewelleryPage() {
   };
 
   return (
-    <div className="bg-pink-100">
+    <div className="bg-gray-100">
       <Header />
       <div className="container mx-auto p-6">
-        <div className="bg-black mb-16 rounded-2xl relative">
+        <div className="bg-black mb-10 rounded-2xl relative">
           <div className="relative text-white flex items-center justify-center min-h-[300px] md:p-8 px-2 rounded-lg shadow-2xl overflow-hidden glass-card">
             <h2 className="md:text-4xl text-3xl font-bold mb-4">Elegant Jewellery Collection</h2>
           </div>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+        <div className="bg-white rounded-2xl lg:p-6 p-3 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
           {loading
             ? [...Array(8)].map((_, index) => (
                 <div key={index} className="shadow-lg rounded-lg bg-gray-200 p-4 animate-pulse">
@@ -79,29 +92,30 @@ export default function JewelleryPage() {
                 <p className="text-center text-gray-500">No Jewellery available at the moment.</p>
               ) : (
                 paginatedItems.map((item) => (
-                  <div key={item._id} className="relative shadow-lg rounded-lg bg-white overflow-hidden transition-transform transform hover:scale-105">
+                  <div key={item._id} className="relative addTocartCont shadow-lg rounded-lg bg-white overflow-hidden transition-transform transform hover:scale-105">
                     <Link to={`/product-details/${item._id}`}>
-                      <img src={item.image?.length > 0 ? item.image[0] : "/placeholder.png"} alt={item.name} className="w-full h-64 object-cover"/>
+                      <img src={item.image?.length > 0 ? item.image[0] : "/placeholder.png"} alt={item.name} className="w-full h-64 object-cover" />
                     </Link>
+                    <button onClick={() => handleWishlistItem(item)} className="cursor-pointer absolute top-2 right-2 p-1 px-2 text-sm text-white bg-yellow-400 rounded-lg capitalize">
+                      <FaRegHeart size={22} />
+                    </button>
                     <div className="p-2">
                       <h2 className="font-semibold text-lg truncate mb-2 text-gray-800">{item.name}</h2>
                       <p className="text-gray-600 text-sm truncate">{item.description}</p>
-                      {
-                        item.oldprice && (
-                          <div className="absolute left-3 top-3 text-pink-600 bg-yellow-100 py-1 px-2 text-[12px] rounded-full capitalize">
-                            {((item.oldprice - item.price) / item.oldprice * 100).toFixed(2)}% OFF
-                          </div>
-                        )
-                      }
+                      {item.oldprice && (
+                        <div className="absolute left-3 top-3 text-pink-600 bg-yellow-100 py-1 px-2 text-[12px] rounded-full capitalize">
+                          {((item.oldprice - item.price) / item.oldprice * 100).toFixed(2)}% OFF
+                        </div>
+                      )}
 
-                      <div className="mt-2 flex items-center justify-between">
-                        <p className="flex items-center font-semibold text-pink-600">
+                      <div className="flex items-center justify-between">
+                        <p className="flex items-center font-semibold text-pink-600 lg:text-lg text-sm">
                           <TbCurrencyNaira className="mr-1" />
                           {item.price?.toLocaleString() || "N/A"}
                         </p>
                         <p className="text-gray-500 text-sm px-2 rounded-full bg-pink-200">{item.category}</p>
                       </div>
-                      <button onClick={() => handleAddToCart(item)} className="mt-4 w-full cursor-pointer bg-pink-600 text-white py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-pink-700 transition-all">
+                      <button onClick={() => handleAddToCart(item)} className="addTocart mt-4 w-full cursor-pointer bg-pink-600 text-white py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-pink-700 transition-all">
                         <FaCartShopping />
                         Add to Cart
                       </button>

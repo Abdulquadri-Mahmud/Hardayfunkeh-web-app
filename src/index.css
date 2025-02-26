@@ -41,9 +41,9 @@
 }
 
 /* Gradient Background */
-.bg-gradient-to-r {
+/* .bg-gradient-to-r {
   background: linear-gradient(to right, var(--pink-200), var(--pink-100));
-}
+} */
 
 .from-pink-600 {
   background-color: var(--pink-600);
@@ -236,6 +236,8 @@ tr:nth-child(even) {
 
 .addTocart{
   transition: all 0.3s;
+  height: 0px;
+  padding: 0px;
 }
 
 .addTocartCont:hover .addTocart{

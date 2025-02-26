@@ -66,7 +66,7 @@ export default function Wishlists() {
         navigate(-1);
     }
 
-    const handleCheckWishlist = () => {
+    const handleCheckCart = () => {
         if (items.length === 0) {
           setShowModal(true);
         }else{
@@ -101,11 +101,11 @@ export default function Wishlists() {
                 </div>
                 <div className="flex justify-between items-center bg-pink-200 rounded-md py-2 px-4">
                     <div className='font-medium text-xl rounded-md' >
-                        <Link to={'/shop'} fontWeight={500} className='text- flex items-center justify-center gap-2 text-[#C70039]'><BiLeftArrowAlt/> Continue Shopping</Link>
+                        <Link to={'/shop'} fontWeight={500} className='lg:text-lg text-sm flex items-center justify-center lg:gap-2 text-[#C70039]'><BiLeftArrowAlt/> Continue Shopping</Link>
                     </div>
                     <div className="">
                         {/* <Link to={'/cart'}>My wishlist</Link> */}
-                        <button onClick={handleCheckWishlist} className="bg-pink-600 text-white px-4 py-2 rounded-md">
+                        <button onClick={handleCheckCart} className="bg-pink-600 text-white lg:px-4 px-2  py-2 lg:text-lg text-sm rounded-md">
                             Check Cart
                         </button>
                     </div>
@@ -119,7 +119,7 @@ export default function Wishlists() {
                             <thead className='bg-pink-600 text-white'>
                                 <tr>
                                     <th className='rounded-tl-md font-medium p-[10px] text-start'>Products</th>
-                                    <th className='font-medium p-[10px] text-start'>Item Price</th>
+                                    <th className='font-medium p-[10px] text-start'>Price</th>
                                     <th className='font-medium p-[10px] text-start'>Stock status</th>
                                     <th className=' font-medium p-[10px] text-start'>Action</th>
                                     <th className='rounded-tr-md font-medium p-[10px] text-start'>Cart</th>
@@ -132,10 +132,14 @@ export default function Wishlists() {
 
                                         return (
                                         <tr className="px-2" key={index}>
-                                            <td className="py-2 flex gap-3 w-[200px]">
-                                                <img src={item.productImage} alt="" className="rounded-md max-w-[50px] max-h-[50]"/>
-                                                <p className="text-sm">{item.productName.slice(0, 30)}...</p>
-                                            </td>
+                                            <Link to={`/product-details/${item.productID}`}>
+                                                <td className="py-2 flex gap-3 lg:w-[200px]">
+                                                    <img src={item.productImage} alt="" className="rounded-md max-w-[50px] max-h-[50]"/>
+                                                    {item.productName && (
+                                                        <p className="text-sm">{item.productName.slice(0, 20)}...</p>
+                                                    )}
+                                                </td>
+                                            </Link>
                                             <td className="py-3 font-normal w-[20%]">
                                                 <p className="flex items-center justify-start">
                                                     <FaNairaSign />
@@ -151,8 +155,7 @@ export default function Wishlists() {
                                             </td>
                                             <td className="py-3 font-medium">
                                                 <div className="flex justify-start items-start">
-                                                    <button className="text-red-500 cursor-pointer text-[14px] font-medium text-start" onClick={() => handleRemoveItem(item.productID)}
-                                                    >
+                                                    <button className="text-red-500 cursor-pointer text-[14px] font-medium text-start" onClick={() => handleRemoveItem(item.productID)}>
                                                     Delete Item
                                                     </button>
                                                 </div>

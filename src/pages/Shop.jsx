@@ -59,7 +59,7 @@ export default function Shop() {
   };
 
   return (
-    <div className="bg-pink-100">
+    <div className="bg-gray-100">
       <Header />
       <div className="md:max-w-7xl max-w-full mx-auto md:px-6 px-3 py-10">
         <div className="bg-black mb-10 rounded-2xl relative">
@@ -99,7 +99,7 @@ export default function Shop() {
                   : paginatedProducts.length === 0
                   ? (<p className="text-center text-gray-500">No products available at the moment.</p>)
                   : paginatedProducts.map((product) => (
-                      <div key={product._id} className="relative shadow-lg rounded-lg bg-white overflow-hidden transform transition-transform duration-300 hover:scale-105">
+                      <div key={product._id} className="relative addTocartCont shadow-lg rounded-lg bg-white overflow-hidden transform transition-transform duration-300 hover:scale-105">
                         <Link to={`/product-details/${product._id}`} className="block relative">
                           <img src={product.image?.length > 0 ? product.image[0] : "/placeholder.png"} alt={product.name} className="w-full h-[180px] object-cover" />
                         </Link>
@@ -113,7 +113,7 @@ export default function Shop() {
                             </p>
                             <p className="text-gray-500 text-sm px-2 rounded-full bg-pink-200">{product.category}</p>
                           </div>
-                          <button onClick={() => handleAddToCart(product)} className="mt-4 w-full cursor-pointer bg-pink-600 text-white py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-pink-700 transition-all">
+                          <button onClick={() => handleAddToCart(product)} className="addTocart mt-4 w-full cursor-pointer bg-pink-600 text-white py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-pink-700 transition-all">
                             <FaCartShopping />
                             Add to Cart
                           </button>
