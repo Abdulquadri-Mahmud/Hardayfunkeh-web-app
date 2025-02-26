@@ -6,10 +6,94 @@
   /* font-optical-sizing: auto; */
 }
 
-html, body {
-  -webkit-text-size-adjust: 100%; /* Prevents auto text resizing */
-  -webkit-overflow-scrolling: touch; /* Improves scrolling */
+:root {
+  --pink-600: #db2777;
+  --pink-700: #be185d;
+  --pink-900: #831843;
+  --yellow-500: #facc15;
+  --yellow-600: #eab308;
+  --green-500: #22c55e;
+  --gray-100: #f3f4f6;
+  --white: #ffffff;
 }
+
+.from-pink-600 {
+  background-color: var(--pink-600);
+}
+.to-yellow-600 {
+  background-color: var(--yellow-500);
+}
+
+.bg-pink-600 {
+  background-color: var(--pink-600);
+}
+.bg-pink-700 {
+  background-color: var(--pink-700);
+}
+
+.bg-yellow-500 {
+  background-color: var(--yellow-500);
+}
+
+.bg-yellow-600 {
+  background-color: var(--yellow-600);
+}
+
+.bg-green-500 {
+  background-color: var(--green-500);
+}
+
+.bg-gray-100 {
+  background-color: var(--gray-100);
+}
+
+.bg-white {
+  background-color: var(--white);
+}
+
+/* Button hover effects */
+.hover\:bg-yellow-600:hover {
+  background-color: var(--yellow-600);
+}
+
+.hover\:bg-gray-200:hover {
+  background-color: #e5e7eb;
+}
+
+.hover\:bg-white:hover {
+  background-color: var(--white);
+}
+
+.hover\:text-pink-600:hover {
+  color: var(--pink-600);
+}
+
+/* Text Colors */
+.text-white {
+  color: var(--white);
+}
+
+.text-gray-100 {
+  color: var(--gray-100);
+}
+
+.text-pink-600 {
+  color: var(--pink-600);
+}
+
+/* Border Colors */
+.border-white {
+  border-color: var(--white);
+}
+
+/* Button Styles */
+.button {
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+}
+
 
 
 .moving-gradient {

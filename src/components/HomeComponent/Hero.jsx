@@ -24,7 +24,7 @@ const HeroSection = () => {
   const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
 
   return (
-    <div className={`bg-linear-to-r from-pink-500 via-orange-400 to-yellow-400 dark:via-none dark:from-blue-500 dark:to-teal-400`}>
+    <div className={`bg-gradient-to-r from-pink-600 to-yellow-500 `}>
 
       <div className="relative w-full lg:container mx-auto flex gap-4 flex-col md:flex-row items-center justify-center 2xl:py-30 md:py-20 py-10 md:px-6 p-3">
         {/* Text Section */}
