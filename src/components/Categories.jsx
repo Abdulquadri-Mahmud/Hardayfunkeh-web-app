@@ -30,7 +30,7 @@ const Categories = () => {
             onClick={() => navigate(`/${category.name.toLowerCase()}`)}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="cursor-pointer bg-white/90 backdrop-blur-xl shadow-lg rounded-xl overflow-hidden transition duration-300 hover:shadow-2xl transform"
+            className="cursor-pointer bg-white backdrop-blur-xl shadow-lg rounded-xl overflow-hidden transition duration-300 hover:shadow-2xl transform"
           >
             <img
               src={category.image}
