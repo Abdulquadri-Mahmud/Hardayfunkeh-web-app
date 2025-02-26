@@ -32,52 +32,55 @@ import Admin_Private_Route from '../components/private/Admin.private.routes';
 
 export default function AppRoutes() {
   return (
-    <Router>
-        {/* <Header/> */}
+    <div >
 
-        <Routes>
-          <Route path='/' element={<HomePage/>}/>
-          <Route path='/search' element={<SearchPage/>}/>
-          <Route path='*' element={<NotFound/>}/>
-          
-          <Route path='/login' element={<UserLogin/>}/>
-          <Route path='/signup' element={<Signup/>}/>
-          <Route path='/forgot_password' element={<ForgotPassword/>}/>
-          <Route path='/reset_password/:token' element={<ResetPassword/>}/>
+      <Router>
+          {/* <Header/> */}
 
-          <Route path='/admin-login' element={<AdminLogin/>}/>
+          <Routes>
+            <Route path='/' element={<HomePage/>}/>
+            <Route path='/search' element={<SearchPage/>}/>
+            <Route path='*' element={<NotFound/>}/>
+            
+            <Route path='/login' element={<UserLogin/>}/>
+            <Route path='/signup' element={<Signup/>}/>
+            <Route path='/forgot_password' element={<ForgotPassword/>}/>
+            <Route path='/reset_password/:token' element={<ResetPassword/>}/>
 
-          <Route path='/about' element={<About/>}/>
+            <Route path='/admin-login' element={<AdminLogin/>}/>
 
-          <Route path='/shop' element={<Shop/>}/>
-          <Route path='/abaya' element={<AbayaPage/>}/>
-          <Route path='/jewellery' element={<JewelleryPage/>}/>
-          <Route path='/jalab' element={<JalabPage/>}/>
-          <Route path='/fabrics' element={<FabricPage/>}/>
+            <Route path='/about' element={<About/>}/>
+
+            <Route path='/shop' element={<Shop/>}/>
+            <Route path='/abaya' element={<AbayaPage/>}/>
+            <Route path='/jewellery' element={<JewelleryPage/>}/>
+            <Route path='/jalab' element={<JalabPage/>}/>
+            <Route path='/fabrics' element={<FabricPage/>}/>
 
 
-          <Route path='/contact' element={<Contact/>}/>
-          <Route path='/wishlist' element={<Wishlists/>}/>
-          <Route path='/cart' element={<CartPage/>}/>
-          <Route path='/product-details/:id' element={<Details/>}/>
+            <Route path='/contact' element={<Contact/>}/>
+            <Route path='/wishlist' element={<Wishlists/>}/>
+            <Route path='/cart' element={<CartPage/>}/>
+            <Route path='/product-details/:id' element={<Details/>}/>
 
-          <Route path='/contact' element={<Contact/>}/>
+            <Route path='/contact' element={<Contact/>}/>
 
-          <Route element={<User_Private_Route/>}>
-            <Route path='/checkout' element={<CheckOutPage/>}/>
-            <Route path='/profile/:userId' element={<Profile/>}/>
-          </Route>
-          <Route element={<Admin_Private_Route/>}>
-            <Route path='/dashboard' element={<Layout/>}>
-              <Route path='/dashboard' element={<Dashboard/>}/>
-              <Route path='new-item' element={<CreateItem/>}/>
-              <Route path='items' element={<ItemsPage/>}/>
-              <Route path='order' element={<Order_page/>}/>
-              <Route path='customers' element={<Customer_page/>}/>
-              <Route path='items/update-item/:id' element={<UpdateItem/>}/>
+            <Route element={<User_Private_Route/>}>
+              <Route path='/checkout' element={<CheckOutPage/>}/>
+              <Route path='/profile/:userId' element={<Profile/>}/>
             </Route>
-          </Route>
-        </Routes>
-    </Router>
+            <Route element={<Admin_Private_Route/>}>
+              <Route path='/dashboard' element={<Layout/>}>
+                <Route path='/dashboard' element={<Dashboard/>}/>
+                <Route path='new-item' element={<CreateItem/>}/>
+                <Route path='items' element={<ItemsPage/>}/>
+                <Route path='order' element={<Order_page/>}/>
+                <Route path='customers' element={<Customer_page/>}/>
+                <Route path='items/update-item/:id' element={<UpdateItem/>}/>
+              </Route>
+            </Route>
+          </Routes>
+      </Router>
+    </div>
   )
 }
