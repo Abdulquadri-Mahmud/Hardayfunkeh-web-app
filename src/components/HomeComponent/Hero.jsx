@@ -61,7 +61,7 @@ const HeroSection = () => {
         </div>
 
         {/* Image Section */}
-        <div className="relative 2xl:h-[500px] lg:h-[400px]  bg-white rounded-2xl p-1 w-full md:w-1/2 h- flex items-center justify-center">
+        <div className="relative 2xl:h-[500px] lg:h-[400px] h-80 bg-white rounded-2xl p-1 w-full md:w-1/2 h- flex items-center justify-center">
           <motion.img
             key={currentSlide}
             src={slides[currentSlide].image}
