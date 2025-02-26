@@ -24,7 +24,7 @@ const HeroSection = () => {
   const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
 
   return (
-    <div className="bg-gradient-to-r from-pink-600 to-yellow-500">
+    <div className={`bg-gradient-to-r from-pink-600 to-yellow-500 dark:from-blue-500`}>
 
       <div className="relative w-full lg:container mx-auto flex gap-4 flex-col md:flex-row items-center justify-center 2xl:py-30 md:py-20 py-10 md:px-6 p-3">
         {/* Text Section */}
@@ -61,7 +61,7 @@ const HeroSection = () => {
         </div>
 
         {/* Image Section */}
-        <div className="relative 2xl:h-[500px] lg:h-[400px]  bg-green-500 rounded-2xl p-1 w-full md:w-1/2 h- flex items-center justify-center">
+        <div className="relative 2xl:h-[500px] lg:h-[400px]  bg-white rounded-2xl p-1 w-full md:w-1/2 h- flex items-center justify-center">
           <motion.img
             key={currentSlide}
             src={slides[currentSlide].image}
