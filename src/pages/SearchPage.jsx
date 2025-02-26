@@ -84,7 +84,7 @@ export default function SearchPage() {
     <div className="bg-pink-100">
       <Header />
       <div className="container mx-auto lg:p-6 p-3 flex flex-wrap gap-6">
-        <div className="lg:w-[300px] w-full h-[400px] bg-white p-4 shadow-md rounded-md">
+        <div className="lg:w-[300px] w-full lg:h-[400px] bg-white p-4 shadow-md rounded-md">
           <h3 className="text-xl font-bold mb-4">Filters</h3>
           <input type="text" value={query} onChange={(e) => updateFilters("query", e.target.value)} placeholder="Search for products" className="w-full px-3 py-2 border border-gray-300 rounded-md mb-4"/>
           
