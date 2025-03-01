@@ -23,6 +23,8 @@ export default function CheckOutPage() {
     phone: currentUser?.phone || '',
     email: currentUser?.email || '',
     address: currentUser?.address || '',
+    deliveryMethod: 'Standard',
+    paymentMethod: 'Cash on Delivery',
     items: items || [],
   });
 
@@ -114,29 +116,40 @@ export default function CheckOutPage() {
               <form onSubmit={handleSubmit} className="font-medium md:w-[45%] w-full bg-white py-3 rounded-b-md">
                 <div className="grid md:grid-cols-2 gap-3 grid-cols-1 p-3">
                   <div>
-                    <p>First Name</p>
-                    <input onChange={handleChange} defaultValue={formData.firstname} type="text" id="firstname" className="outline-none border border-gray-200 placeholder:text-sm font-normal w-full text-sm rounded-md p-2" placeholder="First Name"/>
+                    {/* <p className='text-gray-700 font-semibold'>First Name</p> */}
+                    <input onChange={handleChange} defaultValue={formData.firstname} type="text" id="firstname" className="outline-none text-gray-500 border border-gray-200 placeholder:text-sm font-normal w-full text-sm rounded-md p-2" placeholder="First Name"/>
                   </div>
                   <div>
-                    <p>Last Name</p>
-                    <input onChange={handleChange} defaultValue={formData.lastname} type="text" id="lastname" className="outline-none border border-gray-200 placeholder:text-sm font-normal w-full text-sm rounded-md p-2" placeholder="Last Name"/>
+                    {/* <p className='text-gray-700 font-semibold'>Last Name</p> */}
+                    <input onChange={handleChange} defaultValue={formData.lastname} type="text" id="lastname" className="outline-none text-gray-500 border border-gray-200 placeholder:text-sm font-normal w-full text-sm rounded-md p-2" placeholder="Last Name"/>
                   </div>
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-3 grid-cols-1 p-3">
                   <div>
-                    <p>Phone Number</p>
-                    <input onChange={handleChange} defaultValue={formData.phone} type="text" id="phone" className="outline-none border border-gray-200 placeholder:text-sm font-normal w-full text-sm rounded-md p-2" placeholder="Phone Number"/>
+                    {/* <p className='text-gray-700 font-semibold'>Phone Number</p> */}
+                    <input onChange={handleChange} defaultValue={formData.phone} type="text" id="phone" className="outline-none text-gray-500 border border-gray-200 placeholder:text-sm font-normal w-full text-sm rounded-md p-2" placeholder="Phone Number"/>
                   </div>
                   <div>
-                    <p>Email Address</p>
-                    <input onChange={handleChange} defaultValue={formData.email} type="email" id="email" className="outline-none border border-gray-200 placeholder:text-sm font-normal w-full text-sm rounded-md p-2" placeholder="Email Address"/>
+                    {/* <p className='text-gray-700 font-semibold'>Email Address</p> */}
+                    <input onChange={handleChange} defaultValue={formData.email} type="email" id="email" className="outline-none text-gray-500 border border-gray-200 placeholder:text-sm font-normal w-full text-sm rounded-md p-2" placeholder="Email Address"/>
                   </div>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-3 grid-cols-1 p-3">
+                  <select id="deliveryMethod" value={formData.deliveryMethod} onChange={handleChange} className="border text-gray-600 p-2 rounded">
+                    <option>Standard</option>
+                    <option>Express</option>
+                  </select>
+                  <select id="paymentMethod" value={formData.paymentMethod} onChange={handleChange} className="border text-gray-600 p-2 rounded">
+                    <option>Cash on Delivery</option>
+                    <option>Online Payment</option>
+                  </select>
                 </div>
 
                 <div className="p-3">
                   <p>Full Address</p>
-                  <textarea id="address" onChange={handleChange} defaultValue={formData.address} className="outline-none w-full h-[80px] border border-gray-200 placeholder:text-sm font-normal text-sm rounded-md p-2" placeholder="Full Address"></textarea>
+                  <textarea id="address" onChange={handleChange} defaultValue={formData.address} className="outline-none text-gray-500 w-full h-[80px] border border-gray-200 placeholder:text-sm font-normal text-sm rounded-md p-2" placeholder="Full Address"></textarea>
                 </div>
 
                 <div className="flex justify-end p-3">

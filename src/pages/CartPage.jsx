@@ -220,7 +220,7 @@ export default function CartPage() {
                     }
                     <div onClick={handleReidirect}>
                         <Link to={`${currentUser && !emptyCart ? `/checkout` : '/cart'}`}>
-                            <button className='cursor-pointer bg-pink-600 text-white w-full my-3 rounded-md py-2 font-medium'>Continue to Checkout</button>
+                            <button className='cursor-pointer bg-pink-600 text-white w-full my-3 rounded-md py-2 font-medium'>Proceed to Checkout</button>
                         </Link>
                     </div>
                 </div>

@@ -29,6 +29,7 @@ import JalabPage from '../pages/Shop_pages/JalabPage';
 import FabricPage from '../pages/Shop_pages/FabricPage';
 import AbayaPage from '../pages/Shop_pages/AbayaPage';
 import Admin_Private_Route from '../components/private/Admin.private.routes';
+import Order from '../pages/Order';
 
 export default function AppRoutes() {
   return (
@@ -66,6 +67,7 @@ export default function AppRoutes() {
             <Route path='/contact' element={<Contact/>}/>
 
             <Route element={<User_Private_Route/>}>
+              <Route path='/order' element={<Order/>}/>
               <Route path='/checkout' element={<CheckOutPage/>}/>
               <Route path='/profile/:userId' element={<Profile/>}/>
             </Route>
