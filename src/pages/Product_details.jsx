@@ -13,10 +13,11 @@ import ReactMarkdown from 'react-markdown';
 import { addToCart, changeQuantity } from '../store/cart/cartsReucer';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { p } from 'framer-motion/client';
 import { addWishlist } from '../store/wishlists/Wishlists';
 import { FaRegHeart } from 'react-icons/fa';
 import Advert from '../components/Advert';
+
+import { Description, Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
 
 export default function Details() {
     const { id } = useParams();
@@ -25,6 +26,8 @@ export default function Details() {
     const { currentAdmin } = useSelector((state) => state.admin);
     const [product, setProduct] = useState([]);
     const [loading, setLoading] = useState(false);
+
+    let [isOpen, setIsOpen] = useState(false);
 
     const [getCarts, setGetCarts] = useState({
         productID: '',
@@ -71,7 +74,7 @@ export default function Details() {
             setGetCarts({
                 productID: product._id || '',
                 productName: product.name || '',
-                productImage: product.image || '',
+                productImage: product.image?.length > 0 ? product.image[0] :  product.image || [],
                 productPrice: product.price || '',
                 size: [],
                 quantity: 1,
@@ -96,9 +99,22 @@ export default function Details() {
         // console.log("Updated cart:", getCarts);
         
     });
-
+    
+    let [message, setMessage] = useState(null);
     const handleCart = () => {
-        dispatch(addToCart(getCarts));
+        if (category !== 'Jewellery') {
+            if (getCarts.size.length <= 0) {
+                setMessage('Please Select a variation (size)!');
+                setTimeout(() => setMessage(null), 1500)
+                setIsOpen(true);
+                return;
+            }else{
+                dispatch(addToCart(getCarts));
+            }
+        }
+        else{
+            dispatch(addToCart(getCarts));
+        }
     }
 
     const increaseQuantity = () => {
@@ -141,6 +157,13 @@ export default function Details() {
     return (
         <div className="bg-zinc-100">
             <Header/>
+            {
+                message && (
+                    <div className='fixed bottom-5 left-5 z-50 p-3 font-normal text-sm rounded-lg bg-green-600 text-white'>
+                        {message}
+                    </div>
+                )
+            }
             <div className='py-10 2xl:max-w-[80%] xl:max-w-[90%] lg:max-w-[100%] max-w-[97%] mx-auto'>
                 <div className="flex justify-between">
                     <div className="flex gap-1 items-center bg-white px-3 py-2 rounded-md max-w-xs">
@@ -346,6 +369,35 @@ export default function Details() {
                         }}></p>
                     </div>
                 </div>
+
+                <Dialog open={isOpen} onClose={() => setIsOpen(false)} className="relative z-50">
+                    <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
+                        <DialogPanel className="max-w-lg relative space-y-4 border bg-pink-200 p-8 shadow-lg rounded-lg">
+                            <DialogTitle className="text-center">Please select a variation</DialogTitle>
+                            <div className="bg-white px-3 py-3 rounded-md">
+                                <div className="flex gap-2 flex-wrap mb-4">
+                                    {
+                                        size?.map((size) => (
+                                            <label key={size} className="flex items-center gap-1 cursor-pointer">
+                                                <input type="checkbox" name="size" value={size} onChange={handleSizeChange} className='cursor-pointer'/> {size}
+                                            </label>
+                                        ))
+                                    }
+                                </div>
+                                <div className="space-y-3">
+                                    <button className="bg-pink-600 flex justify-center flex-col items-center text-white px-5 py-1 rounded-full w-[100%] font-medium" onClick={handleCart}>
+                                        Add To Cart {
+                                            oldprice && (
+                                                <p className="text-xs font-norma flex items-center">{((oldprice - price) / oldprice * 100).toFixed(2)}% OFF</p>
+                                            )
+                                        }
+                                    </button>
+                                </div>
+                            </div>
+                            <button onClick={() => setIsOpen(false)} className=' bg-red-600 text-white px-4 py-2 rounded-md'>Cancel</button>
+                        </DialogPanel>
+                    </div>
+                </Dialog>
                 <div className="md:w-[350px] w-full bg-white rounded-md md:h-[]">
                     <div className="py-2 border-b-[1px] border-b-gray-300 p-3">
                         <p className='text-[16px] font-medium'>Delivery & Retrurn</p>

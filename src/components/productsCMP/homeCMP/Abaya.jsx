@@ -1,4 +1,4 @@
-import React, { Suspense, useContext } from "react";
+import React, { Suspense, useContext, useState } from "react";
 import { FaAngleRight, FaRegHeart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { AbayaProductsContext } from "../../../pages/Home_page";
@@ -19,11 +19,25 @@ const AbayaProducts = () => {
       productImage: products.image?.length > 0 ? products.image[0] :  products.image || [],
       productPrice: products.price || '',
       stock: products.stock || [],
+      size: [],
       quantity: 1,
     };
     
+    let [message, setMessage] = useState(null);
     const handleCart = () => {
-      dispatch(addToCart(getCarts));
+      if (products.category !== 'Jewellery') {
+          if (getCarts.size.length <= 0) {
+              setMessage('Please Select a variation (size)!');
+              setTimeout(() => setMessage(null), 1500)
+              setIsOpen(true);
+              return;
+          }else{
+              dispatch(addToCart(getCarts));
+          }
+      }
+      else{
+          dispatch(addToCart(getCarts));
+      }
     };
     
     const handleWishlistItem = () => {
