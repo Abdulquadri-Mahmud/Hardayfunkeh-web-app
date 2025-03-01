@@ -75,6 +75,7 @@ export default function CartPage() {
     const handleReidirect =  () => {
         emptyCart ? setAlertMessage('You need to have at least a single item in your cart before you could checkout') : ''
         setTimeout(() => setAlertMessage(""), 2000);
+        !currentUser ? setAlertMessage('You need to login before you could proceed!') : ''
     }
     
     const handleBack = () => {

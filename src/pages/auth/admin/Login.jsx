@@ -45,7 +45,7 @@ export default function AdminLogin() {
         };
         
         dispatch(adminSigninSuccess(data));
-        navigate("/dashboard");
+        navigate(-1);
 
     } catch (err) {
       setError("Network error. Please try again later.");

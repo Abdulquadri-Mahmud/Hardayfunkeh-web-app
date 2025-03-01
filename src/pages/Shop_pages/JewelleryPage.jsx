@@ -13,7 +13,7 @@ export default function JewelleryPage() {
   const [jewellery, setJewellery] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 8; // Number of items per page
+  const itemsPerPage = 10; // Number of items per page
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -73,10 +73,16 @@ export default function JewelleryPage() {
       <Header />
       <div className="container mx-auto p-6">
         <div className="bg-black mb-10 rounded-2xl relative">
-          <div className="relative text-white flex items-center justify-center min-h-[300px] md:p-8 px-2 rounded-lg shadow-2xl overflow-hidden glass-card">
+          <div className="relative text-white flex flex-col items-center justify-center min-h-[300px] md:p-8 px-2 rounded-lg shadow-2xl overflow-hidden glass-card">
             <h2 className="md:text-4xl text-3xl font-bold mb-4">Elegant Jewellery Collection</h2>
+            <p className="text-lg text-gray-300 text-center max-w-3xl">
+              Discover timeless elegance with our exquisite jewellery collection.  
+              From dazzling necklaces to delicate rings, each piece is crafted  
+              to add a touch of sophistication and luxury to your style.
+            </p>
           </div>
         </div>
+
 
         <div className="bg-white rounded-2xl lg:p-6 p-3 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
           {loading

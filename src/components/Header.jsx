@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { RxAvatar } from "react-icons/rx";
 import TopHeader from "./TopHeader";
 import { FaRegHeart } from "react-icons/fa6";
+import Sidebar from "./Sidebar";
 
 const SearchInputField = () => {
   const [query, setQuery] = useState('');
@@ -81,9 +82,6 @@ const BottomNavs = () => {
 }
 
 export default function Header() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const { currentUser } = useSelector((state) => state.user);
-  
   const [cartLength, setCartLength] = useState(0);
   const [wishlistsLength, setWishlistsLength] = useState(0);
 
@@ -146,35 +144,26 @@ export default function Header() {
           </nav>
 
           {/* Mobile Menu Button */}
-          <div className="flex gap-4">
-            <Link to="/cart" className="text-white lg:hidden flex flex-col items-center">
+          <div className="lg:hidden flex gap-4 items-center">
+            <Link to="/wishlist" className="text-white flex flex-col items-center">
               <div className="relative">
-                <BsCart4 className="textxl"/>
+                <FaRegHeart className="text-xl"/>
+                <span className="absolute -top-4 -right-4 bg-yellow-400 text-xs px-2 py-0.5 rounded-full">{wishlistsLength}</span>
+              </div>
+              <p className="font-normal lg:text-sm text-[12px]">Your Wishlist</p>
+            </Link>
+            <Link to="/cart" className="text-white flex flex-col items-center">
+              <div className="relative">
+                <BsCart4 className="text-xl"/>
                 <span className="absolute -top-4 -right-4 bg-yellow-400 text-xs h-5 w-5 flex justify-center items-center rounded-full">{cartLength}</span>
               </div>
-              <p className="font-normal text-sm">Your Cart</p>
+              <p className="font-normal lg:text-sm text-[12px]">Your Cart</p>
             </Link>
-            <button className="lg:hidden text-white"
-              onClick={() => setMenuOpen(!menuOpen)}>
-              {menuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
-            </button>
+            <div className="lg:hidden block">
+              <Sidebar/>
+            </div>
           </div>
         </div>
-
-        {/* Mobile Menu */}
-        {menuOpen && (
-          <div className="lg:hidden fixed right-0 w-74 h-[100vh] bg-white py-4 px-6 space-y-6 text-start pt-10">
-            <Link to="/" className="block nav-link text-gray-800 hover:text-[#C70039] duration-200" onClick={() => setMenuOpen(false)}>Home</Link>
-            <Link to="/abaya" className="block nav-link text-gray-800 hover:text-[#C70039] duration-200" onClick={() => setMenuOpen(false)}>About</Link>
-            <Link to="/shop" className="block nav-link text-gray-800 hover:text-[#C70039] duration-200" onClick={() => setMenuOpen(false)}>Shop</Link>
-            <Link to="/contact" className="block nav-link text-gray-800 hover:text-[#C70039] duration-200" onClick={() => setMenuOpen(false)}>Contact</Link>
-            <Link to="/login" className="block nav-link text-gray-800 hover:text-[#C70039] duration-200" onClick={() => setMenuOpen(false)}>Login</Link>
-            <Link to="/cart" className="block nav-link text-gray-800 hover:text-[#C70039] duration-200" onClick={() => setMenuOpen(false)}>
-              <BsCart4 className="inline-block mr-2" />
-              Cart
-            </Link>
-          </div>
-        )}
       </header>
       <div className="hidden lg:block ">
         <BottomNavs/>

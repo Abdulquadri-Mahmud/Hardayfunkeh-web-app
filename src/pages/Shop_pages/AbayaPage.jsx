@@ -13,7 +13,7 @@ export default function AbayaPage() {
   const [abayas, setAbayas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(8); // Display 8 products per page
+  const [itemsPerPage] = useState(10); // Display 8 products per page
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -70,8 +70,12 @@ export default function AbayaPage() {
       <Header/>
       <div className="container mx-auto p-6">
         <div className="bg-black mb-10 rounded-2xl relative">
-          <div className="relative text-white flex items-center justify-center min-h-[300px] md:p-8 px-2 rounded-lg shadow-2xl overflow-hidden glass-card">
+          <div className="relative text-white flex flex-col items-center justify-center min-h-[300px] md:p-6 px-2 rounded-lg shadow-2xl overflow-hidden glass-card">
             <h2 className="md:text-4xl text-3xl font-bold mb-4">Elegant Abayas Collection</h2>
+            <p className="text-lg text-center max-w-2xl">
+              Discover our exquisite range of abayas, crafted with luxurious fabrics and intricate designs. 
+              Perfect for any occasion, these elegant pieces bring grace and sophistication to your wardrobe.
+            </p>
           </div>
         </div>
 

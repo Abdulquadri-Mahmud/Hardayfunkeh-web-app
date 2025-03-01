@@ -48,12 +48,12 @@ const HeroSection = () => {
 
           <div className="flex justify-center md:justify-start gap-4">
             <Link to="/shop">
-              <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold md:px-6 px-3 md:py-3 py-2 rounded-md shadow-md transition">
+              <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold md:px-6 px-3 md:py-3 py-2 rounded-md transition">
                 Shop Now
               </button>
             </Link>
             <Link to="/collections">
-              <button className="border border-white text-white font-bold md:px-6 px-3 md:py-3 py-2 rounded-md shadow-md hover:bg-white hover:text-pink-600 transition">
+              <button className="border border-white text-white font-bold md:px-6 px-3 md:py-3 py-2 rounded-md hover:bg-white hover:text-pink-600 transition">
                 Explore Collection
               </button>
             </Link>
