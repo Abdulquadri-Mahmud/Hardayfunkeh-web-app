@@ -46,7 +46,7 @@ const Sidebar = () => {
       </button>
 
       {/* Sidebar */}
-      <div className={`fixed top-0 left-0 w-64 z-30 h-full overflow-scroll bg-white text-gray-800 p-6 transition-transform transform ${ isOpen ? "translate-x-0 w-64" : "-translate-x-full"}`}>
+      <div className={`fixed top-0 left-0 w-64 z-30 h-full overflow-scroll bg-white text-gray-800 p-6 transition-transform transform ${ isOpen ? "translate-x-0 w-0" : "-translate-x-full"}`}>
         <Link to="/" className="lg:text-3xl md:text-2xl text-xl font-bold text-black">Hardayfunkeh</Link>
         <div className="flex flex-col space-y-2 mt-10">
           <Link to="/" className="nav-link text-black hover:bg-gray-100 py-2 px-2 rounded-lg hover:text-pink-600 duration-200 ">Home</Link>
