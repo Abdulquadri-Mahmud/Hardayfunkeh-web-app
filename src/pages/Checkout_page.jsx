@@ -42,7 +42,7 @@ export default function CheckOutPage() {
     try {
         setLoading(true);
 
-        const url = `https://fake-api-one-rust.vercel.app/api/order/create_orders`;
+        const url = `https://hardayfunkeh-apis.vercel.app/api/order/create_orders`;
 
         const res = await fetch(url, {
             method: 'POST',

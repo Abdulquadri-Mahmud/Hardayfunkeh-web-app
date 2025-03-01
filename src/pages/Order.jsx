@@ -37,7 +37,7 @@ export default function Order() {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch('https://fake-api-one-rust.vercel.app/api/order/create_orders', {
+      const res = await fetch('https://hardayfunkeh-apis.vercel.app/api/order/create_orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
