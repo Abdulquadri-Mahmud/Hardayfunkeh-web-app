@@ -1,5 +1,6 @@
 import React, { createContext, Suspense, useEffect, useState } from 'react';
 import { IoMdAddCircleOutline } from 'react-icons/io';
+import { LuRefreshCcw } from 'react-icons/lu';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, PieChart, Pie, Cell } from 'recharts';
 
 export const CustomerlistContext = createContext();
@@ -8,28 +9,35 @@ const Customerlists = React.lazy(() => import('../../components/DashboardComp/Cu
 export default function Customer_page() {
   const [error, setError] = useState(null);
   const [data, setData] = useState([]);
+
+  const [refreshing, setRefreshing] = useState(false); // State for refresh button
+
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredData, setFilteredData] = useState([]);
   const [stateData, setStateData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 5;
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const res = await fetch('https://hardayfunkeh-apis.vercel.app/api/user/auth/all-user');
-        const users = await res.json();
-        if (!res.ok) {
-          setError('Error while fetching data!');
-        } else {
-          setData(users);
-          setFilteredData(users);
-          processStateData(users);
-        }
-      } catch (err) {
-        setError('Network error!');
+  const fetchUsers = async () => {
+    try {
+      setRefreshing(true); // Show loading state for refresh button
+      const res = await fetch('https://hardayfunkeh-apis.vercel.app/api/user/auth/all-user');
+      const users = await res.json();
+      if (!res.ok) {
+        setError('Error while fetching data!');
+      } else {
+        setData(users);
+        setFilteredData(users);
+        processStateData(users);
+        setRefreshing(false); // Hide loading state after fetching
       }
-    };
+    } catch (err) {
+      setError('Network error!');
+      setRefreshing(false); // Hide loading state after fetching
+    }
+  };
+
+  useEffect(() => {
     fetchUsers();
   }, []);
 
@@ -67,6 +75,18 @@ export default function Customer_page() {
         </div>
         <div className="bg-white p-2 mb-4 rounded-md">
           <input type="text" placeholder="Search by name, phone, email, state, or city" className="w-full p-2 border border-gray-300 rounded bg-pink-100" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+        </div>
+        <div className="flex justify-end">
+          <button onClick={fetchUsers} className="bg-pink-600 text-white px-4 py-2 rounded mb-4" disabled={refreshing}>
+            {refreshing ? (
+                <div className="flex space-x-1.5 items-center"><LuRefreshCcw className="animate-spin"/> <span>Refreshing...</span></div>
+              ): (
+              <div className="flex space-x-1.5 items-center">
+                <LuRefreshCcw />
+                <span>Refresh Items</span>
+              </div>
+            )}
+          </button>
         </div>
 
         <div className="w-full bg-white p-2 rounded-lg overflow-x-auto tables">

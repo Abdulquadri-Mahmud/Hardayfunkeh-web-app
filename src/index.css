@@ -195,7 +195,7 @@ tr:nth-child(even) {
 }
 
 .navlink > a > .icon{
-  color: #C70039;
+  color: var(--pink-600);
 }
 .navlink > a:hover > .icon{
   color: white;

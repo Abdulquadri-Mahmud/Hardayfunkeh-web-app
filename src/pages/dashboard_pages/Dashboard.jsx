@@ -5,6 +5,7 @@ import { Bar, Pie } from 'react-chartjs-2';
 // **Register Required Chart.js Components**
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement);
 import { Link } from 'react-router-dom';
+import { LuRefreshCcw } from 'react-icons/lu';
 
 export default function Dashboard() {
   const [data, setData] = useState({
@@ -18,41 +19,45 @@ export default function Dashboard() {
     customers: [],
   });
 
+  const [refreshing, setRefreshing] = useState(false); // State for refresh button
   const [currentPage, setCurrentPage] = useState(1);
   const customersPerPage = 5;
 
+  const fetchData = async () => {
+    try {
+      setRefreshing(true); // Show loading state for refresh button
+      const productRes = await fetch('https://hardayfunkeh-apis.vercel.app/api/products/all-products');
+      const products = await productRes.json();
+
+      const abaya = products.filter(item => item.category === 'Abaya').length;
+      const jalab = products.filter(item => item.category === 'Jalab').length;
+      const jewellery = products.filter(item => item.category === 'Jewellery').length;
+      const fabrics = products.filter(item => item.category === 'Fabric').length;
+
+      const orderRes = await fetch('https://hardayfunkeh-apis.vercel.app/api/order/all_orders');
+      const orders = await orderRes.json();
+
+      const customerRes = await fetch('https://hardayfunkeh-apis.vercel.app/api/user/auth/all-user');
+      const customers = await customerRes.json();
+
+      setData({
+        totalItems: products.length,
+        abaya,
+        jalab,
+        jewellery,
+        fabrics,
+        totalOrders: orders.length,
+        totalCustomers: customers.length,
+        customers,
+      });
+      setRefreshing(false); // Show loading state for refresh button
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setRefreshing(false); // Show loading state for refresh button
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const productRes = await fetch('https://hardayfunkeh-apis.vercel.app/api/products/all-products');
-        const products = await productRes.json();
-
-        const abaya = products.filter(item => item.category === 'Abaya').length;
-        const jalab = products.filter(item => item.category === 'Jalab').length;
-        const jewellery = products.filter(item => item.category === 'Jewellery').length;
-        const fabrics = products.filter(item => item.category === 'Fabric').length;
-
-        const orderRes = await fetch('https://hardayfunkeh-apis.vercel.app/api/order/all_orders');
-        const orders = await orderRes.json();
-
-        const customerRes = await fetch('https://hardayfunkeh-apis.vercel.app/api/user/auth/all-user');
-        const customers = await customerRes.json();
-
-        setData({
-          totalItems: products.length,
-          abaya,
-          jalab,
-          jewellery,
-          fabrics,
-          totalOrders: orders.length,
-          totalCustomers: customers.length,
-          customers,
-        });
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
     fetchData();
   }, []);
 
@@ -110,6 +115,18 @@ export default function Dashboard() {
         </div>
         <div className="bg-white p-4 rounded-lg shadow-md">
           <h2 className="text-lg font-semibold">Total Fabrics: {data.fabrics}</h2>
+        </div>
+        <div className="bg-pink-600 flex justify-center items-center p-4 rounded-lg cursor-pointer shadow-md">
+          <button onClick={fetchData} className="bg-pink-600 text-white px-4 py-2 cursor-pointer " disabled={refreshing}>
+            {refreshing ? (
+                <div className="flex space-x-1.5 items-center"><LuRefreshCcw className="animate-spin"/> <span>Refreshing...</span></div>
+              ): (
+              <div className="flex space-x-1.5 items-center">
+                <LuRefreshCcw />
+                <span>Refresh Items</span>
+              </div>
+            )}
+          </button>
         </div>
       </div>
 

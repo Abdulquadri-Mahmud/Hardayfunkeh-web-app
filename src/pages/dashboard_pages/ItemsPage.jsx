@@ -92,7 +92,9 @@ export default function ItemsPage() {
             </button>
             {/* Refresh Button */}
             <button onClick={fetchItems} className="bg-pink-600 text-white px-4 py-2 rounded mb-4" disabled={refreshing}>
-              {refreshing ? "Refreshing..." : (
+              {refreshing ? (
+                  <div className="flex space-x-1.5 items-center"><LuRefreshCcw className="animate-spin"/> <span>Refreshing...</span></div>
+                ): (
                 <div className="flex space-x-1.5 items-center">
                   <LuRefreshCcw />
                   <span>Refresh Items</span>

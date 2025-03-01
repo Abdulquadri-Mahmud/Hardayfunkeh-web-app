@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useState } from "react";
 import Order_lists from "../../components/DashboardComp/OrderLists";
 import { useNavigate } from "react-router-dom";
+import { LuRefreshCcw } from "react-icons/lu";
 
 export const OrderContext = createContext();
 
@@ -9,26 +10,30 @@ export default function Order_page() {
   const [orders, setOrders] = useState([]);
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false); // State for refresh button
   
   const [searchQuery, setSearchQuery] = useState("");
   const [filterState, setFilterState] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const ordersPerPage = 5;
 
+  const fetchOrders = async () => {
+    try {
+      setRefreshing(true); // Show loading state for refresh button
+      const res = await fetch(`https://hardayfunkeh-apis.vercel.app/api/order/all_orders`);
+      const data = await res.json();
+      if (!res.ok || data.success === false) throw new Error(data.message || "Failed to fetch items");
+      setOrders(data);
+      setFilteredOrders(data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+      setRefreshing(false); // Hide loading state after fetching
+    }
+  };
+
   useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const res = await fetch(`https://hardayfunkeh-apis.vercel.app/api/order/all_orders`);
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.message || "Failed to fetch orders");
-        setOrders(data);
-        setFilteredOrders(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
     fetchOrders();
   }, []);
 
@@ -72,7 +77,7 @@ export default function Order_page() {
               Back
             </button>
           </div>
-
+            
           {/* Search & Filter Inputs */}
           <div className="flex justify-between space-x-4 my-4 bg-white p-4 rounded-lg">
             <input type="text" placeholder="Search orders..." className="border-2 border-gray-300 bg-pink-100 px-4 py-2 rounded-lg w-1/2" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}/>
@@ -84,7 +89,21 @@ export default function Order_page() {
             </select>
           </div>
 
-          <div className="min-w-full p-2 bg-white rounded-lg mt-10 overflow-x-scroll lg:overflow-x-hidden tables">
+          <div className="flex justify-end">
+            {/* Refresh Button */}
+            <button onClick={fetchOrders} className="bg-pink-600 cursor-pointer text-white px-4 py-2 rounded" disabled={refreshing}>
+              {refreshing ? (
+                <div className="flex space-x-1.5 items-center"><LuRefreshCcw className="animate-spin"/> <span>Refreshing...</span></div>
+              ) : (
+                <div className="flex space-x-1.5 items-center">
+                  <LuRefreshCcw />
+                  <span>Refresh Items</span>
+                </div>
+              )}
+            </button>
+          </div>
+
+          <div className="min-w-full p-2 bg-white rounded-lg mt-7 overflow-x-scroll lg:overflow-x-hidden tables">
             <table className="w-full">
               <thead>
                 <tr>
