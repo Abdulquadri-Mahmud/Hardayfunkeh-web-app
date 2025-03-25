@@ -54,7 +54,7 @@ export default function UserLogin() {
   return (
     <div>
       <Header />
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-yellow-700 to-red-500 px-4">
+      <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
         <div className="bg-white p-8 rounded-lg shadow-2xl w-full max-w-md">
           <h2 className="text-3xl font-bold text-center text-gray-800 mb-2">Welcome Back</h2>
           <p className="text-center text-gray-600 mb-6">Login to continue shopping.</p>

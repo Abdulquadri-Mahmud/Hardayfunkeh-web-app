@@ -80,7 +80,7 @@ export default function Signup() {
   return (
     <div>
       <Header />
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-yellow-700 to-red-500 px-4">
+      <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
         <div className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-2xl font-bold text-center mb-2">Signup</h2>
           <p className="text-gray-500 text-sm text-center mb-4">Join us today and start shopping with ease!</p>
@@ -101,14 +101,7 @@ export default function Signup() {
 
             {/* Password Field with Toggle */}
             <div className="relative">
-              <input
-                type={showPassword ? "text" : "password"}
-                name="password"
-                placeholder="Password"
-                className="input-field w-full pr-10"
-                value={formData.password}
-                onChange={handleChange}
-              />
+              <input type={showPassword ? "text" : "password"} name="password" placeholder="Password" className="input-field w-full pr-10" value={formData.password} onChange={handleChange}/>
               <span className="absolute right-3 top-3 cursor-pointer text-gray-500" onClick={() => setShowPassword(!showPassword)}>
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </span>
