@@ -1,51 +1,48 @@
-import React from 'react'
+import React from 'react';
 import { IoPhonePortrait } from 'react-icons/io5';
 import { MdEmail } from 'react-icons/md';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom';
+import { Box, Flex, Link, Text } from '@chakra-ui/react';
 
-const CheckUser = () =>  {
-    const { currentUser } = useSelector((state) => state.user);
-
-    return(
-        <>
-            {
-                currentUser ? (
-                    <Link to={`/profile/${currentUser._id}`} className='text-sm'>
-                        {/* {
-                            currentUser.avatar ? ( <img src={currentUser.avatar} className="h-8 w-8 rounded-full object-fill"/> ) : (<RxAvatar className="text-2xl text-[#C70039]"/>)
-                        } */}
-                        My Account
-                    </Link>
-                    ) : (
-                    <Link to="/login" className="nav-link hover:text-[#C70039] duration-200">Login</Link>
-                )
-            }
-        </>
-    )
-}
-
-export default function TopHeader() {
+const CheckUser = () => {
+  const { currentUser } = useSelector((state) => state.user);
 
   return (
-    <div className="bg-pink-900 ">
-        <div className='container mx-auto text-white py-2 flex justify-between items-center flex-wrap px-3'>
-            <div className="space-x-5 flex">
-                <Link className='text-sm flex items-center gap-1' to={'tell:+971544827478'}>
-                    <IoPhonePortrait />
-                    +971544827478
-                </Link>
-                <div className="hidden sm:block">
-                    <Link className='text-sm flex items-center gap-1' to={'mailto:example@gmai.com'}>
-                        <MdEmail />
-                        example@gmai.com
-                    </Link>
-                </div>
-            </div>
-            <div className="">
-                <CheckUser/>
-            </div>
-        </div>
-    </div>
-  )
+    <>
+      {currentUser ? (
+        <Link as={RouterLink} to={`/profile/${currentUser._id}`} fontSize="sm" _hover={{ color: '#C70039' }}>
+          My Account
+        </Link>
+      ) : (
+        <Link as={RouterLink} to="/login" fontSize="sm" _hover={{ color: '#C70039' }}>
+          Login
+        </Link>
+      )}
+    </>
+  );
+};
+
+export default function TopHeader() {
+  return (
+    <Box bg="pink.700" color="white">
+      <Flex maxW="container.xl" mx="auto" py={2} px={3} justify="space-between" align="center" wrap="wrap">
+        <Flex gap={5} align="center">
+          <Link as={RouterLink} to="tel:+971544827478" fontSize="sm" display="flex" alignItems="center" gap={1}>
+            <IoPhonePortrait />
+            +971544827478
+          </Link>
+          <Box display={{ base: 'none', sm: 'block' }}>
+            <Link as={RouterLink} to="mailto:example@gmai.com" fontSize="sm" display="flex" alignItems="center" gap={1}>
+              <MdEmail />
+              example@gmai.com
+            </Link>
+          </Box>
+        </Flex>
+        <Box>
+          <CheckUser />
+        </Box>
+      </Flex>
+    </Box>
+  );
 }

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { TbPlayerTrackNextFilled, TbPlayerTrackPrevFilled } from "react-icons/tb";
 import { Link } from "react-router-dom";
+import { Box, Button, Flex, Heading, Text, Image, Container } from "@chakra-ui/react";
 
 const slides = [
   { text: "Discover Timeless Elegance & Style", image: "/image/hero.jpg" },
@@ -24,79 +25,110 @@ const HeroSection = () => {
   const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
 
   return (
-    <div className={`moving-gradient `}>
+    <Box className="moving-gradient">
+      <Container maxW="container.xl" py={{ base: 10, md: 20, '2xl': 30 }} px={{ base: 3, md: 6 }}>
+        <Flex
+          direction={{ base: "column", md: "row" }}
+          align="center"
+          justify="center"
+          gap={4}
+          position="relative"
+        >
+          {/* Text Section */}
+          <Box w={{ base: "100%", md: "50%" }} textAlign={{ base: "center", md: "left" }}>
+            <AnimatePresence mode="wait">
+              <motion.h2
+                key={currentSlide}
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                transition={{ duration: 0.6 }}
+              >
+                <Heading
+                  as="h2"
+                  size="xl"
+                  color="white"
+                  fontWeight="extrabold"
+                  lineHeight="tight"
+                >
+                  {slides[currentSlide].text}
+                </Heading>
+              </motion.h2>
+            </AnimatePresence>
+            <Text fontSize="lg" color="gray.100" fontWeight="medium" my={4}>
+              Elevate your wardrobe with our exclusive collections.
+            </Text>
 
-      <div className="relative w-full lg:container mx-auto flex gap-4 flex-col md:flex-row items-center justify-center 2xl:py-30 md:py-20 py-10 md:px-6 p-3">
-        {/* Text Section */}
-        <div className="md:w-1/2 text-center md:text-left">
-          <AnimatePresence mode="wait">
-            <motion.h2
+            <Flex justify={{ base: "center", md: "flex-start" }} gap={4}>
+              <Link to="/shop">
+                <Button bg="yellow.500" _hover={{ bg: "yellow.600" }} color="white" fontWeight="bold" px={6} py={3}>
+                  Shop Now
+                </Button>
+              </Link>
+              <Link to="/collections">
+                <Button
+                  variant="outline"
+                  borderColor="white"
+                  color="white"
+                  _hover={{ bg: "white", color: "pink.600" }}
+                  fontWeight="bold"
+                  px={6} py={3}
+                >
+                  Explore Collection
+                </Button>
+              </Link>
+            </Flex>
+          </Box>
+
+          {/* Image Section */}
+          <Box
+            position="relative"
+            w={{ base: "100%", md: "50%" }}
+            h={{ base: "80", lg: "400px", '2xl': "500px" }}
+            bg="white"
+            rounded="2xl"
+            p={1}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <motion.img
               key={currentSlide}
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
-              transition={{ duration: 0.6 }}
-              className="text-white text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight"
-            >
-              {slides[currentSlide].text}
-            </motion.h2>
-          </AnimatePresence>
-
-          <p className="text-lg text-gray-100 font-medium my-4">
-            Elevate your wardrobe with our exclusive collections.
-          </p>
-
-          <div className="flex justify-center md:justify-start gap-4">
-            <Link to="/shop">
-              <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold md:px-6 px-3 md:py-3 py-2 rounded-md transition">
-                Shop Now
-              </button>
-            </Link>
-            <Link to="/collections">
-              <button className="border border-white text-white font-bold md:px-6 px-3 md:py-3 py-2 rounded-md hover:bg-white hover:text-pink-600 transition">
-                Explore Collection
-              </button>
-            </Link>
-          </div>
-        </div>
-
-        {/* Image Section */}
-        <div className="relative 2xl:h-[500px] lg:h-[400px] h-80 bg-white rounded-2xl p-1 w-full md:w-1/2 h- flex items-center justify-center">
-          <motion.img
-            key={currentSlide}
-            src={slides[currentSlide].image}
-            alt="Hero"
-            className="w-full h-full object-cover rounded-2xl shadow-lg"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.1 }}
-            transition={{ duration: 0.8 }}
-          />
-        </div>
-
-        {/* Slide Navigation */}
-        <div className="absolute bottom-8 left-0 right-0 flex justify-center space-x-4">
-          <button onClick={prevSlide} className="bg-gray-100 p-3 rounded-full shadow-md hover:bg-gray-200 transition">
-            <TbPlayerTrackPrevFilled className="text-pink-600 text-lg" />
-          </button>
-          <button onClick={nextSlide} className="bg-gray-100 p-3 rounded-full shadow-md hover:bg-gray-200 transition">
-            <TbPlayerTrackNextFilled className="text-pink-600 text-lg" />
-          </button>
-        </div>
-
-        {/* Slide Indicators */}
-        <div className="absolute bottom-3 flex space-x-2">
-          {slides.map((_, index) => (
-            <div
-              key={index}
-              className={`w-3 h-3 rounded-full transition ${
-                index === currentSlide ? "bg-yellow-500" : "bg-white opacity-50"
-              }`}
+              src={slides[currentSlide].image}
+              alt="Hero"
+              style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "1rem" }}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 1.1 }}
+              transition={{ duration: 0.8 }}
             />
-          ))}
-        </div>
-      </div>
-    </div>
+          </Box>
+
+          {/* Slide Navigation */}
+          <Flex position="absolute" bottom={8} left={0} right={0} justify="center" gap={4}>
+            <Button onClick={prevSlide} bg="gray.100" p={3} rounded="full" shadow="md" _hover={{ bg: "gray.200" }}>
+              <TbPlayerTrackPrevFilled className="text-pink-600 text-lg" />
+            </Button>
+            <Button onClick={nextSlide} bg="gray.100" p={3} rounded="full" shadow="md" _hover={{ bg: "gray.200" }}>
+              <TbPlayerTrackNextFilled className="text-pink-600 text-lg" />
+            </Button>
+          </Flex>
+
+          {/* Slide Indicators */}
+          <Flex position="absolute" bottom={3} justify="center" gap={2}>
+            {slides.map((_, index) => (
+              <Box
+                key={index}
+                w={3}
+                h={3}
+                rounded="full"
+                bg={index === currentSlide ? "yellow.500" : "whiteAlpha.700"}
+              />
+            ))}
+          </Flex>
+        </Flex>
+      </Container>
+    </Box>
   );
 };
 
