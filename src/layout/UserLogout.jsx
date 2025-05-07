@@ -2,6 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { signOutUserSuccess } from "../store/userReducers";
+import { Box, Button } from "@chakra-ui/react";
 
 export default function UserLogoutButton() {
     const dispatch = useDispatch();
@@ -12,10 +13,10 @@ export default function UserLogoutButton() {
         navigate("/login"); // Redirect to login page
     };
   return (
-    <div className="w-full">
-      <button onClick={handleSignOut} className=" w-full text-white bg-red-600 py-2 font-semibold rounded-md uppercase hover:text-white transition duration-200">
+    <Box>
+      <Button onClick={handleSignOut} w="150px" color="white" bg="red.600" py="2" fontWeight="semibold" textTransform="uppercase" _hover={{ color: "white", bg: "red.700" }} transition="all 0.2s">
         Log Out
-      </button>
-    </div>
+      </Button>
+    </Box>
   )
 }

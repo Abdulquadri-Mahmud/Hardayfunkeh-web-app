@@ -6,6 +6,7 @@ import { HiMenuAlt3 } from "react-icons/hi";
 import { IoClose } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { IoMdCart } from "react-icons/io";
 
 const Sidebar = () => {
   const [cartLength, setCartLength] = useState(0);
@@ -26,7 +27,7 @@ const Sidebar = () => {
   return (
     <Drawer.Root>
       <Drawer.Trigger asChild>
-        <Button variant="outline" size="sm" borderColor={'gray.200'} borderWidth={2}>
+        <Button color={'white'} variant="outline" size="sm" borderColor={'gray.200'} borderWidth={2}>
           <HiMenuAlt3 />
         </Button>
       </Drawer.Trigger>
@@ -47,7 +48,7 @@ const Sidebar = () => {
               <Stack color={'gray.800'} gap={4} mt={4}>
                 {[
                   { label: "Home", to: "/" },
-                  { label: "About", to: "/about" },
+                  // { label: "About", to: "/about" },
                   { label: "Abaya", to: "/abaya" },
                   { label: "Jalab", to: "/jalab" },
                   { label: "Jewellery", to: "/jewellery" },
@@ -87,8 +88,10 @@ const Sidebar = () => {
                 <Link to="/wishlist">
                   <Box display="flex" flexDirection="column" alignItems="start">
                     <Box position="relative" color={'gray.800'}>
-                      <IconButton icon={<FaRegHeart />} size="lg" variant="link" aria-label="Wishlist" color="black"/>
-                      <Badge position="absolute" top="-4px" right="-4px" bg="pink.600" color="white" fontSize="xs" px={2} py={0.5} borderRadius="full" >
+                      <Text mt={2} fontSize="2xl" variant="link" aria-label="Cart" color="black">
+                        <FaRegHeart />
+                      </Text>
+                      <Badge position="absolute" top="-7px" right="-12px"  bg="pink.600" color="white" fontSize="xs" px={2} py={0.5} borderRadius="full" >
                         {wishlistsLength}
                       </Badge>
                     </Box>
@@ -100,10 +103,13 @@ const Sidebar = () => {
 
                 {/* Cart Section */}
                 <Link to="/cart">
-                  <Box display="flex" flexDirection="column" alignItems="start">
+                  <Box display="flex" flexDirection="column" alignItems="center">
                     <Box position="relative">
-                      <IconButton icon={<BsCart4 />} size="lg" variant="link" aria-label="Cart" color="black"/>
-                      <Badge position="absolute" top="-4px" right="-4px" bg="pink.600" color="white" fontSize="xs" h={5} w={5} display="flex" justifyContent="center" alignItems="center" borderRadius="full" >
+                      <Text mt={2} fontSize="2xl" variant="link" aria-label="Cart" color="black">
+                        <IoMdCart />
+                      </Text>
+                      {/* <IconButton icon={<IoMdCart />}/> */}
+                      <Badge position="absolute" top="-7px" right="-12px" bg="pink.600" color="white" fontSize="xs" h={5} w={5} display="flex" justifyContent="center" alignItems="center" borderRadius="full" >
                         {cartLength}
                       </Badge>
                     </Box>

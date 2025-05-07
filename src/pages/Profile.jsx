@@ -6,6 +6,7 @@ import { FaUpload } from "react-icons/fa";
 import { updateFailure, updateStart, updateSuccess } from "../store/userReducers";
 import { useDispatch, useSelector } from "react-redux";
 import UserLogoutButton from "../layout/UserLogout";
+import { Box, Button, Flex, Image, Input, SimpleGrid, Text } from "@chakra-ui/react";
 
 export default function Profile() {
   const { userId } = useParams();
@@ -49,10 +50,12 @@ export default function Profile() {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
+  // console.log('user', user);
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSuccessMessage("");
-
+    
     try {
       dispatch(updateStart());
       setIsLoading(true);
@@ -125,93 +128,111 @@ export default function Profile() {
       );
     }
   return (
-    <div className="bg-zinc-100">
+    <Box bg={'gray.50'}>
         <Header />
-            <div className="max-w-5xl mx-auto my-10 px-6 py-10 rounded-lg flex lg:gap-5 gap-2 flex-wrap ">
-              <div className="lg:w-[350px] lg:p-4 p-2 rounded-lg bg-white shadow-md w-full">
-                {/* <h2 className="text-3xl font-bold text-center mb-6 text-gray-700">👤 Your Profile</h2> */}
-                <div className="flex justify-center mb-6">
-                  <div className="w-[250px] h-[250px] border border-gray-300 rounded-lg relative flex justify-center items-center">
-                    <img src={`${user.avatar ? user.avatar : setAvatarPreview}`} alt="" className={`${user.avatar ? 'bg-white' : ''} drop-shadow-lg rounded-lg w-[100%] max-h-[100%]`}/>
-                    <button onClick={handleUpload} type='button' className='absolute cursor-pointer'>
-                      <FaUpload className="text-2xl text-red-500"/>
-                    </button>
-                  </div>
-                </div>
-                <div className="space-y-3">
-                  <div className="bg-pink-600 rounded-lg text-white flex justify-between items-center px-2 py-2">
-                    <p className="text-sm">You have {items.length} item in your cart</p>
-                    <button className="text-sm bg-white text-black px-2 py-2 rounded-lg"><Link to={'/cart'}>Check Now</Link></button>
-                  </div>
-                  <div className="bg-yellow-600 rounded-lg text-white flex justify-between items-center px-2 py-2">
-                    <p className="text-sm">You have {wishlists.length} item in your wishlist</p>
-                    <button className="text-sm bg-white text-black px-2 py-2 rounded-lg"><Link to={'/wishlist'}>Check Now</Link></button>
-                  </div>
-                </div>
-              </div>
+        <Box maxW="5xl" mx="auto" my="5" px="6" py="5" rounded="lg" display="flex" gap={{ base: 2, lg: 5 }} flexWrap="wrap">
+          <Box w={{ base: "full", lg: "350px" }} p={4} rounded="lg" bg="white" border={'1px solid'} borderColor={'gray.300'}>
+            {/* Profile Image */}
+            <Flex justify="center" mb={6}>
+              <Box w="150px" h="150px" border="1px" borderColor="gray.200" rounded="lg" position="relative" display="flex" justifyContent="center" alignItems="center">
+                <Image src={`${user.avatar ? user.avatar : setAvatarPreview}`} alt="" className={`${user.avatar ? 'bg-white' : ''} drop-shadow-lg rounded-lg w-[100%] max-h-[100%]`}/>
+                <Button position="absolute" onClick={handleUpload} variant="ghost" className="cursor-pointer">
+                    <Text as={'span'} fontSize={'3xl'} color={'green.500'}>
+                      <FaUpload />
+                    </Text>
+                </Button>
+              </Box>
+            </Flex>
 
-                <form onSubmit={handleSubmit} className="space-y-6 flex-1 lg:p-4 p-2 rounded-lg bg-white shadow-md">
-                  {
-                    successMessage && (
-                      <div className="bg-green-600 p-2 rounded-lg">
-                        {successMessage && <p className="text-white text-center mb-4">{successMessage}</p>}
-                      </div>
-                    )
-                  }
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                          <label className="block text-gray-6
-                           00 font-normal text-sm">First Name</label>
-                          <input type="text" name="firstname" value={user.firstname} onChange={handleChange} className="w-full p-2 border border-gray-300 rounded-md focus:ring focus:ring-red-300 text-sm text-gray-500" />
-                      </div>
+            {/* Cart and Wishlist Info */}
+            <Box spacing={3}>
+              <Box bg="green.500" rounded="lg" p={2} color="white" display="flex" justifyContent="space-between" alignItems="center">
+                <Text fontSize="sm">You have {items.length} item in your cart</Text>
+                <Button bg="white" fontWeight={'500'} color={'gray.700'}>
+                  <Link to="/cart">Check Now</Link>
+                </Button>
+              </Box>
 
-                      <div>
-                        <label className="block text-gray-6
-                         00 font-normal text-sm">Last Name</label> <input type="text" name="lastname" value={user.lastname} onChange={handleChange} className="w-full p-2 border border-gray-300 rounded-md focus:ring focus:ring-red-300 text-sm text-gray-500" />
-                      </div>
-                      <div>
-                        <label className="block text-gray-6
-                         00 font-normal text-sm">Email</label>
-                        <input type="email" name="email" value={user.email} onChange={handleChange} className="w-full p-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed"/>
-                      </div>
+              <Box mt={'3'} bg="yellow.400" rounded="lg" p={2} color="white" display="flex" justifyContent="space-between" alignItems="center">
+                <Text fontSize="sm">You have {wishlists.length} item in your wishlist</Text>
+                <Button bg="white" fontWeight={'500'} color="gray.700">
+                  <Link to="/wishlist">Check Now</Link>
+                </Button>
+              </Box>
+            </Box>
+          </Box>
 
-                      <div>
-                        <label className="block text-gray-6
-                         00 font-normal text-sm">Phone</label>
-                        <input type="text" name="phone" value={user.phone} onChange={handleChange} className="w-full p-2 border border-gray-300 rounded-md focus:ring focus:ring-red-300 text-sm text-gray-500"/>
-                      </div>
-                    </div>
+          {/* Profile Update Form */}
+          <Box bg="white" color={'gray.500'} rounded="lg" p={4} flex="1" border="1px solid" borderColor="gray.200">
+              <form onSubmit={handleSubmit}>
+                <Box >
+                  {successMessage && (
+                    <Box bg="green.600" p={2} rounded="lg">
+                      <Text color="white" textAlign="center" mb={4}>
+                        {successMessage}
+                      </Text>
+                    </Box>
+                  )}
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div> 
-                        <label className="block text-gray-6
-                         00 font-normal text-sm">State</label> 
-                        <input type="text" name="state" value={user.state} onChange={handleChange} className="w-full p-2 border border-gray-300 rounded-md focus:ring focus:ring-red-300 text-sm text-gray-500" />
-                      </div>
+                  <SimpleGrid columns={{ base: 1, md: 2 }} gap={3} spacing={4}>
+                    {/* First Name */}
+                    <Box>
+                      <Text color="gray.500" fontSize="sm">First Name</Text>
+                      <Input type="text" name="firstname" value={user.firstname} onChange={handleChange} borderColor="gray.300" focusBorderColor="red.300" textColor="gray.500" py='6'/>
+                    </Box>
 
-                      <div> 
-                        <label className="block text-gray-6
-                         00 font-normal text-sm">City</label> 
-                        <input type="text" name="city" value={user.city} onChange={handleChange} className="w-full p-2 border border-gray-300 rounded-md focus:ring focus:ring-red-300 text-sm text-gray-500" />
-                      </div>
-                    </div>
+                    {/* Last Name */}
+                    <Box>
+                      <Text color="gray.500" fontSize="sm">Last Name</Text>
+                      <Input type="text" name="lastname" value={user.lastname} onChange={handleChange} borderColor="gray.300" focusBorderColor="red.300" textColor="gray.500" py='6'/>
+                    </Box>
 
-                    <div>
-                      <label className="block text-gray-6
-                       00 font-normal text-sm">Address</label>
-                      <input type="text" name="address" value={user.address} onChange={handleChange} className="w-full p-2 border border-gray-300 rounded-md focus:ring focus:ring-red-300 text-sm text-gray-500"/>
-                    </div>
-                    <div className="flex justify-between gap-6">
-                      <button type="submit" className="w-full cursor-pointer bg-green-600 font-medium text-white py-2 rounded-md hover:bg-green-700 transition">
-                        {
-                          isLoading ? 'Updating Profile...' : 'Update Profile'
-                        }
-                      </button>
-                      <UserLogoutButton/>
-                    </div>
-                </form>
-            </div>
+                    {/* Email */}
+                    <Box>
+                      <Text color="gray.500" fontSize="sm">Email</Text>
+                      <Input type="email" name="email" value={user.email} onChange={handleChange} isReadOnly borderColor="gray.300" bg="gray.100" py='6'/>
+                    </Box>
+
+                    {/* Phone */}
+                    <Box>
+                      <Text color="gray.500" fontSize="sm">Phone</Text>
+                      <Input type="text" name="phone" value={user.phone} onChange={handleChange} borderColor="gray.300" focusBorderColor="red.300" textColor="gray.500" py='6'/>
+                    </Box>
+                  </SimpleGrid>
+
+                  <SimpleGrid columns={{ base: 1, md: 2 }} gap={3} spacing={4}>
+                    {/* State */}
+                    <Box>
+                      <Text color="gray.500" fontSize="sm">State</Text>
+                      <Input type="text" name="state" value={user.state} onChange={handleChange} borderColor="gray.300" focusBorderColor="red.300" textColor="gray.500" py='6'/>
+                    </Box>
+
+                    {/* City */}
+                    <Box>
+                      <Text color="gray.500" fontSize="sm">City</Text>
+                      <Input type="text" name="city" value={user.city} onChange={handleChange} borderColor="gray.300" focusBorderColor="red.300" textColor="gray.500" py='6'/>
+                    </Box>
+                  </SimpleGrid>
+
+                  {/* Address */}
+                  <Box>
+                    <Text color="gray.500" fontSize="sm">Address</Text>
+                    <Input type="text" name="address" value={user.address} onChange={handleChange} borderColor="gray.300" focusBorderColor="red.300" textColor="gray.500" py='6'/>
+                  </Box>
+
+                  {/* Submit Buttons */}
+                  <Flex w={'full'} mt={5} justifyContent="space-between" gap={6}>
+                    <Button type="submit" w="150px" color="white" bg="green.600" py="2" fontWeight="semibold" textTransform="uppercase" _hover={{ color: "white", bg: "green.700" }} transition="all 0.2s">
+                      {isLoading ? "Updating Profile..." : "Update Profile"}
+                    </Button>
+
+                    <UserLogoutButton />
+                  </Flex>
+                </Box>
+              </form>
+            </Box>
+          </Box>
         <Footer />
-    </div>
+    </Box>
   );
 }

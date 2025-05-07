@@ -1,4 +1,15 @@
-import React, { Suspense, useContext } from "react";
+import React, { useContext, useState } from "react";
+import {
+  Box,
+  Image,
+  Text,
+  Button,
+  Flex,
+  Badge,
+  IconButton,
+  Stack,
+  Heading
+} from "@chakra-ui/react";
 import { FaAngleRight, FaRegHeart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { FabricsProductsContext } from "../../../pages/Home_page";
@@ -6,19 +17,20 @@ import { useDispatch } from "react-redux";
 import { addToCart } from "../../../store/cart/cartsReucer";
 import { IoHeart } from "react-icons/io5";
 import { TbCurrencyNaira } from "react-icons/tb";
-import { FaCartShopping } from "react-icons/fa6";
+import { FaCartShopping, FaNairaSign } from "react-icons/fa6";
 import { addWishlist } from "../../../store/wishlists/Wishlists";
+import { IoMdCart } from "react-icons/io";
 
 const FabricProducts = () => {
-  const products = useContext(FabricsProductsContext) || [];
+  const item = useContext(FabricsProductsContext) || [];
   const dispatch = useDispatch();
 
     const getCarts = {
-      productID: products._id || '',
-      productName: products.name || [],
-      productImage: products.image?.length > 0 ? products.image[0] :  products.image || [],
-      productPrice: products.price || '',
-      stock: products.stock || [],
+      productID: item._id || '',
+      productName: item.name || [],
+      productImage: item.image?.length > 0 ? item.image[0] :  item.image || [],
+      productPrice: item.price || '',
+      stock: item.stock || [],
       quantity: 1,
     };
     
@@ -31,35 +43,59 @@ const FabricProducts = () => {
     };
 
   return (
-    <div key={products._id} className="relative shadow-lg rounded-lg addTocartCont bg-white overflow-hidden transform transition-transform duration-300 hover:scale-105">
-      <Link to={`/product-details/${products._id}`} className="block relative">
-        <img src={products.image?.length > 0 ? products.image[0] : "/placeholder.png"} alt={products.name} className="w-full h-[180px] object-cover"/>
+    <Box position="relative" bg="white" p="2" rounded="xl" border={'1px solid'} borderColor={'gray.200'} w="full" maxW="full">
+      {/* Wishlist Button */}
+        <Flex zIndex={1} justifyContent={'center'} alignItems={'center'} fontSize={'2xl'} onClick={handleWishlistItem} aria-label="Add to wishlist" position="absolute" top="2" right="2" w="35px" h="35px" bg="yellow.400" color="white" rounded="full" _hover={{ color: "pink.600", bg: "gray.400" }} _active={{ color: "pink.600", bg: "gray.400" }}>
+            <IoHeart/>
+        </Flex>
+      {/* Product Image and Name */}
+      <Link to={`/product-details/${item._id}`}>
+        <Flex w={{ base: "full", md: "100%" }} p={3} h="170px" mx="auto" justify={'center'} alignItems={'center'}>
+          <Image src={item.image?.length > 0 ? item.image[0] : "/placeholder.png"} alt={item.name} h="full" objectFit="cover" borderRadius="md"/>
+        </Flex>
       </Link>
-      <button onClick={handleWishlistItem} className="cursor-pointer absolute top-2 right-2 p-1 px-2 text-sm text-white bg-yellow-400 rounded-lg capitalize">
-        <FaRegHeart size={22} />
-      </button>
+      <Box p={3}>
+        <Heading as={'h2'} fontWeight={500} color={'gray.600'} size="md" isTruncated mb={1} className="truncate">
+          {item.name}
+        </Heading>
+        <Text color="gray.600" fontSize="12px" bg='gray.100' p='1' rounded='md' isTruncated className="truncate" mb={1}>
+          {item.description}
+        </Text>
 
-      <div className="p-2">
-        <h2 className="font-semibold text-lg truncate mb-2 text-gray-800">{products.name}</h2>
-        <p className="text-gray-600 text-sm truncate">{products.description}</p>
-        {products.oldprice && (
-          <div className="absolute left-3 top-3 text-pink-600 bg-yellow-100 py-1 px-2 text-[12px] rounded-full capitalize">
-            -{((products.oldprice - products.price) / products.oldprice * 100).toFixed(2)}%
-          </div>
-        )}
-        <div className="mt-2 flex items-center flex-wrap justify-between">
-          <p className="flex items-center font-semibold text-pink-600">
+        <Flex justify="space-between" align="center" mt={1} w="full">
+          <Box>
+            {item.oldprice ? (
+            <Badge bg="gray.100" color='gray.800' variant="subtle" mt={2} fontSize="xs">
+                {((item.oldprice - item.price) / item.oldprice * 100).toFixed(2)}% OFF
+              </Badge>
+            ) : <Badge bg="gray.100" color='gray.800' variant="subtle" fontSize="xs" mt={2}>
+                No Discount Available
+              </Badge>
+            }
+          </Box>
+
+          <Badge bg="gray.100" color='gray.800' variant="subtle" mt={1} fontSize="xs">
+            {item.category}
+          </Badge>
+        </Flex>
+
+        <Flex justify="space-between" mt={1}>
+          <Text display={'flex'} alignItems={'center'} fontWeight="semibold" color="pink.600" fontSize="lg">
             <TbCurrencyNaira className="mr-1" />
-            {products.price?.toLocaleString() || "N/A"}
-          </p>
-          <p className="text-gray-500 text-sm px-2 rounded-full bg-pink-200">{products.category}</p>
-        </div>
-        <button onClick={handleCart} className="addTocart mt-4 w-full h-[0px] cursor-pointer bg-pink-600 text-white rounded-lg flex items-center justify-center gap-2 hover:bg-pink-700 transition-all">
-          <FaCartShopping />
+            {item.price?.toLocaleString() || "N/A"}
+          </Text>
+          {item.oldprice && (
+            <Flex fontSize="sm" color="gray.400" textDecoration="line-through" align="center" ml="3">
+              <TbCurrencyNaira fontSize="13px" />
+              <Text ml="1">{item.oldprice}</Text>
+            </Flex>
+          )}
+        </Flex>
+        <Button onClick={() => handleCart(item)} mt={4} w="full" bg="pink.600" color='white' leftIcon={<IoMdCart />}>
           Add to Cart
-        </button>
-      </div>
-    </div>
+        </Button>
+      </Box>
+    </Box>
   );
 };
 

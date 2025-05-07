@@ -8,7 +8,7 @@ const slides = [
   { text: "Discover Timeless Elegance & Style", image: "/image/hero.jpg" },
   { text: "Luxury Abayas, Jalabs & Accessories", image: "/image/abaya3.jpg" },
   { text: "Premium Fabrics & Exquisite Jewellery", image: "/image/jalab.jpg" },
-  { text: "Redefine Fashion with Grace & Sophistication", image: "/image/j3.jpg" },
+  { text: "Redefine Fashion with Grace & Sophistication", image: "/image/jew.jpeg" },
 ];
 
 const HeroSection = () => {
@@ -25,37 +25,19 @@ const HeroSection = () => {
   const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
 
   return (
-    <Box className="moving-gradient">
-      <Container maxW="container.xl" py={{ base: 10, md: 20, '2xl': 30 }} px={{ base: 3, md: 6 }}>
-        <Flex
-          direction={{ base: "column", md: "row" }}
-          align="center"
-          justify="center"
-          gap={4}
-          position="relative"
-        >
+    <Box className="" bg={'pink.700'}>
+      <Container maxW="container.xl" py={{ base: 20, md: 20, '2xl': 30 }} px={{ base: 3, md: 6 }}>
+        <Flex direction={{ base: "column", md: "row" }} align="center" justify="center" gap={4} position="relative">
           {/* Text Section */}
           <Box w={{ base: "100%", md: "50%" }} textAlign={{ base: "center", md: "left" }}>
             <AnimatePresence mode="wait">
-              <motion.h2
-                key={currentSlide}
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 20 }}
-                transition={{ duration: 0.6 }}
-              >
-                <Heading
-                  as="h2"
-                  size="xl"
-                  color="white"
-                  fontWeight="extrabold"
-                  lineHeight="tight"
-                >
+              <motion.h2  key={currentSlide}  initial={{ opacity: 0, y: -20 }}  animate={{ opacity: 1, y: 0 }}  exit={{ opacity: 0, y: 20 }}  transition={{ duration: 0.6 }}>
+                <Heading as="h2" size={{lg: "6xl", base: '3xl'}} color="white" fontWeight="extrabold" lineHeight="tight"> 
                   {slides[currentSlide].text}
                 </Heading>
               </motion.h2>
             </AnimatePresence>
-            <Text fontSize="lg" color="gray.100" fontWeight="medium" my={4}>
+            <Text fontSize="xl" color="gray.100" fontWeight="medium" my={4}>
               Elevate your wardrobe with our exclusive collections.
             </Text>
 
@@ -66,14 +48,7 @@ const HeroSection = () => {
                 </Button>
               </Link>
               <Link to="/collections">
-                <Button
-                  variant="outline"
-                  borderColor="white"
-                  color="white"
-                  _hover={{ bg: "white", color: "pink.600" }}
-                  fontWeight="bold"
-                  px={6} py={3}
-                >
+                <Button variant="outline" borderColor="white" color="white" _hover={{ bg: "white", color: "green.600" }} fontWeight="bold" px={6} py={3}>
                   Explore Collection
                 </Button>
               </Link>
@@ -81,17 +56,7 @@ const HeroSection = () => {
           </Box>
 
           {/* Image Section */}
-          <Box
-            position="relative"
-            w={{ base: "100%", md: "50%" }}
-            h={{ base: "80", lg: "400px", '2xl': "500px" }}
-            bg="white"
-            rounded="2xl"
-            p={1}
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-          >
+          <Box position="relative" w={{ base: "100%", md: "45%" }} h={{ base: "80", lg: "400px", '2xl': "500px" }} bg="white" rounded="2xl" p={1} display="flex" alignItems="center" justifyContent="center">
             <motion.img
               key={currentSlide}
               src={slides[currentSlide].image}
@@ -106,11 +71,11 @@ const HeroSection = () => {
 
           {/* Slide Navigation */}
           <Flex position="absolute" bottom={8} left={0} right={0} justify="center" gap={4}>
-            <Button onClick={prevSlide} bg="gray.100" p={3} rounded="full" shadow="md" _hover={{ bg: "gray.200" }}>
-              <TbPlayerTrackPrevFilled className="text-pink-600 text-lg" />
+            <Button onClick={prevSlide} bg="yellow.400" color={'white'} p={3} rounded="full" _hover={{ bg: "yellow.400" }}>
+              <TbPlayerTrackPrevFilled/>
             </Button>
-            <Button onClick={nextSlide} bg="gray.100" p={3} rounded="full" shadow="md" _hover={{ bg: "gray.200" }}>
-              <TbPlayerTrackNextFilled className="text-pink-600 text-lg" />
+            <Button onClick={nextSlide} bg="yellow.400" color={'white'} p={3} rounded="full" _hover={{ bg: "yellow.400" }}>
+              <TbPlayerTrackNextFilled/>
             </Button>
           </Flex>
 

@@ -136,7 +136,7 @@
 }
 
 .moving-gradient {
-  background: linear-gradient(to right, #f3a530, #db2777, #eab308); /* Yellow to Red */
+  background: linear-gradient(to right, #31f884, #48BB78, #ebb924); /* Yellow to Red */
   background-size: 300% 100%; /* Increase size for better movement */
   animation: gradientMove1 4s ease-in-out infinite; /* Smooth transition */
 }
@@ -154,7 +154,7 @@
 }
 
 .glass-card {
-    background: linear-gradient(90deg, rgba(255, 204, 1, 0.2), rgba(255, 0, 234, 0.2));
+    background: linear-gradient(to right bottom, rgba(255, 204, 1, 0.2), #D53F8C);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     border-radius: 16px;
@@ -249,3 +249,91 @@ tr:nth-child(even) {
 /* @media screen and {
   
 } */
+
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 10px;
+  border-radius: 4px;
+  background: white;
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: #22c55e; /* Chakra pink.500 */
+  cursor: pointer;
+  transition: background 0.3s ease;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
+  margin-top: -5px; /* Align thumb with track */
+}
+
+input[type="range"]::-moz-range-thumb {
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: #22c55e;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
+}
+
+input[type="range"]::-ms-thumb {
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: #22c55e;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 4px;
+  background: #fff;
+}
+
+input[type="range"]::-moz-range-track {
+  height: 6px;
+  border-radius: 4px;
+  background: #fff;
+}
+
+input[type="range"]::-ms-track {
+  height: 6px;
+  border-radius: 4px;
+  background: #fff;
+  border-color: transparent;
+  color: transparent;
+}
+
+
+/* select */
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #fff;
+  color: #1A202C; /* Chakra gray.800 */
+  padding: 8px 12px;
+  width: 200px;
+  border: 1px solid #22c55e; /* pink.500 border */
+  background: #c2ffdb;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  outline: none;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+  background-image: url("data:image/svg+xml,%3Csvg fill='%23#22c55e' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5.23 7.21a.75.75 0 011.06.02L10 11.17l3.71-3.94a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem;
+}
+
+select:focus {
+  border-color: #22c55e;
+  box-shadow: 0 0 0 1px #22c55e;
+}

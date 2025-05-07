@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import {
+  Box,
+  Button,
+  Flex,
+  IconButton,
+  Input,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 
 export default function SearchProductInput() {
   const [isOpen, setIsOpen] = useState(false);
@@ -67,39 +76,105 @@ export default function SearchProductInput() {
   };
 
   return (
-    <div className="fixed z-30 flex items-center mt-10">
+    <Flex position="fixed" zIndex={30} alignItems="center" mt={10}>
       {/* Search Icon Button */}
-      <div onClick={toggleSearch} className="w-[40px] z-30 h-[40px] bg-pink-600 flex cursor-pointer justify-center items-center rounded-r-full">
-        <button className="text-gray-100 hover:text-yellow-400 cursor-pointer focus:outline-none">
-          <FaSearch size={20} />
-        </button>
-      </div>
+      <Box
+        onClick={toggleSearch}
+        w="40px"
+        h="40px"
+        bg="pink.600"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        borderRightRadius="full"
+        cursor="pointer"
+        zIndex={30}
+      >
+        <Box aria-label="Search" color="gray.100"
+          _hover={{ color: "yellow.400" }}><FaSearch size={20} /></Box>
+      </Box>
 
       {/* Search Input */}
       {isOpen && (
-        <div className="absolute left-10 z-30 bg-white shadow-lg rounded-md flex flex-col w-64">
-          <form onSubmit={handleSearch} className="flex">
-            <input  type="text"  value={query}  onChange={handleInputChange}  placeholder="Search for products"  className="px-4 py-2 w-full border border-gray-300 rounded-l-md focus:outline-none"  autoFocus/>
-            <button type="submit" className="bg-yellow-400 font-semibold text-white px-4 py-2 rounded-r-md hover:bg-yellow-500 transition cursor-pointer">
-              Go
-            </button>
+        <Box
+          position="absolute"
+          left="10"
+          zIndex={10}
+          bg="white"
+          rounded="md"
+          w="16rem"
+          display="flex"
+          flexDirection="column"
+        >
+          <form onSubmit={handleSearch}>
+            <Flex>
+              <Input
+                type="text"
+                value={query}
+                onChange={handleInputChange}
+                placeholder="Search for products"
+                px={4}
+                py={2}
+                color={'gray.600'}
+                border="1px solid"
+                borderColor="gray.300"
+                borderLeftRadius="md"
+                _focus={{ outline: "none", boxShadow: "outline" }}
+                autoFocus
+              />
+              <Button
+                type="submit"
+                bg="yellow.400"
+                fontWeight="semibold"
+                color="white"
+                px={4}
+                py={2}
+                borderRightRadius="md"
+                _hover={{ bg: "yellow.500" }}
+              >
+                Go
+              </Button>
+            </Flex>
           </form>
 
           {/* Clear History Button */}
           {searchHistory.length > 0 && (
-            <div className="bg-pink-100 rounded-b-2xl absolute -bottom-[7.2rem] w-full">
-            {filteredSuggestions.map((item, index) => (
-                <div key={index} onClick={() => selectSuggestion(item)} className="px-4 py-2 cursor-pointer hover:bg-gray-100">
-                  {item}
-                </div>
-              ))}
-              <button onClick={clearHistory} className="text-red-500 text-sm px-4 py-2 hover:underline">
-                Clear Search History
-              </button>
-            </div>
+            <Box
+              bg="pink.100"
+              roundedBottom="2xl"
+              position="absolute"
+              bottom="-7.2rem"
+              w="full"
+            >
+              <VStack spacing={0} align="stretch">
+                {filteredSuggestions.map((item, index) => (
+                  <Box
+                    key={index}
+                    px={4}
+                    py={2}
+                    _hover={{ bg: "gray.100" }}
+                    cursor="pointer"
+                    onClick={() => selectSuggestion(item)}
+                  >
+                    {item}
+                  </Box>
+                ))}
+                <Button
+                  variant="ghost"
+                  color="red.500"
+                  fontSize="sm"
+                  px={4}
+                  py={2}
+                  onClick={clearHistory}
+                  _hover={{ textDecoration: "underline" }}
+                >
+                  Clear Search History
+                </Button>
+              </VStack>
+            </Box>
           )}
-        </div>
+        </Box>
       )}
-    </div>
+    </Flex>
   );
 }

@@ -3,12 +3,27 @@ import { Link } from 'react-router-dom';
 import { FaNairaSign } from 'react-icons/fa6';
 import Loader from '../../components/Loader';
 import HomeSearchCategory from '../../components/HomeComponent/HomeSearchCategory';
+import {
+  Box,
+  Flex,
+  Heading,
+  Text,
+  Input,
+  SimpleGrid,
+  Button,
+  VStack,
+  For,
+  Portal,
+  Select,
+  Stack,
+  createListCollection,
+} from "@chakra-ui/react";
 
 export const HomeSearchCompContext = createContext();
 
 export default function HomeCategory() {
   const categories = ["Abaya", "Jalab", "Jewellery", "Fabric"];
-  const [priceRange, setPriceRange] = useState(100000);
+  const [priceRange, setPriceRange] = useState(1000000);
   const [products, setProducts] = useState([]);
   const [filter, setFilter] = useState('All');
   const [loading, setLoading] = useState(true);
@@ -40,50 +55,73 @@ export default function HomeCategory() {
   const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
 
   return (
-    <div className="p-4 bg-white rounded-md md:max-w-7xl mx-auto">
-      <div className="flex flex-wrap gap-5">
+    <Box p={4} bg="white" rounded="md" maxW="7xl" mx="auto" color={'gray.800'}>
+      <Flex flexWrap="wrap" gap={5}>
         {/* Sidebar */}
-        <aside className="w-full md:w-72 lg:h-[400px] bg-white shadow-lg rounded-md p-2">
-          <h2 className="font-semibold text-lg">Category</h2>
-          {categories.map((category, index) => (
-            <Link key={index} to={`/${category.toLowerCase()}`} className="block py-2 px-8 hover:bg-gray-200 duration-150">
-              {category}
-            </Link>
-          ))}
-          Price Filtering Section
-          <div className="border-t border-b border-gray-200 py-3 px-3 mt-5">
-            <div className="flex justify-between items-center mb-3">
-              <span className="flex items-center text-lg font-medium">
-                PRICE (<FaNairaSign className="text-lg" />)
-              </span>
-              <span>{priceRange.toLocaleString()}</span>
-            </div>
-            <input type="range" min="0" max="100000" step="5" value={priceRange} onChange={(e) => setPriceRange(Number(e.target.value))} className="w-full"/>
-          </div>
-        </aside>
+        <Box w={{lg: "350px", base: 'full'}} h={{lg: "400px", base : '100%'}} bg="gray.100" rounded="md" p={2}>
+          <Heading as="h2" size="md" fontWeight="semibold" mb={3}>
+            Category
+          </Heading>
+
+          <Flex w={'full'} flexDir={'column'} alignItems={'start'} justifyContent={'center'} gap={4} align="stretch" spacing={1}>
+            {categories.map((category, index) => (
+              <Box key={index} bg={'white'} w={'full'} height={'50px'} borderRadius={'lg'} pt={'3'} pl={5}>
+                <Link to={`/${category.toLowerCase()}`}>
+                  {category}
+                </Link>
+              </Box>
+            ))}
+          </Flex>
+
+          {/* Price Filtering */}
+          <Box borderTop="1px" borderBottom="1px" borderColor="gray.200" py={3} px={3} mt={5}>
+            <Flex justify="space-between" align="center" mb={3}>
+              <Text color={'pink.500'} fontSize="lg" fontWeight="medium" display="flex" alignItems="center">
+                PRICE (<FaNairaSign />)
+              </Text>
+              <Text>{priceRange.toLocaleString()}</Text>
+            </Flex>
+            <Input border={'2px solid'} borderColor={'pink.300'} type="range" min="0" max="1000000" step="5" value={priceRange} onChange={(e) => setPriceRange(Number(e.target.value))}/>
+          </Box>
+        </Box>
 
         {/* Main Content */}
-        <main className="flex-1 bg-white rounded-md">
-          <div className="flex justify-between items-center mb-4 border-b border-gray-200 pb-5">
-            <div>
-              <h2 className="font-semibold text-xl">Products</h2>
-              <p className="text-gray-500 text-sm">({filteredProducts.length} products found)</p>
-            </div>
-            <select className="w-48 border border-gray-200 rounded p-2 focus:border-gray-300" onChange={(e) => setFilter(e.target.value)} value={filter}>
-              <option value="All">All</option>
-              {categories.map((category, index) => (
-                <option key={index} value={category}>
-                  {category}
-                </option>
-              ))}
-            </select>
-          </div>
+        <Box flex="1" bg="white" rounded="md">
+          <Flex w={'full'} justify="space-between" align="center" mb={4} borderBottom="1px solid" borderColor="gray.200" pb={5}>
+            <Box>
+              <Heading size="md" fontWeight="semibold">
+                Products
+              </Heading>
+              <Text fontSize="sm" color="gray.500">
+                ({filteredProducts.length} products found)
+              </Text>
+            </Box>
+
+            {/* Selections */}
+            <Stack gap="5" width="">
+              {/* Categories Select */}
+              <Box>
+                <select value={filter} onChange={(e) => setFilter(e.target.value)}>
+                  <option value="All">All</option>
+                  {Array.isArray(categories) && categories.length > 0 ? (
+                    categories.map((category, index) => (
+                      <option key={index} value={category}>
+                        {category}
+                      </option>
+                    ))
+                  ) : (
+                    <option>No categories available</option>
+                  )}
+                </select>
+              </Box>
+            </Stack>
+          </Flex>
 
           {/* Product Grid */}
           {loading ? (
             <Loader />
           ) : (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 py-3 px-2">
+            <SimpleGrid gap={4} columns={{ base: 2, md: 3, lg: 3, xl: 4 }} spacing={3} py={3} px={2}>
               {currentProducts.length > 0 ? (
                 currentProducts.map((product) => (
                   <HomeSearchCompContext.Provider key={product._id} value={product}>
@@ -91,31 +129,46 @@ export default function HomeCategory() {
                   </HomeSearchCompContext.Provider>
                 ))
               ) : (
-                <p>No products found in this category.</p>
+                <Text>No products found in this category.</Text>
               )}
-            </div>
+            </SimpleGrid>
           )}
 
           {/* Pagination */}
-          <div className="flex justify-center items-center my-4 gap-2">
-            <button onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} disabled={currentPage === 1} className="px-4 py-2 bg-gray-200 hover:bg-pink-400 rounded">
+          <Flex justify="center" align="center" my={4} gap={2} flexWrap="wrap">
+            <Button onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} isDisabled={currentPage === 1} px={4} py={2} bg="gray.200" _hover={{ bg: "pink.400" }} rounded="md">
               Prev
-            </button>
+            </Button>
 
             {Array.from({ length: totalPages }, (_, index) => (
-              <button key={index} onClick={() => setCurrentPage(index + 1)} className={`px-4 py-2 ${
-                  currentPage === index + 1 ? 'bg-pink-600 text-white' : 'bg-gray-200'
-                } rounded hover:bg-pink-400`}>
+              <Button
+                key={index}
+                onClick={() => setCurrentPage(index + 1)}
+                px={4}
+                py={2}
+                rounded="md"
+                bg={currentPage === index + 1 ? "pink.600" : "gray.200"}
+                color={currentPage === index + 1 ? "white" : "black"}
+                _hover={{ bg: "pink.400" }}
+              >
                 {index + 1}
-              </button>
+              </Button>
             ))}
 
-            <button onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages} className="px-4 py-2 bg-gray-200 hover:bg-pink-400 rounded">
+            <Button
+              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+              isDisabled={currentPage === totalPages}
+              px={4}
+              py={2}
+              bg="gray.200"
+              _hover={{ bg: "pink.400" }}
+              rounded="md"
+            >
               Next
-            </button>
-          </div>
-        </main>
-      </div>
-    </div>
+            </Button>
+          </Flex>
+        </Box>
+      </Flex>
+    </Box>
   );
 }

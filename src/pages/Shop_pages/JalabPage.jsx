@@ -9,11 +9,27 @@ import Footer from "../../components/Footer";
 import ReactPaginate from "react-paginate";
 import Advert from "../../components/Advert";
 import { addWishlist } from "../../store/wishlists/Wishlists";
+import {
+  Box,
+  Button,
+  Container,
+  GridItem,
+  Heading,
+  Text,
+  Image,
+  Flex,
+  Badge,
+  Center,
+  SimpleGrid,
+  HStack,
+} from "@chakra-ui/react";
+import { IoMdCart } from "react-icons/io";
+import { IoHeart } from "react-icons/io5";
 
 export default function JalabPage() {
-  const [abayas, setAbayas] = useState([]);
+  const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const dispatch = useDispatch();
 
@@ -22,8 +38,8 @@ export default function JalabPage() {
       try {
         const response = await fetch("https://hardayfunkeh-apis.vercel.app/api/products/all-products");
         const data = await response.json();
-        const filteredAbayas = data.filter((product) => product.category === "Jalab");
-        setAbayas(filteredAbayas);
+        const filteredItems = data.filter((product) => product.category === "Jalab");
+        setItems(filteredItems);
       } catch (error) {
         console.error("Error fetching products:", error);
       } finally {
@@ -35,14 +51,10 @@ export default function JalabPage() {
   }, []);
 
   // Pagination Logic
-  const offset = currentPage * itemsPerPage;
-  const paginatedItems = abayas.slice(offset, offset + itemsPerPage);
-  const pageCount = Math.ceil(abayas.length / itemsPerPage);
-
-  // Handle Page Click
-  const handlePageClick = ({ selected }) => {
-    setCurrentPage(selected);
-  };
+  const totalPages = Math.ceil(items.length / itemsPerPage);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = items.slice(indexOfFirstItem, indexOfLastItem);
 
   // Handle Add to Cart
   const handleAddToCart = (product) => {
@@ -69,88 +81,113 @@ export default function JalabPage() {
     dispatch(addWishlist(cartItem))
   };
 
+  const handleBack = () => navigate(-1);
+
   return (
-    <div className="bg-gray-100">
+    <Box bg="gray.50">
       <Header />
-      <div className="container mx-auto p-6">
-        <div className="bg-black mb-10 rounded-2xl relative">
-          <div className="relative text-white flex flex-col items-center justify-center min-h-[300px] md:p-8 px-2 rounded-lg shadow-2xl overflow-hidden glass-card">
-            <h2 className="md:text-4xl text-3xl font-bold mb-4">Elegant Jalabs Collection</h2>
-            <p className="text-lg text-center max-w-2xl">
-              Discover our exquisite collection of elegant jalabs, designed with a blend of tradition and modern style. 
-              Crafted from premium fabrics, these jalabs offer a luxurious feel and timeless appeal for any occasion.
-            </p>
-          </div>
-        </div>
+      <Container maxW="container.xl" py={6}>
+        <Box bg="white" p={4} borderRadius="lg" boxShadow="" mb={6}>
+          <Flex justify="space-between" align="center" mb={4}>
+            <HStack spacing={1} align="center">
+              <Link to="/">
+                <Text fontSize="sm" color="gray.500">Home</Text>
+              </Link>
+              <Text size={12} color="gray.400">
+                /
+              </Text>
+              <Link to="/cart">
+                <Text fontSize="sm" color="gray.500">Jalab</Text>
+              </Link>
+            </HStack>
+            <Button onClick={handleBack} bg="pink.600" color={'white'}>Back</Button>
+          </Flex>
 
+          <Box mt={6}>
+            <Heading fontSize={'5xl'} color={'gray.700'}>Jalab</Heading>
+          </Box>
+        </Box>
 
-        <div className="bg-white rounded-2xl lg:p-6 p-3 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+        <SimpleGrid bg={'white'} p={{md: 6}} rounded={'xl'} gap={4} columns={{ base: 2, md: 3, lg: 4, xl: 5 }} spacing={3} py={3} px={2}>
           {loading
-            ? [...Array(8)].map((_, index) => (
-                <div key={index} className="shadow-lg rounded-lg bg-gray-200 p-4 animate-pulse">
-                  <div className="h-64 bg-gray-300 rounded-md mb-4"></div>
-                  <div className="h-4 bg-gray-300 rounded w-3/4 mb-2"></div>
-                  <div className="h-4 bg-gray-300 rounded w-1/2"></div>
-                  <div className="h-10 bg-gray-300 rounded w-full mt-3"></div>
-                </div>
+            ? [...Array(10)].map((_, index) => (
+                <GridItem key={index} bg="gray.200" p={4} borderRadius="lg" boxShadow="lg" opacity={0.6}>
+                  <Box h="64" bg="gray.300" mb={4} />
+                  <Box h="4" bg="gray.300" w="3/4" mb={2} />
+                  <Box h="4" bg="gray.300" w="1/2" />
+                  <Box h="10" bg="gray.300" w="full" mt={3} />
+                </GridItem>
               ))
-            : paginatedItems.length === 0 ? (
-                <p className="text-center text-gray-500">No Jalabs available at the moment.</p>
+            : currentItems.length === 0 ? (
+                <Center colSpan={5}>
+                  <Text color="gray.500">No items available at the moment.</Text>
+                </Center>
               ) : (
-                paginatedItems.map((item) => (
-                  <div key={item._id} className="relative addTocartCont shadow-lg rounded-lg bg-white overflow-hidden transition-transform transform hover:scale-105">
+                currentItems.map((item) => (
+                  <GridItem key={item._id} bg="white" border={'1px solid'} borderColor={'gray.200'} borderRadius="lg" boxShadow="lg" position="relative">
                     <Link to={`/product-details/${item._id}`}>
-                      <img src={item.image?.length > 0 ? item.image[0] : "/placeholder.png"} alt={item.name} className="w-full h-64 object-cover" />
+                      <Flex w={{ base: "full", md: "100%" }} p={3} h="170px" mx="auto" justify={'center'} alignItems={'center'}>
+                        <Image src={item.image?.length > 0 ? item.image[0] : "/placeholder.png"} alt={item.name} h="full" objectFit="cover" borderRadius="md"/>
+                      </Flex>
                     </Link>
-                    <button onClick={() => handleWishlistItem(item)} className="cursor-pointer absolute top-2 right-2 p-1 px-2 text-sm text-white bg-yellow-400 rounded-lg capitalize">
-                      <FaRegHeart size={22} />
-                    </button>
-                    <div className="p-2">
-                      <h2 className="font-semibold text-lg truncate mb-2 text-gray-800">{item.name}</h2>
-                      <p className="text-gray-600 text-sm truncate">{item.description}</p>
-                      {item.oldprice && (
-                        <div className="absolute left-3 top-3 text-pink-600 bg-yellow-100 py-1 px-2 text-[12px] rounded-full capitalize">
+                    <Flex zIndex={1} justifyContent={'center'} alignItems={'center'} fontSize={'2xl'} onClick={handleWishlistItem} aria-label="Add to wishlist" position="absolute" top="2" right="2" w="35px" h="35px" bg="yellow.400" color="white" rounded="full" _hover={{ color: "pink.600", bg: "gray.400" }} _active={{ color: "pink.600", bg: "gray.400" }}>
+                      <IoHeart/>
+                    </Flex>
+                    <Box p={4}>
+                      <Heading as={'h2'} fontWeight={500} color={'gray.600'} size="md" isTruncated mb={2} className="truncate">
+                        {item.name}
+                      </Heading>
+                      <Text color="gray.600" fontSize="sm" isTruncated className="truncate" mb={2}>
+                        {item.description}
+                      </Text>
+                      {item.oldprice ? (
+                        <Badge colorScheme="pink" variant="subtle" mt={2} fontSize="xs">
                           {((item.oldprice - item.price) / item.oldprice * 100).toFixed(2)}% OFF
-                        </div>
-                      )}
-
-                      <div className="flex items-center justify-between">
-                        <p className="flex items-center font-semibold text-pink-600 lg:text-lg text-sm">
+                        </Badge>
+                      ) : <Badge mt={2}>
+                          No Discount Available
+                        </Badge>}
+                      <Flex justify="space-between" mt={4}>
+                        <Text display={'flex'} alignItems={'center'} fontWeight="semibold" color="pink.600" fontSize="lg">
                           <TbCurrencyNaira className="mr-1" />
                           {item.price?.toLocaleString() || "N/A"}
-                        </p>
-                        <p className="text-gray-500 text-sm px-2 rounded-full bg-pink-200">{item.category}</p>
-                      </div>
-                      <button onClick={() => handleAddToCart(item)} className="addTocart mt-4 w-full cursor-pointer bg-pink-600 text-white py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-pink-700 transition-all">
-                        <FaCartShopping />
+                        </Text>
+                        <Box bg={'pink.50'} color="pink.600" px={2} py={1} borderRadius="md" fontSize="xs">
+                          {item.category}
+                        </Box>
+                        {/* <Tag colorScheme="pink" size="sm" variant="solid">
+                        </Tag> */}
+                      </Flex>
+                      <Button onClick={() => handleAddToCart(item)} mt={4} w="full" bg="pink.600" leftIcon={<IoMdCart />}>
                         Add to Cart
-                      </button>
-                    </div>
-                  </div>
+                      </Button>
+                    </Box>
+                  </GridItem>
                 ))
               )}
-        </div>
+        </SimpleGrid>
 
-        {/* Pagination */}
-        {pageCount > 1 && (
-          <ReactPaginate
-            previousLabel="Prev"
-            nextLabel="Next"
-            breakLabel="..."
-            pageCount={pageCount}
-            marginPagesDisplayed={1}
-            pageRangeDisplayed={2}
-            onPageChange={handlePageClick}
-            containerClassName="flex justify-center mt-8 gap-2"
-            pageClassName="px-4 py-2 rounded-md bg-gray-100 cursor-pointer hover:bg-pink-500 hover:text-white transition-all"
-            previousClassName="px-4 py-2 rounded-md bg-gray-100 cursor-pointer hover:bg-pink-500 hover:text-white transition-all"
-            nextClassName="px-4 py-2 rounded-md bg-gray-100 cursor-pointer hover:bg-pink-500 hover:text-white transition-all"
-            activeClassName="bg-pink-600 text-white"
-          />
+        {/* Pagination Controls */}
+        {items.length > itemsPerPage && (
+          <Flex justify="center" mt={10}>
+            <Button onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} isDisabled={currentPage === 1} mr={2} colorScheme="pink">
+              Prev
+            </Button>
+
+            {[...Array(totalPages)].map((_, i) => (
+              <Button key={i} onClick={() => setCurrentPage(i + 1)} colorScheme={currentPage === i + 1 ? "pink" : "gray"} variant={currentPage === i + 1 ? "solid" : "outline"} mx={1}>
+                {i + 1}
+              </Button>
+            ))}
+
+            <Button onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))} isDisabled={currentPage === totalPages} ml={2} colorScheme="pink">
+              Next
+            </Button>
+          </Flex>
         )}
-      </div>
-      <Advert/>
+      </Container>
+      <Advert />
       <Footer />
-    </div>
+    </Box>
   );
 }

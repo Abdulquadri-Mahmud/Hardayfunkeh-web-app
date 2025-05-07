@@ -1,7 +1,19 @@
-import React, { useEffect, useState } from 'react'
-import { MdDelete } from 'react-icons/md';
+// Full updated CartPage using Chakra UI and replacing the table with cards and Headless UI modal
+
+import React, { useEffect, useState, Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import {
+  Box,
+  Button,
+  Flex,
+  Image,
+  Text,
+  VStack,
+  HStack,
+} from '@chakra-ui/react';
+import { Dialog, Transition } from '@headlessui/react';
+import { MdDelete } from 'react-icons/md';
 import { PiGreaterThan } from 'react-icons/pi';
 import { BiLeftArrowAlt } from 'react-icons/bi';
 import { CgMathMinus } from 'react-icons/cg';
@@ -10,242 +22,226 @@ import { FaNairaSign } from 'react-icons/fa6';
 import { changeQuantity, deleteProduct } from '../store/cart/cartsReucer';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { FaShoppingCart } from 'react-icons/fa';
+import { IoMdCart } from 'react-icons/io';
 
 export default function CartPage() {
-    const { items } = useSelector((state) => state.cart);
-    const [emptyCart, setEmptyCart] = useState(false);
-    const [alertMessage, setAlertMessage] = useState('');
-    const { wishlists } = useSelector((state) => state.wishlist);
+  const { items } = useSelector((state) => state.cart);
+  const [emptyCart, setEmptyCart] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const { wishlists } = useSelector((state) => state.wishlist);
+  const { currentUser } = useSelector((state) => state.user);
+  const [showModal, setShowModal] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-    const [showModal, setShowModal] = useState(false);
+  let total = 0;
 
-    const {currentUser} = useSelector((state) => state.user);
+  useEffect(() => {
+    if (items.length === 0) setEmptyCart(true);
+  }, [items]);
 
-    let total = 0;
-    
-    let dispatch = useDispatch();
-
-    // useEffect()
-    // const mSize = item.productSize.findIndex((it) => it === 'M');
-
-    const increaseQuantity = (id) => {
-        items.map((item) => {
-        if (id === item.productID) {
-            dispatch(changeQuantity({
-            productID : item.productID,
-            quantity : item.quantity + 1
-            }));
-        }
-        });
-    }
-
-    let navigate = useNavigate();
-
-    const decreaseQuantity = (id) => {
-        items.map((item) => {
-        if (id === item.productID) {
-            dispatch(changeQuantity({
-            productID : item.productID,
-            quantity : item.quantity - 1 < 1 ? 1
-            : item.quantity - 1
-            }));
-        }
-        });
-    };
-
-    const handleRemoveItem = (id) => {
-        dispatch(deleteProduct({
-            productID: id,
-        }));
-
-        if (items.length === 0) {
-            setEmptyCart(true);
-            return;
-        }
-    };
-
-    useEffect(() => {
-        if (items.length === 0) {
-            setEmptyCart(true);
-            return;
-        }
+  const increaseQuantity = (id) => {
+    items.forEach((item) => {
+      if (id === item.productID) {
+        dispatch(
+          changeQuantity({
+            productID: item.productID,
+            quantity: item.quantity + 1,
+          })
+        );
+      }
     });
+  };
 
-    const handleReidirect =  () => {
-        emptyCart ? setAlertMessage('You need to have at least a single item in your cart before you could checkout') : ''
-        setTimeout(() => setAlertMessage(""), 2000);
-        !currentUser ? setAlertMessage('You need to login before you could proceed!') : ''
-    }
-    
-    const handleBack = () => {
-        navigate(-1);
-    }
+  const decreaseQuantity = (id) => {
+    items.forEach((item) => {
+      if (id === item.productID) {
+        dispatch(
+          changeQuantity({
+            productID: item.productID,
+            quantity: Math.max(1, item.quantity - 1),
+          })
+        );
+      }
+    });
+  };
 
-    const handleCheckWishlist = () => {
-        if (wishlists.length === 0) {
-          setShowModal(true);
-        }else{
-            navigate('/wishlist')
-        }
-    };
+  const handleRemoveItem = (id) => {
+    dispatch(deleteProduct({ productID: id }));
+  };
+
+  const handleRedirect = () => {
+    if (emptyCart) {
+      setAlertMessage('You need at least one item in your cart.');
+    } else if (!currentUser) {
+      setAlertMessage('You must be logged in to proceed.');
+    }
+    setTimeout(() => setAlertMessage(''), 2000);
+  };
+
+  const handleBack = () => navigate(-1);
+
+  const handleCheckWishlist = () => {
+    if (wishlists.length === 0) setShowModal(true);
+    else navigate('/wishlist');
+  };
 
   return (
-    <div className='bg-gray-100'>
-        <Header/>
-        <div className="md:py-10 py-5 2xl:max-w-[80%] xl:max-w-[90%] lg:max-w-[100%] max-w-[100%] mx-auto">
-            <div className="bg-white lg:p-4 p-2 rounded-lg">
-                <div className="flex justify-between">
-                    <div className="flex gap-1 items-center">
-                        <Link to={'/'} className='text-[13px] text-gray-500'>Home</Link>
-                        <PiGreaterThan className='text-[13px] text-gray-500 pt-1'/>
-                        <Link to={'/cart'} className='text-[13px] text-gray-500'>My Carts</Link>
-                    </div>
+    <Box bg="gray.100">
+      <Header />
+      <Box maxW="90%" mx="auto" py={5}>
+        <Box bg="white" p={4} rounded="md">
+          <Flex justify="space-between" align="center" mb={4}>
+            <HStack spacing={1} align="center">
+              <Link to="/">
+                <Text fontSize="sm" color="gray.500">Home</Text>
+              </Link>
+              <Text size={12} color="gray.400">
+                <PiGreaterThan />
+              </Text>
+              <Link to="/cart">
+                <Text fontSize="sm" color="gray.500">My Carts</Text>
+              </Link>
+            </HStack>
+            <Button onClick={handleBack} bg="pink.600" color={'white'}>Back</Button>
+          </Flex>
 
-                    <button onClick={handleBack} className="py-1 h-[40px] px-6 text-white rounded-md bg-pink-600">
-                        Back
-                    </button>
-                </div>
-                <div className="w-full pb-4">
-                    <h1 className='text-2xl font-medium text-center flex justify-center items-center gap-1'>My Cart <FaShoppingCart size={22} className='text-pink-600' /></h1>
-                    <p className="text-gray-500 text-center max-w-2xl mx-auto">Review your selected items before checkout. You can update quantities or remove items if needed. Don’t wait too long—your favorite products might sell out! 🎉</p>
-                </div>
-                <div className="flex justify-between items-center bg-pink-200 rounded-md py-2 px-4">
-                    <div className='font-medium text-xl rounded-md' >
-                        <Link to={'/shop'} fontWeight={500} className='lg:text-lg text-sm flex items-center justify-center lg:gap-2 text-[#C70039]'><BiLeftArrowAlt/> Continue Shopping</Link>
-                    </div>
-                    <div className="">
-                        {/* <Link to={'/cart'}>My wishlist</Link> */}
-                        <button onClick={handleCheckWishlist} className="bg-pink-600 text-white lg:px-4 px-2  py-2 lg:text-lg text-sm rounded-md">
-                            Check Wishlist
-                        </button>
-                    </div>
-                </div>
-            </div>
-            
-            <div className="md:flex mt-4 block justify-center gap-2 flex-wrap">
-                <div className="flex-1 relative bg-white md:p-4 p-2 rounded-md">
-                    <div className="max-w-[100vw] mx-auto overflow-auto">
-                        <table className='w-full'>
-                            <thead className='bg-pink-600 text-white'>
-                                <tr>
-                                    <th className='rounded-tl-md font-medium p-[10px] text-start'>Products</th>
-                                    <th className='font-medium p-[10px] text-start'>Quantity</th>
-                                    <th className='font-medium p-[10px] text-start'>Price</th>
-                                    <th className='rounded-tr-md font-medium p-[10px] text-start'>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody className='w-full'>
-                                {items.length > 0 ? (
-                                    items.map((item, index) => {
-                                        total += item.productPrice * item.quantity;
-                                        
-                                        return (
-                                        <tr className="px-2" key={index}>
-                                            <Link to={`/product-details/${item.productID}`}>
-                                                <td className="py-2 flex gap-3 lg:w-[200px]">
-                                                    <img src={item.productImage} alt="" className="rounded-md max-w-[50px] max-h-[50]"/>
-                                                    {item.productName && (
-                                                        <p className="text-sm">{item.productName.slice(0, 20)}...</p>
-                                                    )}
-                                                </td>
-                                            </Link>
-                                            <td className="py-2 font-medium">
-                                                <div className="flex justify-start items-start h-full gap-2">
-                                                    <button type="button" className="rounded-sm bg-zinc-100 w-6 h-6 flex justify-center items-center" onClick={() => decreaseQuantity(item.productID)} >
-                                                        <CgMathMinus className="text-[14px] font-medium text-black" />
-                                                    </button>
-                                                        <span>{item.quantity}</span>
-                                                    <button type="button" className="rounded-sm bg-zinc-100 w-6 h-6 flex justify-center items-center" onClick={() => increaseQuantity(item.productID)} >
-                                                        <RiAddFill className="text-[14px] font-medium text-black" />
-                                                    </button>
-                                                </div>
-                                            </td>
-                                            <td className="py-3 font-medium w-[20%]">
-                                                <p className="flex items-center justify-start">
-                                                    <FaNairaSign />
-                                                    {(item.productPrice * item.quantity).toLocaleString()}.00
-                                                </p>
-                                            </td>
-                                            <td className="py-3 font-medium">
-                                                <div className="flex justify-start items-start">
-                                                    <button className="text-red-500 cursor-pointer text-[14px] font-medium text-start" onClick={() => handleRemoveItem(item.productID)} >
-                                                    Delete Item
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        );
-                                    })
-                                    ) : (
-                                    <tr>
-                                        <td colSpan="4" className="text-center py-6">
-                                        <p className="text-gray-500 text-lg">Your cart is empty.</p>
-                                        <button  onClick={() => navigate("/shop")}  className="bg-pink-600 text-white px-4 py-2 rounded-md mt-4">
-                                            Go to Shop
-                                        </button>
-                                        </td>
-                                    </tr>
-                                    )}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div className='md:max-w-[300px] h-[300px] w-[100%] mx-auto bg-white p-3 rounded-md'>
-                    <div className='flex justify-between items-center pb-3 bottom-2 border-gray-300'>
-                        <h1 className='text-sm font-medium'>Order Summary</h1>
-                        <p className='text-sm'>Subtotal ({items.length} Item)</p>
-                    </div>
-                    <div className='flex justify-between items-center pb-3 bottom-2 border-gray-300'>
-                        <h1 className='text-sm font-medium'>Delivery Changes:</h1>
-                        <p textAlign={'end'} className='text-[11px] text-gray-400'>Add your Delivery address at checkout to see delivery charges</p>
-                    </div>
-                        <div className='flex justify-between items-center pb-3 bottom-2 border-gray-300'>
-                            <h1 className='text-sm font-medium'>Subtotal</h1>
-                        <div>
-                        <p className='flex items-center text-sm'><FaNairaSign/>{total.toLocaleString()}.00</p>
-                    </div>
-                    </div>
-                    <div className='flex justify-between items-center pb-3 bottom-2 border-gray-300'>
-                        <h1 className='text-sm font-medium'>Total</h1>
-                        <p className='flex items-center text-sm'><FaNairaSign/>{total.toLocaleString()}.00</p>
-                    </div>
-                    <p className='text-[12px] text-yellow-600 text-end py-2'>Excluding delivery charges</p>
-                    {
-                        alertMessage && (
-                            <div className="py-2 px-2 text-sm w-full rounded-md border border-red-300 bg-red-100">
-                                <p className="">{alertMessage}</p>
-                            </div>
-                        )
-                    }
-                    <div onClick={handleReidirect}>
-                        <Link to={`${currentUser && !emptyCart ? `/checkout` : '/cart'}`}>
-                            <button className='cursor-pointer bg-pink-600 text-white w-full my-3 rounded-md py-2 font-medium'>Proceed to Checkout</button>
-                        </Link>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <Footer/>
-        {/* Modal for empty wishlist */}
-        {showModal && (
-            <div className="fixed inset-0 flex items-center justify-center glass">
-            <div className="bg-yellow-400 p-6 rounded-md shadow-lg text-center">
-                <h3 className="text-xl font-bold mb-2">Your Wishlist is Empty</h3>
-                <p className="text-gray-800 mb-4 py-2">
-                    Would you like to explore our products and add <br /> items to your wishlist?
-                </p>
-                <div className="flex justify-center gap-4">
-                <button onClick={() => navigate("/shop")} className="bg-green-500 text-white px-4 py-2 rounded-md">
-                    Yes, Shop Now
-                </button>
-                <button  onClick={() => setShowModal(false)}  className="bg-gray-800 text-white px-4 py-2 rounded-md">
-                    No, Maybe Later
-                </button>
-                </div>
-            </div>
-            </div>
-        )}
-    </div>
-  )
+          <Box textAlign="center" mb={4}>
+            <Flex justify="center" align="center" gap={2} mb={3}>
+              <IoMdCart size={22} color="#C70039" />
+              <Text fontSize="2xl"color={'gray.800'}  fontWeight="medium">My Cart</Text>
+            </Flex>
+            <Text color="gray.500" maxW="2xl" mx="auto">
+              Review your selected items before checkout. You can update quantities or remove items if needed.
+            </Text>
+          </Box>
+
+          <Flex justify="space-between" bg="pink.200" p={3} rounded="md" mb={4}>
+            <Link to="/shop">
+              <Text fontSize="xl" color="#C70039" display="flex" alignItems="center">
+                <BiLeftArrowAlt /> Continue Shopping
+              </Text>
+            </Link>
+            <Button onClick={handleCheckWishlist} bg="pink.600">Check Wishlist</Button>
+          </Flex>
+
+          <Flex direction={{ base: 'column', md: 'row' }} gap={4}>
+            {/* Cart Items */}
+            <Box flex={1} bg="white" color={'gray.800'} p={{lg: 4}} rounded="md">
+              {items.length > 0 ? (
+                <VStack spacing={4}>
+                  {items.map((item, index) => {
+                    total += item.productPrice * item.quantity;
+                    return (
+                      <Flex key={index} bg={'gray.100'} border="1px solid" borderColor="gray.300" rounded="md" p={4} w="full" justify="space-between" align="center" wrap="wrap" gap={4}>
+                        <Flex gap={3} align="center" as={Link} to={`/product-details/${item.productID}`}>
+                          <Image src={item.productImage} boxSize="50px" objectFit="cover" rounded="md" />
+                          <Text fontSize="sm">{item.productName?.slice(0, 20)}...</Text>
+                        </Flex>
+
+                        <Flex align="center" gap={2}>
+                          <Button bg={'pink.500'} color={'white'} size="sm" onClick={() => decreaseQuantity(item.productID)}><CgMathMinus /></Button>
+                            <Text>{item.quantity}</Text>
+                          <Button bg={'pink.500'} color={'white'} size="sm" onClick={() => increaseQuantity(item.productID)}><RiAddFill /></Button>
+                        </Flex>
+
+                        <Flex align="center">
+                          <FaNairaSign />
+                          <Text fontWeight="medium" ml={1}>{(item.productPrice * item.quantity).toLocaleString()}.00</Text>
+                        </Flex>
+
+                        <Button colorScheme="red" border={'1px solid'} borderColor={'gray.300'} onClick={() => handleRemoveItem(item.productID)} leftIcon={<MdDelete />}>
+                          <MdDelete fontSize={'3xl'} color='red'/>
+                        </Button>
+                      </Flex>
+                    );
+                  })}
+                </VStack>
+              ) : (
+                <Box textAlign="center" py={6}>
+                  <Text color="gray.500" fontSize="lg">Your cart is empty.</Text>
+                  <Button onClick={() => navigate("/shop")} bg="pink.600" color="white" mt={4}>
+                    Go to Shop
+                  </Button>
+                </Box>
+              )}
+            </Box>
+
+            {/* Summary Section */}
+            <Box mt={{lg:4}} w={{md: "300px"}} h={'350px'} bg={{md: "gray.100", base: 'pink.100'}} border={'1px solid'} borderColor={'gray.300'} color={'gray.800'} p={4} rounded="md">
+              <VStack align="stretch" spacing={4}>
+                <Flex justify="space-between">
+                  <Text fontWeight="medium">Order Summary</Text>
+                  <Text fontSize="sm">Subtotal ({items.length} Item)</Text>
+                </Flex>
+
+                <Box>
+                  <Text fontWeight="medium">Delivery Charges:</Text>
+                  <Text fontSize="xs" color="gray.400">Add your Delivery address at checkout to see delivery charges</Text>
+                </Box>
+
+                <Flex justify="space-between">
+                  <Text fontWeight="medium">Subtotal</Text>
+                  <Text><FaNairaSign /> {total.toLocaleString()}.00</Text>
+                </Flex>
+
+                <Flex justify="space-between">
+                  <Text fontWeight="medium">Total</Text>
+                  <Text><FaNairaSign /> {total.toLocaleString()}.00</Text>
+                </Flex>
+
+                <Text fontSize="xs" color="yellow.600" textAlign="right">Excluding delivery charges</Text>
+
+                {alertMessage && (
+                  <Box bg="red.400" border="1px" borderColor="red.300" p={2} rounded="md">
+                    <Text fontSize="sm">{alertMessage}</Text>
+                  </Box>
+                )}
+
+                <Link to={currentUser && !emptyCart ? "/checkout" : "/cart"}>
+                  <Button w="full" bg="pink.600"  color="white" onClick={handleRedirect}>Proceed to Checkout</Button>
+                </Link>
+              </VStack>
+            </Box>
+          </Flex>
+        </Box>
+      </Box>
+
+      {/* Headless UI Modal for empty wishlist */}
+      <Transition appear show={showModal} as={Fragment}>
+        <Dialog as="div" style={{ position: "relative", zIndex: 50 }} onClose={() => setShowModal(false)}>
+          <Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0" enterTo="opacity-100" leave="ease-in duration-200" leaveFrom="opacity-100" leaveTo="opacity-0">
+            <Box position="fixed" inset={0} bg="blackAlpha.600" />
+          </Transition.Child>
+
+          <Box position="fixed" inset={0} overflowY="auto">
+            <Flex minH="100vh" align="center" justify="center" p={4} textAlign="center">
+              <Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0 scale-95" enterTo="opacity-100 scale-100" leave="ease-in duration-200" leaveFrom="opacity-100 scale-100" leaveTo="opacity-0 scale-95">
+                <Box w="full" maxW="md" bg="yellow.400" p={6} rounded="2xl" textAlign="left" boxShadow="xl">
+                  <Text fontSize="lg" fontWeight="medium" textAlign="center">
+                    Your Wishlist is Empty
+                  </Text>
+                  <Box mt={2}>
+                    <Text fontSize="sm" color="gray.800" textAlign="center">
+                      Would you like to explore our products and add items to your wishlist?
+                    </Text>
+                  </Box>
+
+                  <Flex mt={4} justify="center" gap={4}>
+                    <Button bg="pink.500" color="white" _hover={{ bg: "pink.600" }} onClick={() => navigate("/shop")}>
+                      Yes, Shop Now
+                    </Button>
+                    <Button bg="gray.800" color="white" _hover={{ bg: "gray.700" }} onClick={() => setShowModal(false)}>
+                      No, Maybe Later
+                    </Button>
+                  </Flex>
+                </Box>
+              </Transition.Child>
+            </Flex>
+          </Box>
+        </Dialog>
+      </Transition>
+      <Footer />
+    </Box>
+  );
 }

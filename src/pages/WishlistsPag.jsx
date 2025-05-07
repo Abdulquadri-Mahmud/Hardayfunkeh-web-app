@@ -1,4 +1,19 @@
-import React, { useEffect, useState } from 'react'
+// Converted version of the component using Headless UI for modal instead of Chakra UI Modal
+import React, { useEffect, useState, Fragment } from 'react';
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  Icon,
+  Image,
+  Link as ChakraLink,
+  Stack,
+  Text,
+  SimpleGrid,
+} from '@chakra-ui/react';
+import { Table } from "@chakra-ui/react"
+import { Dialog, Transition } from '@headlessui/react';
 import { MdDelete } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
@@ -10,204 +25,204 @@ import { deleteWishlist } from '../store/wishlists/Wishlists';
 import { addToCart } from '../store/cart/cartsReucer';
 import { FaRegHeart } from 'react-icons/fa';
 import { BiLeftArrowAlt } from 'react-icons/bi';
+import { BsCart4 } from 'react-icons/bs';
+import { IoMdCart } from 'react-icons/io';
 
 export default function Wishlists() {
-    const { wishlists } = useSelector((state) => state.wishlist);
-    const { items } = useSelector((state) => state.cart);
+  const { wishlists } = useSelector((state) => state.wishlist);
+  const { items } = useSelector((state) => state.cart);
+  const { currentUser } = useSelector((state) => state.user);
 
-    const [emptyCart, setEmptyCart] = useState(false);
-    const [alertMessage, setAlertMessage] = useState('');
+  const [emptyCart, setEmptyCart] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [showModal, setShowModal] = useState(false);
 
-    const [showModal, setShowModal] = useState(false);
+  let total = 0;
+  let dispatch = useDispatch();
+  let navigate = useNavigate();
 
-    const {currentUser} = useSelector((state) => state.user);
-
-    let total = 0;
-    
-    let dispatch = useDispatch();
-
-    let navigate = useNavigate();
-
-    const handleRemoveItem = (id) => {
-        dispatch(deleteWishlist({
-            productID: id,
-        }));
-
-        if (wishlists.length === 0) {
-            setEmptyCart(true);
-            return;
-        }
-    };
-
-    useEffect(() => {
-        if (wishlists.length === 0) {
-            setEmptyCart(true);
-            return;
-        }
-    });
-
-    const handleReidirect =  () => {
-        emptyCart ? setAlertMessage('You need to have at least a single item in your cart before you could checkout') : ''
-        setTimeout(() => setAlertMessage(""), 2000);
+  const handleRemoveItem = (id) => {
+    dispatch(deleteWishlist({ productID: id }));
+    if (wishlists.length === 0) {
+      setEmptyCart(true);
     }
-    
-    const handleCart = (item) => {
-        const cartItem = {
-            productID: item.productID,
-            productImage: item.productImage,
-            productName: item.productName,
-            productPrice: item.productPrice,
-            quantity: 1,
-        };
-    
-        dispatch(addToCart(cartItem));
-    };
-    const handleBack = () => {
-        navigate(-1);
-    }
+  };
 
-    const handleCheckCart = () => {
-        if (items.length === 0) {
-          setShowModal(true);
-        }else{
-            navigate('/cart')
-        }
+  useEffect(() => {
+    if (wishlists.length === 0) {
+      setEmptyCart(true);
+    }
+  });
+
+  const handleReidirect = () => {
+    if (emptyCart) setAlertMessage('You need to have at least a single item in your cart before you could checkout');
+    setTimeout(() => setAlertMessage(''), 2000);
+  };
+
+  const handleCart = (item) => {
+    const cartItem = {
+      productID: item.productID,
+      productImage: item.productImage,
+      productName: item.productName,
+      productPrice: item.productPrice,
+      quantity: 1,
     };
+    dispatch(addToCart(cartItem));
+  };
+
+  const handleBack = () => {
+    navigate(-1);
+  };
+
+  const handleCheckCart = () => {
+    if (items.length === 0) {
+      setShowModal(true);
+    } else {
+      navigate('/cart');
+    }
+  };
 
   return (
-    <div className='bg-zinc-100'>
-        <Header/>
-        <div className="md:py-10 py-5 2xl:max-w-[80%] xl:max-w-[90%] lg:max-w-[100%] max-w-[97%] mx-auto">
-            <div className="bg-white p-4 mb-3 rounded-lg">
-                <div className="flex justify-between">
-                    <div className="flex gap-1 items-center">
-                        <Link to={'/'} className='text-[13px] text-gray-500'>Home</Link>
-                        <PiGreaterThan className='text-[13px] text-gray-500 pt-1'/>
-                        <Link to={'/wishlist'} className='text-[13px] text-gray-500'>My wishlist</Link>
-                    </div>
+    <Box bg="gray.100">
+      <Header />
+      <Box maxW="95%" mx="auto" py={{ base: 5, md: 10 }}>
+        <Box bg="white" p={4} mb={3} rounded="lg">
+          <Flex justify="space-between">
+            <Flex gap={1} align="center">
+              <ChakraLink as={Link} to="/" fontSize="sm" color="gray.500">Home</ChakraLink>
+              <Icon as={PiGreaterThan} fontSize="sm" color="gray.500" />
+              <ChakraLink as={Link} to="/wishlist" fontSize="sm" color="gray.500">My Wishlist</ChakraLink>
+            </Flex>
+            <Button onClick={handleBack} bg="pink.600" color="white" h="40px">Back</Button>
+          </Flex>
 
-                    <button onClick={handleBack} className="py-1 h-[40px] px-6 text-white rounded-md bg-pink-600">
-                        Back
+          <Stack my={5} spacing={4}>
+            <Box borderBottom="1px" borderColor="gray.300" pb={4}>
+              <Flex justify="center" align="center" gap={2} mb={3}>
+                <Icon as={FaRegHeart} color="pink.600" boxSize={6} />
+                <Heading size="xl" color={'gray.800'} textAlign="center">My Wishlist</Heading>
+              </Flex>
+              <Text textAlign="center" color="gray.500" maxW="4xl" mx="auto">
+                Welcome to your Wishlist! Here, you can save your favorite items and easily find them later.
+                Add products you love, compare options, and shop when you're ready. Don't wait too long—your favorites might sell out!
+              </Text>
+            </Box>
+
+            <Flex justify="space-between" align="center" bg="pink.200" p={4} rounded="md">
+              <ChakraLink as={Link} to="/shop" fontWeight="medium" fontSize={{ base: 'sm', lg: 'lg' }} color="#C70039" display="flex" alignItems="center" gap={2}>
+                <Icon as={BiLeftArrowAlt} /> Continue Shopping
+              </ChakraLink>
+              <Button onClick={handleCheckCart} bg="pink.600" color="white" fontSize={{ base: 'sm', lg: 'lg' }}>
+                Check Cart
+              </Button>
+            </Flex>
+          </Stack>
+
+          <Box bg="white" p={{lg: 4}} rounded="md">
+            <Box overflowX="auto">
+              <SimpleGrid columns={{ base: 1, sm: 2, md: 3, lg: 4 }} gap={4} color={'gray.800'} spacing={6} mt={0}>
+                {wishlists.length > 0 ? (
+                  wishlists.map((item, index) => {
+                    total += item.productPrice * item.quantity;
+                    return (
+                      <Box key={index} bg="white" rounded="lg"  p={4} border="1px solid" borderColor="gray.200">
+                        <Link to={`/product-details/${item.productID}`}>
+                          <Image src={item.productImage} alt={item.productName} rounded="md" objectFit="cover" w="100%" h="200px" mb={3} />
+                        </Link>
+                        <Heading as="h3" size="sm" mb={2}>
+                          {item.productName?.slice(0, 40)}...
+                        </Heading>
+                        <Flex align="center" mb={2} fontWeight="semibold">
+                          <FaNairaSign />
+                          <Text ml={1}>{item.productPrice.toLocaleString()}.00</Text>
+                        </Flex>
+                        <Text fontSize="sm" mb={3}>
+                          Stock: {item.stock >= 100 ? 'In Stock' : item.stock}
+                        </Text>
+                        <Flex justify="space-between" mt="auto" gap={2}>
+                          <Button bg="gray.200" fontSize={'3xl'} color={'white'} flex={1} onClick={() => handleRemoveItem(item.productID)}>
+                            <MdDelete fontSize={'3xl'} color='red'/>
+                          </Button>
+                          <Button bg="pink.600" color="white" flex={1} onClick={() => handleCart(item)}>
+                            <IoMdCart/>
+                          </Button>
+                        </Flex>
+                      </Box>
+                    );
+                  })
+                ) : (
+                  <Box colSpan={5} textAlign="center" py={10} color="gray.500">
+                    Your wishlist is empty. <br />
+                    <Button mt={4} bg="gray.800" color="white" onClick={() => navigate('/shop')}>
+                      Go Shopping
+                    </Button>
+                  </Box>
+                )}
+              </SimpleGrid>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+      <Footer />
+
+      {/* Headless UI Modal */}
+      <Transition appear show={showModal} as={Fragment}>
+        <Dialog as="div" className="relative z-10" onClose={() => setShowModal(false)}>
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black bg-opacity-25" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-yellow-400 p-6 text-left align-middle shadow-xl transition-all">
+                  <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
+                    Your Cart is Empty
+                  </Dialog.Title>
+                  <div className="mt-2">
+                    <p className="text-sm text-gray-800">
+                      Would you like to explore our products and add items to your Cart?
+                    </p>
+                  </div>
+
+                  <div className="mt-4 flex justify-end gap-4">
+                    <button
+                      type="button"
+                      className="inline-flex justify-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700"
+                      onClick={() => navigate('/shop')}
+                    >
+                      Yes, Shop Now
                     </button>
-                </div>
-                <div className='my-5 w-full'>
-                    <div className="w-full border-b border-b-gray-300 pb-4">
-                        <h1 className='text-2xl font-medium text-center flex justify-center'><FaRegHeart size={22} className='text-pink-600' />My Wishlist</h1>
-                        <p className="text-gray-500 text-center max-w-4xl mx-auto">Welcome to your Wishlist! Here, you can save your favorite items and easily find them later. Add products you love, compare options, and shop when you're ready. Don't wait too long—your favorites might sell out!</p>
-                    </div>
-                    {/* <div className='border border-gray-300 font-medium text-xl text-blue-900 mt-6 py-3 rounded-md' >
-                        <Link to={'/shop'} fontWeight={500} className='text- flex items-center justify-center gap-2 text-[#C70039]'><BiLeftArrowAlt/> Continue Shopping</Link>
-                    </div> */}
-                </div>
-                <div className="flex justify-between items-center bg-pink-200 rounded-md py-2 px-4">
-                    <div className='font-medium text-xl rounded-md' >
-                        <Link to={'/shop'} fontWeight={500} className='lg:text-lg text-sm flex items-center justify-center lg:gap-2 text-[#C70039]'><BiLeftArrowAlt/> Continue Shopping</Link>
-                    </div>
-                    <div className="">
-                        {/* <Link to={'/cart'}>My wishlist</Link> */}
-                        <button onClick={handleCheckCart} className="bg-pink-600 text-white lg:px-4 px-2  py-2 lg:text-lg text-sm rounded-md">
-                            Check Cart
-                        </button>
-                    </div>
-                </div>
+                    <button
+                      type="button"
+                      className="inline-flex justify-center rounded-md border border-transparent bg-gray-800 px-4 py-2 text-sm font-medium text-white hover:bg-gray-900"
+                      onClick={() => setShowModal(false)}
+                    >
+                      No, Maybe Later
+                    </button>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
             </div>
-            
-            <div className="md:flex block justify-center gap-2 flex-wrap">
-                <div className="flex-1 relative bg-white md:p-4 p-4 rounded-md">
-                    <div className="max-w-[90vw] mx-auto overflow-auto">
-                        <table className='w-full'>
-                            <thead className='bg-pink-600 text-white'>
-                                <tr>
-                                    <th className='rounded-tl-md font-medium p-[10px] text-start'>Products</th>
-                                    <th className='font-medium p-[10px] text-start'>Price</th>
-                                    <th className='font-medium p-[10px] text-start'>Stock status</th>
-                                    <th className=' font-medium p-[10px] text-start'>Action</th>
-                                    <th className='rounded-tr-md font-medium p-[10px] text-start'>Cart</th>
-                                </tr>
-                            </thead>
-                            <tbody className='w-full'>
-                                {wishlists.length > 0 ? (
-                                    wishlists.map((item, index) => {
-                                        total += item.productPrice * item.quantity;
-
-                                        return (
-                                        <tr className="px-2" key={index}>
-                                            <Link to={`/product-details/${item.productID}`}>
-                                                <td className="py-2 flex gap-3 lg:w-[200px]">
-                                                    <img src={item.productImage} alt="" className="rounded-md max-w-[50px] max-h-[50]"/>
-                                                    {item.productName && (
-                                                        <p className="text-sm">{item.productName.slice(0, 20)}...</p>
-                                                    )}
-                                                </td>
-                                            </Link>
-                                            <td className="py-3 font-normal w-[20%]">
-                                                <p className="flex items-center justify-start">
-                                                    <FaNairaSign />
-                                                    {item.productPrice.toLocaleString()}.00
-                                                </p>
-                                            </td>
-                                            <td className="py-2 font-medium">
-                                                {item.stock >= 100 ? (
-                                                    <p className="text-sm font-normal">In Stock</p>
-                                                ) : (
-                                                    <p className="">{item.stock}</p>
-                                                )}
-                                            </td>
-                                            <td className="py-3 font-medium">
-                                                <div className="flex justify-start items-start">
-                                                    <button className="text-red-500 cursor-pointer text-[14px] font-medium text-start" onClick={() => handleRemoveItem(item.productID)}>
-                                                    Delete Item
-                                                    </button>
-                                                </div>
-                                            </td>
-                                            <td className="py-3 font-medium">
-                                            <div className="flex justify-start items-start">
-                                                <button onClick={() => handleCart(item)} className="text-white bg-yellow-400 px-2 py-1 rounded-md cursor-pointer text-[14px] font-medium text-start" >
-                                                    Add To Cart
-                                                </button>
-                                            </div>
-                                            </td>
-                                        </tr>
-                                        );
-                                    })
-                                    ) : (
-                                    <tr className='py-3'>
-                                        <td colSpan="5" className="text-center py-4 text-gray-500 ">
-                                            Your wishlist is empty. <br />
-                                            <button onClick={() => navigate("/shop")} className="cursor-pointer mt-2 px-4 py-2 bg-gray-800 text-white rounded-md">
-                                                Go Shopping
-                                            </button>
-                                        </td>
-                                    </tr>
-                                )}
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <Footer/>
-
-        {/* Modal for empty wishlist */}
-        {showModal && (
-            <div className="fixed inset-0 flex items-center justify-center glass">
-            <div className="bg-yellow-400 p-6 rounded-md shadow-lg text-center">
-                <h3 className="text-xl font-bold mb-2">Your Cart is Empty</h3>
-                <p className="text-gray-800 mb-4 py-2">
-                    Would you like to explore our products and add <br /> items to your Cart?
-                </p>
-                <div className="flex justify-center gap-4">
-                <button onClick={() => navigate("/shop")} className="bg-green-500 text-white px-4 py-2 rounded-md">
-                    Yes, Shop Now
-                </button>
-                <button  onClick={() => setShowModal(false)}  className="bg-gray-800 text-white px-4 py-2 rounded-md">
-                    No, Maybe Later
-                </button>
-                </div>
-            </div>
-            </div>
-        )}
-    </div>
-  )
+          </div>
+        </Dialog>
+      </Transition>
+    </Box>
+  );
 }

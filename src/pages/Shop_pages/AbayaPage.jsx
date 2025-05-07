@@ -2,12 +2,28 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { TbCurrencyNaira } from "react-icons/tb";
-import { FaCartShopping, FaRegHeart } from "react-icons/fa6";
+import { FaRegHeart } from "react-icons/fa";
 import { addToCart } from "../../store/cart/cartsReucer";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import Advert from "../../components/Advert";
 import { addWishlist } from "../../store/wishlists/Wishlists";
+import {
+  Box,
+  Button,
+  Container,
+  GridItem,
+  Heading,
+  Text,
+  Image,
+  Flex,
+  Badge,
+  Center,
+  SimpleGrid,
+  HStack,
+} from "@chakra-ui/react";
+import { IoMdCart } from "react-icons/io";
+import { IoHeart } from "react-icons/io5";
 
 export default function AbayaPage() {
   const [abayas, setAbayas] = useState([]);
@@ -56,7 +72,7 @@ export default function AbayaPage() {
       stock: product.stock || [],
       quantity: 1,
     };
-    dispatch(addWishlist(cartItem))
+    dispatch(addWishlist(cartItem));
   };
 
   // Pagination Logic
@@ -64,103 +80,126 @@ export default function AbayaPage() {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = abayas.slice(indexOfFirstItem, indexOfLastItem);
+  
+  const handleBack = () => navigate(-1);
 
   return (
-    <div className="bg-gray-100">
-      <Header/>
-      <div className="container mx-auto p-6">
-        <div className="bg-black mb-10 rounded-2xl relative">
-          <div className="relative text-white flex flex-col items-center justify-center min-h-[300px] md:p-6 px-2 rounded-lg shadow-2xl overflow-hidden glass-card">
-            <h2 className="md:text-4xl text-3xl font-bold mb-4">Elegant Abayas Collection</h2>
-            <p className="text-lg text-center max-w-2xl">
-              Discover our exquisite range of abayas, crafted with luxurious fabrics and intricate designs. 
-              Perfect for any occasion, these elegant pieces bring grace and sophistication to your wardrobe.
-            </p>
-          </div>
-        </div>
+    <Box bg="gray.50">
+      <Header />
+      <Container maxW="container.xl" py={6}>
+        <Box bg="white" p={4} borderRadius="lg" boxShadow="" mb={6}>
+          <Flex justify="space-between" align="center" mb={4}>
+            <HStack spacing={1} align="center">
+              <Link to="/">
+                <Text fontSize="sm" color="gray.500">Home</Text>
+              </Link>
+              <Text size={12} color="gray.400">
+                /
+              </Text>
+              <Link to="/cart">
+                <Text fontSize="sm" color="gray.500">Abaya</Text>
+              </Link>
+            </HStack>
+            <Button onClick={handleBack} bg="pink.600" color={'white'}>Back</Button>
+          </Flex>
 
-        <div className="bg-white rounded-2xl lg:p-6 p-3 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+          <Box mt={6}>
+            <Heading fontSize={'5xl'} color={'gray.700'}>Abaya</Heading>
+          </Box>
+        </Box>
+
+        <SimpleGrid bg={'white'} p={{md: 6}} rounded={'xl'} gap={4} columns={{ base: 2, md: 3, lg: 4, xl: 5 }} spacing={3} py={3} px={2}>
           {loading
             ? [...Array(10)].map((_, index) => (
-                <div key={index} className="shadow-lg rounded-lg bg-gray-200 p-4 animate-pulse">
-                  <div className="h-64 bg-gray-300 rounded-md mb-4"></div>
-                  <div className="h-4 bg-gray-300 rounded w-3/4 mb-2"></div>
-                  <div className="h-4 bg-gray-300 rounded w-1/2"></div>
-                  <div className="h-10 bg-gray-300 rounded w-full mt-3"></div>
-                </div>
+                <GridItem key={index} bg="gray.200" p={4} borderRadius="lg" border={'1px solid'} borderColor={'gray.200'} opacity={0.6}>
+                  <Box h="64" bg="gray.300" mb={4} />
+                  <Box h="4" bg="gray.300" w="3/4" mb={2} />
+                  <Box h="4" bg="gray.300" w="1/2" />
+                  <Box h="10" bg="gray.300" w="full" mt={3} />
+                </GridItem>
               ))
             : currentItems.length === 0 ? (
-                <p className="text-center text-gray-500">No Abayas available at the moment.</p>
+                <Center colSpan={5}>
+                  <Text color="gray.500">No Abayas available at the moment.</Text>
+                </Center>
               ) : (
                 currentItems.map((item) => (
-                  <div key={item._id} className="relative addTocartCont shadow-lg rounded-lg bg-white overflow-hidden transition-transform transform hover:scale-105">
+                  <GridItem key={item._id} bg="white" borderRadius="lg" border={'1px solid'} borderColor={'gray.200'} position="relative">
                     <Link to={`/product-details/${item._id}`}>
-                      <img src={item.image?.length > 0 ? item.image[0] : "/placeholder.png"} alt={item.name} className="w-full h-64 object-cover" />
+                      <Flex w={{ base: "full", md: "100%" }} p={3} h="170px" mx="auto" justify={'center'} alignItems={'center'}>
+                        <Image src={item.image?.length > 0 ? item.image[0] : "/placeholder.png"} alt={item.name} h="full" objectFit="cover" borderRadius="md"/>
+                      </Flex>
                     </Link>
-                    <button onClick={() => handleWishlistItem(item)} className="cursor-pointer absolute top-2 right-2 p-1 px-2 text-sm text-white bg-yellow-400 rounded-lg capitalize">
-                      <FaRegHeart size={22} />
-                    </button>
-                    <div className="p-2">
-                      <h2 className="font-semibold text-lg truncate mb-2 text-gray-800">{item.name}</h2>
-                      <p className="text-gray-600 text-sm truncate">{item.description}</p>
-                      {item.oldprice && (
-                        <div className="absolute left-3 top-3 text-pink-600 bg-yellow-100 py-1 px-2 text-[12px] rounded-full capitalize">
-                          {((item.oldprice - item.price) / item.oldprice * 100).toFixed(2)}% OFF
-                        </div>
-                      )}
+                    <Flex zIndex={1} justifyContent={'center'} alignItems={'center'} fontSize={'2xl'} onClick={handleWishlistItem} aria-label="Add to wishlist" position="absolute" top="2" right="2" w="35px" h="35px" bg="yellow.400" color="white" rounded="full" _hover={{ color: "pink.600", bg: "gray.400" }} _active={{ color: "pink.600", bg: "gray.400" }}>
+                      <IoHeart/>
+                    </Flex>
+                    <Box p={3}>
+                      <Heading as={'h2'} fontWeight={500} color={'gray.600'} size="md" isTruncated mb={1} className="truncate">
+                        {item.name}
+                      </Heading>
+                      <Text color="gray.600" fontSize="12px" bg='gray.100' p='1' rounded='md' isTruncated className="truncate" mb={1}>
+                        {item.description}
+                      </Text>
 
-                      <div className="flex items-center justify-between">
-                        <p className="flex items-center font-semibold text-pink-600 lg:text-lg text-sm">
+                      <Flex justify="space-between" align="center" mt={1} w="full">
+                        <Box>
+                          {item.oldprice ? (
+                              <Badge bg="gray.100" color='gray.800' variant="subtle" mt={2} fontSize="xs">
+                                {((item.oldprice - item.price) / item.oldprice * 100).toFixed(2)}% OFF
+                              </Badge>
+                            ) : <Badge bg="gray.100" color='gray.800' variant="subtle" fontSize="xs" mt={2}>
+                                No Discount Available
+                              </Badge>
+                            }
+                        </Box>
+                
+                        <Badge bg="gray.100" color='gray.800' variant="subtle" mt={1} fontSize="xs">
+                          {item.category}
+                        </Badge>
+                      </Flex>
+
+                      <Flex justify="space-between" mt={1}>
+                        <Text display={'flex'} alignItems={'center'} fontWeight="semibold" color="pink.600" fontSize="lg">
                           <TbCurrencyNaira className="mr-1" />
                           {item.price?.toLocaleString() || "N/A"}
-                        </p>
-                        <p className="text-gray-500 text-sm px-2 rounded-full bg-pink-200">{item.category}</p>
-                      </div>
-                      <button onClick={() => handleAddToCart(item)} className="addTocart mt-4 w-full cursor-pointer bg-pink-600 text-white py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-pink-700 transition-all">
-                        <FaCartShopping />
+                        </Text>
+                        {item.oldprice && (
+                          <Flex fontSize="sm" color="gray.400" textDecoration="line-through" align="center" ml="3">
+                            <TbCurrencyNaira fontSize="13px" />
+                            <Text ml="1">{item.oldprice}</Text>
+                          </Flex>
+                        )}
+                      </Flex>
+                      <Button onClick={() => handleAddToCart(item)} mt={4} w="full" bg="pink.600" color='white' leftIcon={<IoMdCart />}>
                         Add to Cart
-                      </button>
-                    </div>
-                  </div>
+                      </Button>
+                    </Box>
+                  </GridItem>
                 ))
               )}
-        </div>
+        </SimpleGrid>
 
         {/* Pagination Controls */}
         {abayas.length > itemsPerPage && (
-          <div className="flex justify-center mt-10">
-            <button onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} disabled={currentPage === 1} className={`px-4 py-2 mx-2 rounded-lg text-white ${
-                currentPage === 1 ? "bg-gray-400 cursor-not-allowed" : "bg-pink-600 hover:bg-pink-700"
-              }`}>
+          <Flex justify="center" mt={10}>
+            <Button onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} isDisabled={currentPage === 1} mr={2} colorScheme="pink">
               Prev
-            </button>
+            </Button>
 
             {[...Array(totalPages)].map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setCurrentPage(i + 1)}
-                className={`px-4 py-2 mx-1 rounded-lg ${
-                  currentPage === i + 1 ? "bg-pink-700 text-white" : "bg-gray-200 text-gray-700"
-                } hover:bg-pink-600 hover:text-white transition-all`}
-              >
+              <Button key={i} onClick={() => setCurrentPage(i + 1)} colorScheme={currentPage === i + 1 ? "pink" : "gray"} variant={currentPage === i + 1 ? "solid" : "outline"} mx={1}>
                 {i + 1}
-              </button>
+              </Button>
             ))}
 
-            <button
-              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-              disabled={currentPage === totalPages}
-              className={`px-4 py-2 mx-2 rounded-lg text-white ${
-                currentPage === totalPages ? "bg-gray-400 cursor-not-allowed" : "bg-pink-600 hover:bg-pink-700"
-              }`}
-            >
+            <Button onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))} isDisabled={currentPage === totalPages} ml={2} colorScheme="pink">
               Next
-            </button>
-          </div>
+            </Button>
+          </Flex>
         )}
-      </div>
-      <Advert/>
-      <Footer/>
-    </div>
+      </Container>
+      <Advert />
+      <Footer />
+    </Box>
   );
 }
