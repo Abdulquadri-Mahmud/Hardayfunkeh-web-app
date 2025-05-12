@@ -30,6 +30,7 @@ import FabricPage from '../pages/Shop_pages/FabricPage';
 import AbayaPage from '../pages/Shop_pages/AbayaPage';
 import Admin_Private_Route from '../components/private/Admin.private.routes';
 import Order from '../pages/Order';
+import ProdDetails from '../pages/Details';
 
 export default function AppRoutes() {
   return (
@@ -63,6 +64,7 @@ export default function AppRoutes() {
             <Route path='/wishlist' element={<Wishlists/>}/>
             <Route path='/cart' element={<CartPage/>}/>
             <Route path='/product-details/:id' element={<Details/>}/>
+            <Route path='/details/:id' element={<ProdDetails/>}/>
 
             <Route path='/contact' element={<Contact/>}/>
 

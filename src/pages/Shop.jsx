@@ -13,6 +13,7 @@ import {
   Button,
   Flex,
   Grid,
+  GridItem,
   Heading,
   HStack,
   Image,
@@ -22,6 +23,9 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+import { IoHeart } from "react-icons/io5";
+import { IoMdCart } from "react-icons/io";
+import { addWishlist } from "../store/wishlists/Wishlists";
 
 export default function Shop() {
   const dispatch = useDispatch();
@@ -65,6 +69,18 @@ export default function Shop() {
 
     dispatch(addToCart(cartItem));
   };
+
+   const handleWishlistItem = (product) => {
+      const cartItem = {
+        productID: product._id || '',
+        productName: product.name || [],
+        productImage: product.image?.length > 0 ? product.image[0] :  product.image || [],
+        productPrice: product.price || '',
+        stock: product.stock || [],
+        quantity: 1,
+      };
+      dispatch(addWishlist(cartItem));
+    };
 
   const handlePageChange = (category, direction) => {
     setCurrentPage((prev) => ({
@@ -120,47 +136,66 @@ export default function Shop() {
             <SimpleGrid bg={'white'} p={{md: 6}} rounded={'xl'} gap={4} columns={{ base: 2, md: 3, lg: 4, xl: 5 }} spacing={3} py={3} px={2}>
               {loading
                 ? [...Array(8)].map((_, index) => (
-                    <Box key={index} p={4} bg="gray.200" rounded="lg" boxShadow="lg" className="animate-pulse">
-                      <Box h="64" bg="gray.300" rounded="md" mb={4}></Box>
-                      <Box h={4} bg="gray.300" w="75%" mb={2} rounded="md"></Box>
-                      <Box h={4} bg="gray.300" w="50%" rounded="md"></Box>
-                    </Box>
+                    <GridItem key={index} bg="gray.200" p={4} borderRadius="lg" border={'1px solid'} borderColor={'gray.200'} opacity={0.6}>
+                      <Box h="64" bg="gray.300" mb={4} />
+                      <Box h="4" bg="gray.300" w="3/4" mb={2} />
+                      <Box h="4" bg="gray.300" w="1/2" />
+                      <Box h="10" bg="gray.300" w="full" mt={3} />
+                    </GridItem>
                   ))
                 : paginatedProducts.length === 0 ? (
                     <Text textAlign="center" color="gray.500">
                       No products available at the moment.
                     </Text>
                   ) : (
-                    paginatedProducts.map((product) => (
-                      <Box key={product._id}bg="white" border={'1px solid'} borderColor={'gray.200'} rounded="lg" overflow="hidden" _hover={{ transform: "scale(1.05)", transition: "0.3s" }}>
-                        <Link to={`/product-details/${product._id}`}>
+                    paginatedProducts.map((item) => (
+                      <Box key={item._id}bg="white" border={'1px solid'} borderColor={'gray.200'} rounded="lg" overflow="hidden" _hover={{ transform: "scale(1.05)", transition: "0.3s" }} position="relative">
+                        <Link to={`/product-details/${item._id}`}>
                           <Flex w={{ base: "full", md: "100%" }} p={3} h="170px" mx="auto" justify={'center'} alignItems={'center'}>
-                            <Image src={product.image?.[0] || "/placeholder.png"} alt={product.name} w="full" h="160px" rounded={'lg'} objectFit="cover"/>
+                            <Image src={item.image?.length > 0 ? item.image[0] : "/placeholder.png"} alt={item.name} h="full" objectFit="cover" borderRadius="md"/>
                           </Flex>
                         </Link>
-                        <Box p={2}>
-                          <Text as={'h2'} fontWeight={500} color={'gray.600'} size="md" isTruncated mb={2} className="truncate">
-                            {product.name}
+                        <Flex zIndex={1} justifyContent={'center'} alignItems={'center'} fontSize={'2xl'} onClick={handleWishlistItem} aria-label="Add to wishlist" position="absolute" top="2" right="2" w="35px" h="35px" bg="yellow.400" color="white" rounded="full" _hover={{ color: "pink.600", bg: "gray.400" }} _active={{ color: "pink.600", bg: "gray.400" }}>
+                          <IoHeart/>
+                        </Flex>
+                        <Box p={3}>
+                          <Heading as={'h2'} fontWeight={500} color={'gray.600'} size="md" isTruncated mb={1} className="truncate">
+                            {item.name}
+                          </Heading>
+                          <Text color="gray.600" fontSize="12px" bg='gray.100' p='1' rounded='md' isTruncated className="truncate" mb={1}>
+                            {item.description}
                           </Text>
-                          <Text color="gray.600" fontSize="sm" isTruncated className="truncate" mb={2}>
-                            {product.description}
-                          </Text>
-                          {
-                            product.oldprice ? (
-                              <Badge colorScheme="pink" variant="subtle" mt={2} fontSize="xs">
-                                {((product.oldprice - product.price) / product.oldprice * 100).toFixed(2)}% OFF
-                              </Badge>
-                              ) : <Badge mt={2}>
-                                No Discount Available
+    
+                          <Flex justify="space-between" align="center" mt={1} w="full">
+                            <Box>
+                              {item.oldprice ? (
+                                  <Badge bg="gray.100" color='gray.800' variant="subtle" mt={2} fontSize="xs">
+                                    {((item.oldprice - item.price) / item.oldprice * 100).toFixed(2)}% OFF
+                                  </Badge>
+                                ) : <Badge bg="gray.100" color='gray.800' variant="subtle" fontSize="xs" mt={2}>
+                                    No Discount Available
+                                  </Badge>
+                                }
+                            </Box>
+                    
+                            <Badge bg="gray.100" color='gray.800' variant="subtle" mt={1} fontSize="xs">
+                              {item.category}
                             </Badge>
-                          }
-                          <Flex justify="space-between" align="center">
-                            <Flex align="center" fontWeight="semibold" color="pink.600" fontSize={{ base: "sm", lg: "lg" }}>
-                              <TbCurrencyNaira /> {product.price?.toLocaleString() || "N/A"}
-                            </Flex>
-                            <Box bg={'pink.50'} color="pink.600" px={2} py={1} borderRadius="md" fontSize="xs">{product.category}</Box>
                           </Flex>
-                          <Button mt={4} w="full" bg="pink.600" color="white" _hover={{ bg: "pink.700" }} onClick={() => handleAddToCart(product)} leftIcon={<FaCartShopping />}>
+    
+                          <Flex justify="space-between" mt={1}>
+                            <Text display={'flex'} alignItems={'center'} fontWeight="semibold" color="pink.600" fontSize="lg">
+                              <TbCurrencyNaira className="mr-1" />
+                              {item.price?.toLocaleString() || "N/A"}
+                            </Text>
+                            {item.oldprice && (
+                              <Flex fontSize="sm" color="gray.400" textDecoration="line-through" align="center" ml="3">
+                                <TbCurrencyNaira fontSize="13px" />
+                                <Text ml="1">{item.oldprice}</Text>
+                              </Flex>
+                            )}
+                          </Flex>
+                          <Button onClick={() => handleAddToCart(item)} mt={4} w="full" bg="pink.600" color='white' leftIcon={<IoMdCart />}>
                             Add to Cart
                           </Button>
                         </Box>

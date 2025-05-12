@@ -1,5 +1,26 @@
 import React, { useState } from "react";
-import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaFacebook, FaInstagram, FaTwitter, FaLinkedin, FaWhatsapp } from "react-icons/fa";
+import {
+  Box,
+  Heading,
+  Text,
+  Input,
+  Textarea,
+  Button,
+  Spinner,
+  VStack,
+  HStack,
+  Icon,
+} from "@chakra-ui/react";
+import {
+  FaPhone,
+  FaEnvelope,
+  FaMapMarkerAlt,
+  FaFacebook,
+  FaInstagram,
+  FaTwitter,
+  FaWhatsapp,
+  FaLinkedin,
+} from "react-icons/fa";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
@@ -62,38 +83,54 @@ export default function Contact() {
   return (
     <div>
       <Header />
-      <div className="bg-gray-100 px-4 py-10">
-        <div className="max-w-3xl mx-auto bg-white p-8 shadow-lg rounded-lg w-full">
-          <h2 className="text-3xl font-bold text-center text-gray-800 mb-4">Contact Us</h2>
-          <p className="text-center text-gray-600 mb-6">We’d love to hear from you! Reach out to us for any inquiries or assistance.</p>
-          {error && <p className="text-red-500 text-sm mb-3">{error}</p>}
-          {success && <p className="text-green-500 text-sm mb-3">{success}</p>}
-          
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <input type="text" name="name" placeholder="Your Name" className="input-field bg-gray-200" value={formData.name} onChange={handleChange} />
-            <input type="email" name="email" placeholder="Your Email" className="input-field bg-gray-200" value={formData.email} onChange={handleChange} />
-            <textarea name="message" placeholder="Your Message" className="input-field bg-gray-200 h-32" value={formData.message} onChange={handleChange}></textarea>
-            <button type="submit" className="w-full bg-red-500 text-white font-semibold py-3 px-4 rounded-md hover:bg-red-600 transition flex justify-center">
-              {loading ? <span className="animate-spin border-2 border-white border-t-transparent rounded-full h-5 w-5"></span> : "Send Message"}
-            </button>
+      <Box bg="gray.100" px={4} py={10}>
+        <Box maxW="3xl" mx="auto" bg="white" p={8} rounded="lg" w="full">
+          <Heading as="h2" size="xl" textAlign="center" color="gray.800" mb={4}>
+            Contact Us
+          </Heading>
+          <Text textAlign="center" color="gray.600" mb={6}>
+            We’d love to hear from you! Reach out to us for any inquiries or assistance.
+          </Text>
+
+          {error && <Text color="red.500" fontSize="sm" mb={3}>{error}</Text>}
+          {success && <Text color="green.500" fontSize="sm" mb={3}>{success}</Text>}
+
+          <form onSubmit={handleSubmit}>
+            <VStack spacing={4}>
+              <Input name="name" placeholder="Your Name" bg="gray.100" border={'1px solid'} borderColor="gray.300" _focus={{ borderColor: "red.500" }} _placeholder={{ color: "gray.500" }} fontSize="sm" value={formData.name} onChange={handleChange} py={6}/>
+              <Input type="email" name="email" placeholder="Your Email" bg="gray.100" border={'1px solid'} borderColor="gray.300" _focus={{ borderColor: "red.500" }} _placeholder={{ color: "gray.500" }} fontSize="sm" value={formData.email} onChange={handleChange} py={6}/>
+              <Textarea name="message" placeholder="Your Message" bg="gray.100" border={'1px solid'} borderColor="gray.300" _focus={{ borderColor: "red.500" }} _placeholder={{ color: "gray.500" }} fontSize="sm" h="32" value={formData.message} onChange={handleChange} py={6}/>
+              <Button type="submit" colorScheme="red" w="full" fontWeight="semibold" isDisabled={loading}>
+                {loading ? <Spinner size="sm" /> : "Send Message"}
+              </Button>
+            </VStack>
           </form>
-          
-          <div className="mt-6">
-            <h3 className="text-lg font-semibold text-gray-800">Contact Information</h3>
-            <p className="text-gray-600 flex items-center gap-2 mt-2"><FaPhone /> +234 812 835 7183</p>
-            <p className="text-gray-600 flex items-center gap-2"><FaEnvelope /> support@hardayfunkeh.com</p>
-            <p className="text-gray-600 flex items-center gap-2"><FaMapMarkerAlt /> 1 Akin Ogunlewe Str, Abuja, FCT</p>
-          </div>
-          
-          <div className="mt-6 flex justify-center space-x-4 text-xl text-gray-600">
-            <a href="#" className="hover:text-blue-500"><FaFacebook /></a>
-            <a href="#" className="hover:text-pink-500"><FaInstagram /></a>
-            <a href="#" className="hover:text-blue-400"><FaTwitter /></a>
-            <a href="#" className="hover:text-green-500"><FaWhatsapp /></a>
-            <a href="#" className="hover:text-blue-700"><FaLinkedin /></a>
-          </div>
-        </div>
-      </div>
+
+          <Box mt={6}>
+            <Text fontSize="lg" fontWeight="semibold" color="gray.800">Contact Information</Text>
+            <HStack spacing={2} mt={2} color="gray.600">
+              <Icon as={FaPhone} />
+              <Text>+234 812 835 7183</Text>
+            </HStack>
+            <HStack spacing={2} color="gray.600">
+              <Icon as={FaEnvelope} />
+              <Text>support@hardayfunkeh.com</Text>
+            </HStack>
+            <HStack spacing={2} color="gray.600">
+              <Icon as={FaMapMarkerAlt} />
+              <Text>1 Akin Ogunlewe Str, Abuja, FCT</Text>
+            </HStack>
+          </Box>
+
+          <HStack mt={6} justify="center" spacing={4} fontSize="xl" color="gray.600">
+            <Box as="a" href="#" _hover={{ color: "blue.500" }}><FaFacebook /></Box>
+            <Box as="a" href="#" _hover={{ color: "pink.500" }}><FaInstagram /></Box>
+            <Box as="a" href="#" _hover={{ color: "blue.400" }}><FaTwitter /></Box>
+            <Box as="a" href="#" _hover={{ color: "green.500" }}><FaWhatsapp /></Box>
+            <Box as="a" href="#" _hover={{ color: "blue.700" }}><FaLinkedin /></Box>
+          </HStack>
+        </Box>
+      </Box>
       <Footer />
     </div>
   );

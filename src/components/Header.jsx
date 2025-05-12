@@ -73,8 +73,7 @@ export default function Header() {
       {/* Main Header */}
       <Box bg="pink.600" py={5} borderBottom="5px solid white">
         <Container maxW="container.xl">
-          <Flex justify="space-between" align="center" gap={4}
->
+          <Flex justify="space-between" align="center" gap={4}>
             {/* Logo */}
             <Link to="/">
               <Text fontSize={["xl", "2xl", "3xl"]} fontWeight="bold" color="white">
@@ -93,11 +92,9 @@ export default function Header() {
               <Link to="/wishlist">
                 <Flex direction="column" align="center" color="white" position="relative">
                   <FaRegHeart size={22} />
-                  {wishlistsLength > 0 && (
-                    <Box position="absolute" top="-2" right="-3" bg="yellow.400" color="white" borderRadius="full" px={2} fontSize="xs">
-                      {wishlistsLength}
-                    </Box>
-                  )}
+                  <Box position="absolute" top="-2" right="-3" bg="yellow.400" color="white" borderRadius="full" px={2} fontSize="xs">
+                    {wishlistsLength}
+                  </Box>
                   <Text fontSize="sm" display={{md: 'block', base: 'none'}}>Your Wishlist</Text>
                 </Flex>
               </Link>
@@ -106,11 +103,9 @@ export default function Header() {
               <Link to="/cart">
                 <Flex direction="column" align="center" color="white" position="relative">
                   <BsCart4 size={22} />
-                  {cartLength > 0 && (
                     <Box position="absolute" top="-2" right="-3" bg="yellow.400" color="white" borderRadius="full" px={2} fontSize="xs">
                       {cartLength}
                     </Box>
-                  )}
                   <Text fontSize="sm" display={{md: 'block', base: 'none'}}>Your Cart</Text>
                 </Flex>
               </Link>

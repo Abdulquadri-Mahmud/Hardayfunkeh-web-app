@@ -20,7 +20,7 @@ import Advert from '../components/Advert';
 import { Description, Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
 import { Badge, Box, Button, Flex, Heading, HStack, Icon, Image, Skeleton, Stack, Text,  } from '@chakra-ui/react';
 
-export default function Details() {
+export default function ProdDetails() {
     const { id } = useParams();
     const { items } = useSelector((state) => state.cart);
     const { wishlists } = useSelector((state) => state.wishlist);
@@ -118,7 +118,7 @@ export default function Details() {
             dispatch(addToCart(getCarts));
         }
     }
-
+    
     const increaseQuantity = () => {
         items.map((item) => {
             if (_id === item.productID) {
@@ -137,7 +137,7 @@ export default function Details() {
             if (_id === item.productID) {
             dispatch(changeQuantity({
                 productID : item.productID,
-                quantity : item.quantity - 1 < 1 ? navigate('/shop')
+                quantity : item.quantity - 1 < 1 ? navigate('/')
                 : item.quantity - 1
             }));
             }
@@ -155,44 +155,45 @@ export default function Details() {
     const handleWishlistItem = () => {
         dispatch(addWishlist(getCarts))
     };
-  
-    return (
-        <Box bg={'gray.100'}>
-            <Header/>
-            {
-                message && (
-                    <Box position="fixed" bottom="5" left="5" zIndex="50" p={3} fontWeight="normal" fontSize="sm" borderRadius="lg" bg="green.600" color="white" >
-                        {message}
-                    </Box>
-                )
-            }
-            <Box py={10} maxW={{ base: "97%", lg: "100%", xl: "90%", "2xl": "80%" }} mx="auto">
-                <Box bg="white" p={4} borderRadius="lg" boxShadow="" mb={6}>
-                    <Flex justify="space-between" align="center" mb={4}>
-                        <HStack spacing={1} align="center">
-                            <Link to="/">
-                                <Text fontSize="sm" color="gray.500">Home</Text>
-                            </Link>
-                            <Text size={12} color="gray.400">
-                                /
-                            </Text>
-                            <Link to="/cart">
-                                <Text fontSize="sm" color="gray.500">product details</Text>
-                            </Link>
-                        </HStack>
-                        <Button onClick={handleBack} bg="pink.600" color={'white'}>Back</Button>
-                    </Flex>
-        
-                    <Box mt={6}>
-                        <Heading fontSize={{lg: '5xl', base: '3xl'}} color={'gray.700'}>Product Details</Heading>
-                    </Box>
+
+  return (
+    <Box bg={'gray.100'}>
+       <Header/>
+
+       {
+            message && (
+                <Box position="fixed" bottom="5" left="5" zIndex="50" p={3} fontWeight="normal" fontSize="sm" borderRadius="lg" bg="green.600" color="white" >
+                    {message}
                 </Box>
-                <Flex mt={4} rounded={'xl'} justify="center" gap={2} wrap="wrap" color={'gray.800'} bg={'white'} p={3}>
-                    <Flex flex={'1'} position="relative" align="center" justify="center" direction={{ base: "column", md: "row" }} gap={2}>
-                        <Button onClick={handleWishlistItem} position="absolute"top="0rem"right="0.5rem"p="1"px="2"fontSize="sm"color="white"bg="yellow.400"_hover={{ bg: 'yellow.500' }}borderRadius="lg"textTransform="capitalize">
-                            <FaRegHeart size={22} />
-                        </Button>
-                        <Flex gap={2} flexWrap={'wrap'}>
+            )
+        }
+        <Box py={10} maxW={{ base: "97%", lg: "100%", xl: "90%", "2xl": "80%" }} mx="auto">
+            <Box bg="white" p={4} borderRadius="lg" boxShadow="" mb={6}>
+                <Flex justify="space-between" align="center" mb={4}>
+                    <HStack spacing={1} align="center">
+                        <Link to="/">
+                            <Text fontSize="sm" color="gray.500">Home</Text>
+                        </Link>
+                        <Text size={12} color="gray.400">
+                            /
+                        </Text>
+                        <Link to="/cart">
+                            <Text fontSize="sm" color="gray.500">product details</Text>
+                        </Link>
+                    </HStack>
+                    <Button onClick={handleBack} bg="pink.600" color={'white'}>Back</Button>
+                </Flex>
+    
+                <Box mt={6}>
+                    <Heading fontSize={{lg: '5xl', base: '3xl'}} color={'gray.700'}>Product Details</Heading>
+                </Box>
+            </Box>
+            <Flex mt={4} justify="cente" gap={2} wrap="wra" color={'gray.800'} bg={'white'} p={3} rounded={'xl'}> 
+                <Flex position="relative" align="center" justify="center" direction={{ base: "column", md: "row" }} gap={2}>
+                    <Button onClick={handleWishlistItem} position="absolute"top="0.5rem"right="0.5rem"p="1"px="2"fontSize="sm"color="white"bg="yellow.400"_hover={{ bg: 'yellow.500' }}borderRadius="lg"textTransform="capitalize">
+                        <FaRegHeart size={22} />
+                    </Button>
+                    <Flex gap={2} flexWrap={'wrap'}>
                             <Box w={{ base: "100%", "lg": "350px" }}>
                                 <Flex w="350px" display="flex" justifyContent={{ base: "center", md: "flex-start" }}>
                                     {
@@ -235,13 +236,13 @@ export default function Details() {
 
                                 </Box>
                             </Box>
-                            <Box flex={'1'} bg={'white'} mt={{md: 0, base : 4}} pl={3}>
+                            <Box flex={1} bg={'white'} mt={{md: 0, base : 4}} pl={3}>
                                 <Box mt={4} borderBottom="1px solid" borderColor="gray.300" pb={2}>
-                                    <Heading as="h2" pt={4} fontWeight="normal" fontSize={{lg:"lg", base: "md"}}>
+                                    <Heading as="h2" pt={4} fontWeight="normal" fontSize={{lg:"xl", base: "2xl"}}>
                                         {name}
                                     </Heading>
 
-                                    <Box my={5}>
+                                    <Box mt={3}>
                                         <Text fontSize="sm" color="gray.500" my={1}>
                                             Product Code:{" "}
                                             <Text as="span" color="gray.600" fontSize="13px">
@@ -333,14 +334,14 @@ export default function Details() {
                                         </Flex>
                                     </Box>
                                 </Box>
-                                {/* {getCarts.size?.length >= 0 && (
+                                {/* {size?.length >= 0 && (
                                     <Box my={3} bg="gray.200" p={2} rounded="md">
                                         <Text fontSize="sm" fontWeight="semibold" color="pink.500">
                                         Available Sizes
                                         </Text>
                                         <Flex align="center" gap={5} flexWrap="wrap">
                                             <Flex gap={2} flexWrap="wrap">
-                                                {getCarts.size?.map((sz) => (
+                                                {size.map((sz) => (
                                                 <Box as="label" key={sz} display="flex" alignItems="center" gap={1} cursor="pointer">
                                                     <input type="checkbox" name="size" value={sz} onChange={handleSizeChange} />
                                                     <Text>{sz}</Text>
@@ -352,7 +353,7 @@ export default function Details() {
                                 )} */}
 
                                     <Box mt={5} display="flex" justifyContent="space-between" alignItems="center">
-                                        <Button bg="pink.600" color="white" px={5} py={6} fontSize={'20px'} borderRadius="full" w="100%" fontWeight="medium" _hover={{ bg: "pink.500" }} onClick={handleCart} flexDirection="column" alignItems="center" justifyContent="center">
+                                        <Button bg="green.600" color="white" px={5} py={6} fontSize={'20px'} borderRadius="full" w="100%" fontWeight="medium" _hover={{ bg: "pink.500" }} onClick={handleCart} flexDirection="column" alignItems="center" justifyContent="center">
                                             Add To Cart
                                         </Button>
                                     </Box>
@@ -470,19 +471,7 @@ export default function Details() {
                     </Flex>
                 </Box>
             </Flex>
-            <Box display={{ base: 'none', lg: 'block' }} bg="white" p={3} rounded="md" mt={6}>
-                <Box mb={2}>
-                    <Text fontWeight="bold" fontSize={{lg:"3xl", base: '2xl'}} color="gray.700">
-                        Products Details:
-                    </Text>
-                </Box>
-                <Text pb={2} fontSize="sm" color="gray.600" dangerouslySetInnerHTML={{
-                    __html: description ? description.replace(/\n/g, "<br />") : description,
-                }} />
-            </Box>
         </Box>
-        <Advert/>
-        <Footer/>
     </Box>
   )
 }

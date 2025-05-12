@@ -9,6 +9,16 @@ import Header from "../components/Header";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import SearchLoader from "../components/SearchLoader";
+import {
+  Box,
+  Heading,
+  Input,
+  Text,
+  Flex,
+  Image,
+  Button,
+  Grid,
+} from "@chakra-ui/react";
 
 export default function SearchPage() {
   const [products, setProducts] = useState([]);
@@ -81,15 +91,32 @@ export default function SearchPage() {
   };
 
   return (
-    <div className="bg-pink-100">
+    <Box bg="pink.100">
       <Header />
-      <div className="container mx-auto lg:p-6 p-3 flex flex-wrap gap-6">
-        <div className="lg:w-[300px] w-full lg:h-[400px] bg-white p-4 shadow-md rounded-md">
-          <h3 className="text-xl font-bold mb-4">Filters</h3>
-          <input type="text" value={query} onChange={(e) => updateFilters("query", e.target.value)} placeholder="Search for products" className="w-full px-3 py-2 border border-gray-300 rounded-md mb-4"/>
-          
-          <div className="mb-4">
-            <h4 className="font-semibold">Price Range</h4>
+      <Flex direction={{ base: "column", lg: "row" }} wrap="wrap" gap={6} maxW="container.xl" mx="auto" p={{ base: 3, lg: 6 }}>
+        <Box
+          w={{ base: "100%", lg: "300px" }}
+          h={{ lg: "400px" }}
+          bg="white"
+          p={4}
+          shadow="md"
+          rounded="md"
+        >
+          <Heading as="h3" size="md" mb={4}>
+            Filters
+          </Heading>
+
+          <Input
+            value={query}
+            onChange={(e) => updateFilters("query", e.target.value)}
+            placeholder="Search for products"
+            mb={4}
+          />
+
+          <Box mb={4}>
+            <Text fontWeight="semibold" mb={1}>
+              Price Range
+            </Text>
             <Slider
               range
               min={0}
@@ -102,78 +129,143 @@ export default function SearchPage() {
                 updateFilters("maxPrice", priceRange[1]);
               }}
             />
-            <div className="flex justify-between text-sm mt-2">
-              <span>N{priceRange[0]}</span>
-              <span>N{priceRange[1]}</span>
-            </div>
-          </div>
+            <Flex justify="space-between" fontSize="sm" mt={2}>
+              <Text>N{priceRange[0]}</Text>
+              <Text>N{priceRange[1]}</Text>
+            </Flex>
+          </Box>
 
-          <div className="mb-4">
-            <h4 className="font-semibold">Size</h4>
-            <select className="w-full px-3 py-2 border rounded-md border-gray-300" value={size} onChange={(e) => updateFilters("size", e.target.value)}>
+          <Box mb={4}>
+            <Text fontWeight="semibold" mb={1}>
+              Size
+            </Text>
+            <Box
+              as="select"
+              value={size}
+              onChange={(e) => updateFilters("size", e.target.value)}
+              width="100%"
+              px={3}
+              py={2}
+              borderWidth={1}
+              borderRadius="md"
+              borderColor="gray.300"
+            >
               <option value="">All Sizes</option>
               <option value="S">Small</option>
               <option value="M">Medium</option>
               <option value="L">Large</option>
               <option value="XL">Extra Large</option>
-            </select>
-          </div>
+            </Box>
+          </Box>
 
-          <div className="mb-4">
-            <h4 className="font-semibold">Deals</h4>
-            <select className="w-full px-3 py-2 border rounded-md border-gray-300" value={deal} onChange={(e) => updateFilters("deal", e.target.value)}>
+          <Box mb={4}>
+            <Text fontWeight="semibold" mb={1}>
+              Deals
+            </Text>
+            <Box
+              as="select"
+              value={deal}
+              onChange={(e) => updateFilters("deal", e.target.value)}
+              width="100%"
+              px={3}
+              py={2}
+              borderWidth={1}
+              borderRadius="md"
+              borderColor="gray.300"
+            >
               <option value="">All Deals</option>
               <option value="good">Good</option>
               <option value="great">Great</option>
-            </select>
-          </div>
-        </div>
-        
-        <div className="flex-1 bg-white shadow-xl rounded-2xl lg:p-4 p-2">
-          <div className="flex flex-wrap items-center justify-between mb-4">
-            <h2 className=";g:text-2xl text-lg font-bold">
-              Search Results for: <span className="text-pink-600">{query}</span>
-            </h2>
-            <p className="text-gray-500 lg:text-sm text-[12px]">({products.length} products found)</p>
-          </div>
-          {loading && <SearchLoader/>}
-          {error && <p className="text-red-500">{error}</p>}
+            </Box>
+          </Box>
+        </Box>
+
+        <Box
+          flex="1"
+          bg="white"
+          shadow="xl"
+          rounded="2xl"
+          p={{ base: 2, lg: 4 }}
+        >
+          <Flex
+            wrap="wrap"
+            justify="space-between"
+            align="center"
+            mb={4}
+          >
+            <Heading size={{ base: "sm", lg: "lg" }}>
+              Search Results for: <Text as="span" color="pink.600">{query}</Text>
+            </Heading>
+            <Text fontSize={{ base: "xs", lg: "sm" }} color="gray.500">
+              ({products.length} products found)
+            </Text>
+          </Flex>
+
+          {loading && <SearchLoader />}
+          {error && <Text color="red.500">{error}</Text>}
           {products.length === 0 && !loading && (
-            <p className="text-gray-500">No products found.</p>
+            <Text color="gray.500">No products found.</Text>
           )}
-          
-          <div className="grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 md:gap-4 gap-3">
+
+          <Grid templateColumns={{ base: "repeat(2, 1fr)", md: "repeat(3, 1fr)", lg: "repeat(4, 1fr)" }} gap={4}>
             {products.map((product) => (
-              <div key={product._id} className="relative addTocartCont shadow-lg rounded-lg bg-white overflow-hidden transform transition-transform duration-300 hover:scale-105">
-                <Link to={`/product-details/${product._id}`} className="block relative">
-                  <img src={product.image?.length > 0 ? product.image[0] : "/placeholder.png"} alt={product.name} className="w-full h-[180px] object-cover"/>
+              <Box
+                key={product._id}
+                position="relative"
+                shadow="lg"
+                rounded="lg"
+                bg="white"
+                overflow="hidden"
+                transition="transform 0.3s"
+                _hover={{ transform: "scale(1.05)" }}
+              >
+                <Link to={`/product-details/${product._id}`}>
+                  <Image
+                    src={product.image?.length > 0 ? product.image[0] : "/placeholder.png"}
+                    alt={product.name}
+                    objectFit="cover"
+                    w="full"
+                    h="180px"
+                  />
                 </Link>
-                <div className="p-2">
-                  <h2 className="font-semibold text-lg truncate mb-2 text-gray-800">{product.name}</h2>
-                  <p className="text-gray-600 lg:text-sm text-[12px] truncate">{product.description}</p>
+                <Box p={2}>
+                  <Text fontWeight="semibold" fontSize="lg" mb={2} noOfLines={1} color="gray.800">
+                    {product.name}
+                  </Text>
+                  <Text fontSize="sm" color="gray.600" noOfLines={1}>
+                    {product.description}
+                  </Text>
                   {product.oldprice && (
-                    <div className="absolute left-3 top-3 text-pink-600 bg-yellow-100 py-1 px-2 text-[12px] rounded-full capitalize">
+                    <Box position="absolute" top={3} left={3} bg="yellow.100" color="pink.600" py={1} px={2} fontSize="xs" rounded="full">
                       -{((product.oldprice - product.price) / product.oldprice * 100).toFixed(2)}%
-                    </div>
+                    </Box>
                   )}
-                  <div className="mt-2 flex items-center gap-2 justify-between">
-                    <p className="flex items-center text-sm font-semibold text-pink-600">
-                      <TbCurrencyNaira className="" />
+                  <Flex mt={2} align="center" justify="space-between">
+                    <Text fontSize="sm" fontWeight="semibold" color="pink.600" display="flex" alignItems="center">
+                      <TbCurrencyNaira />
                       {product.price?.toLocaleString() || "N/A"}
-                    </p>
-                    <p className="text-gray-500 text-sm px-2 rounded-full bg-pink-200">{product.category}</p>
-                  </div>
-                  <button onClick={() => handleAddToCart(product)} className="addTocart w-[100%] h-[0px] bg-pink-600 rounded-md mt-3 font-medium flex justify-center items-center text-white">
-                    <FaCartShopping />
+                    </Text>
+                    <Text fontSize="sm" px={2} rounded="full" bg="pink.200">
+                      {product.category}
+                    </Text>
+                  </Flex>
+                  <Button
+                    leftIcon={<FaCartShopping />}
+                    colorScheme="pink"
+                    size="sm"
+                    w="full"
+                    mt={3}
+                    onClick={() => handleAddToCart(product)}
+                  >
                     Add to Cart
-                  </button>
-                </div>
-              </div>
+                  </Button>
+                </Box>
+              </Box>
             ))}
-          </div>
-        </div>
-      </div>
+          </Grid>
+        </Box>
+      </Flex>
       <Footer />
-    </div>
+    </Box>
   );
 }
