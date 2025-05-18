@@ -135,7 +135,7 @@ export default function CheckOutPage() {
                   paddingBottom: '12px',
                   borderBottomLeftRadius: '0.375rem',
                   borderBottomRightRadius: '0.375rem',
-                  flexBasis: '45%'
+                  flexBasis: '55%'
                 }}
               >
                 <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }} gap={3} p={3}>

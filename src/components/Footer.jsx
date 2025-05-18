@@ -1,49 +1,74 @@
-import React from "react";
+import { Box, Grid, Heading, Text, Link, Stack, Flex } from "@chakra-ui/react";
 import { FaFacebookF, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-white py-10">
-      <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8 text-start md:text-left">
-        
-        {/* About Faizany Sales */}
-        <div>
-          <h3 className="text-lg font-semibold mb-4">Hardayfunkeh Sales</h3>
-          <p className="text-gray-400">
-          Your premier destination for elegant abayas, premium fabrics, exquisite jewelry, and stylish fashion. We offer unbeatable wholesale and retail deals, ensuring quality and sophistication at the best prices.
-          </p>
-        </div>
+    <Box bg="gray.900" color="white" py={10} px={6}>
+      <Grid maxW="1200px" mx="auto" templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }} gap={8} textAlign={{ base: "start", md: "left" }}>
+        {/* About Section */}
+        <Box>
+          <Heading as="h3" size="md" mb={4}>
+            Hardayfunkeh Sales
+          </Heading>
+          <Text color="gray.400">
+            Your premier destination for elegant abayas, premium fabrics, exquisite jewelry, and stylish fashion. We offer unbeatable wholesale and retail deals, ensuring quality and sophistication at the best prices.
+          </Text>
+        </Box>
 
-        {/* Shopping Categories */}
-        <div>
-          <h3 className="text-lg font-semibold mb-4">Shop by Category</h3>
-          <ul className="space-y-2">
-            <li><a href="/home-fashion" className="hover:underline">Home Fashion</a></li>
-            <li><a href="/abaya" className="hover:underline">Abaya Collection</a></li>
-            <li><a href="/fabric" className="hover:underline">Exclusive Fabrics</a></li>
-            <li><a href="/jewelry" className="hover:underline">Jewelry & Accessories</a></li>
-            <li><a href="/wholesale" className="hover:underline">Wholesale Deals</a></li>
-          </ul>
-        </div>
+        {/* Categories */}
+        <Box>
+          <Heading as="h3" size="md" mb={4}>
+            Shop by Category
+          </Heading>
+          <Stack spacing={2}>
+            <Link href="/home-fashion" _hover={{ textDecoration: "underline" }}>
+              Home Fashion
+            </Link>
+            <Link href="/abaya" _hover={{ textDecoration: "underline" }}>
+              Abaya Collection
+            </Link>
+            <Link href="/fabric" _hover={{ textDecoration: "underline" }}>
+              Exclusive Fabrics
+            </Link>
+            <Link href="/jewelry" _hover={{ textDecoration: "underline" }}>
+              Jewelry & Accessories
+            </Link>
+            <Link href="/wholesale" _hover={{ textDecoration: "underline" }}>
+              Wholesale Deals
+            </Link>
+          </Stack>
+        </Box>
 
         {/* Follow Us */}
-        <div>
-          <h3 className="text-lg font-semibold mb-4">Follow Us</h3>
-          <p className="text-gray-400 mb-2">Stay updated on the latest trends & offers.</p>
-          <div className="flex justify-center md:justify-start space-x-4">
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-400"><FaFacebookF size={20} /></a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-400"><FaInstagram size={20} /></a>
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-400"><FaTwitter size={20} /></a>
-            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-400"><FaYoutube size={20} /></a>
-          </div>
-        </div>
-      </div>
+        <Box>
+          <Heading as="h3" size="md" mb={4}>
+            Follow Us
+          </Heading>
+          <Text color="gray.400" mb={2}>
+            Stay updated on the latest trends & offers.
+          </Text>
+          <Flex justify={{ base: "center", md: "flex-start" }} gap={4}>
+            <Link href="https://facebook.com" isExternal _hover={{ color: "gray.400" }}>
+              <FaFacebookF size={20} />
+            </Link>
+            <Link href="https://instagram.com" isExternal _hover={{ color: "gray.400" }}>
+              <FaInstagram size={20} />
+            </Link>
+            <Link href="https://twitter.com" isExternal _hover={{ color: "gray.400" }}>
+              <FaTwitter size={20} />
+            </Link>
+            <Link href="https://youtube.com" isExternal _hover={{ color: "gray.400" }}>
+              <FaYoutube size={20} />
+            </Link>
+          </Flex>
+        </Box>
+      </Grid>
 
-      {/* Copyright Section */}
-      <div className="mt-8 text-center text-gray-400">
-        &copy; {new Date().getFullYear()} Faizany Sales. All rights reserved.
-      </div>
-    </footer>
+      {/* Copyright */}
+      <Text mt={8} textAlign="center" color="gray.400">
+        &copy; {new Date().getFullYear()} Hardayfunkeh Sales. All rights reserved.
+      </Text>
+    </Box>
   );
 };
 

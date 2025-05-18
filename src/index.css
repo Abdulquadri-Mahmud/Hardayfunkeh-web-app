@@ -320,8 +320,8 @@ select {
   color: #1A202C; /* Chakra gray.800 */
   padding: 8px 12px;
   width: 200px;
-  border: 1px solid #db2777; /* pink.500 border */
-  background: #c2ffdb;
+  border: 1px solid #ddd; /* pink.500 border */
+  /* background: #c2ffdb; */
   border-radius: 6px;
   font-size: 1rem;
   cursor: pointer;
