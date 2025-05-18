@@ -122,7 +122,7 @@ export default function CartPage() {
                 <BiLeftArrowAlt /> Continue Shopping
               </Text>
             </Link>
-            <Button onClick={handleCheckWishlist} bg="pink.600">Check Wishlist</Button>
+            <Button onClick={handleCheckWishlist} bg="pink.600" color={'white'}>Check Wishlist</Button>
           </Flex>
 
           <Flex direction={{ base: 'column', md: 'row' }} gap={4}>
@@ -140,9 +140,9 @@ export default function CartPage() {
                         </Flex>
 
                         <Flex align="center" gap={2}>
-                          <Button bg={'pink.500'} color={'white'} size="sm" onClick={() => decreaseQuantity(item.productID)}><CgMathMinus /></Button>
+                          <Button h={{md:'35px', base: '30px'}} w={{md:'30px', base: '30px'}} bg={'pink.500'} color={'white'} size="sm" onClick={() => decreaseQuantity(item.productID)}><CgMathMinus /></Button>
                             <Text>{item.quantity}</Text>
-                          <Button bg={'pink.500'} color={'white'} size="sm" onClick={() => increaseQuantity(item.productID)}><RiAddFill /></Button>
+                          <Button h={{md:'35px', base: '30px'}} w={{md:'30px', base: '30px'}} bg={'pink.500'} color={'white'} size="sm" onClick={() => increaseQuantity(item.productID)}><RiAddFill /></Button>
                         </Flex>
 
                         <Flex align="center">
@@ -150,7 +150,7 @@ export default function CartPage() {
                           <Text fontWeight="medium" ml={1}>{(item.productPrice * item.quantity).toLocaleString()}.00</Text>
                         </Flex>
 
-                        <Button colorScheme="red" border={'1px solid'} borderColor={'gray.300'} onClick={() => handleRemoveItem(item.productID)} leftIcon={<MdDelete />}>
+                        <Button h={{md:'35px', base: '30px'}} w={{md:'30px', base: '30px'}} colorScheme="red" border={'1px solid'} borderColor={'gray.300'} onClick={() => handleRemoveItem(item.productID)} leftIcon={<MdDelete />}>
                           <MdDelete fontSize={'3xl'} color='red'/>
                         </Button>
                       </Flex>

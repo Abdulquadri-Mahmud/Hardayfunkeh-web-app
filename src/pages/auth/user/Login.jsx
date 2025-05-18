@@ -45,7 +45,7 @@ export default function UserLogin() {
       }
 
       dispatch(signinSuccess(data));
-      navigate('/');
+      navigate(-1);
     } catch (err) {
       setError("Network error. Please try again later.");
       dispatch(signinFailure(err || "Network error. Please try again later."));

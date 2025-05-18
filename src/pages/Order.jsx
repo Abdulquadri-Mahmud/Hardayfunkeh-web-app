@@ -1,4 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
+import {
+  Box,
+  Heading,
+  Input,
+  Textarea,
+  Select,
+  Button,
+  Text,
+  SimpleGrid,
+} from '@chakra-ui/react';
+
 import { FaNairaSign } from 'react-icons/fa6';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
@@ -62,32 +73,44 @@ export default function Order() {
   };
 
   return (
-    <div className="bg-zinc-100">
+    <Box bg="gray.100" minH="100vh">
       <Header />
-      <div className="max-w-[90%] mx-auto my-10">
-        <h2 className="text-2xl font-medium text-gray-700">Checkout</h2>
-        <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input type="text" id="firstname" value={formData.firstname} onChange={handleChange} placeholder="First Name" className="border p-2 rounded" required />
-            <input type="text" id="lastname" value={formData.lastname} onChange={handleChange} placeholder="Last Name" className="border p-2 rounded" required />
-            <input type="text" id="phone" value={formData.phone} onChange={handleChange} placeholder="Phone Number" className="border p-2 rounded" required />
-            <input type="email" id="email" value={formData.email} onChange={handleChange} placeholder="Email Address" className="border p-2 rounded" required />
-            <textarea id="address" value={formData.address} onChange={handleChange} placeholder="Full Address" className="border p-2 rounded" required></textarea>
-            <select id="deliveryMethod" value={formData.deliveryMethod} onChange={handleChange} className="border p-2 rounded">
+      <Box maxW="90%" mx="auto" my={10}>
+        <Heading as="h2" size="lg" color="gray.700" mb={4}>
+          Checkout
+        </Heading>
+
+        <form onSubmit={handleSubmit} style={{
+            background: 'white',
+            padding: '1.5rem',
+            borderRadius: '0.5rem',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+          }}>
+          <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4}>
+            <Input type="text" id="firstname" value={formData.firstname} onChange={handleChange} placeholder="First Name" required/>
+            <Input type="text" id="lastname" value={formData.lastname} onChange={handleChange} placeholder="Last Name" required/>
+            <Input type="text" id="phone" value={formData.phone} onChange={handleChange} placeholder="Phone Number" required/>
+            <Input type="email" id="email" value={formData.email} onChange={handleChange} placeholder="Email Address" required/>
+            <Textarea id="address" value={formData.address} onChange={handleChange} placeholder="Full Address" required/>
+            <Select id="deliveryMethod" value={formData.deliveryMethod} onChange={handleChange} >
               <option>Standard</option>
               <option>Express</option>
-            </select>
-            <select id="paymentMethod" value={formData.paymentMethod} onChange={handleChange} className="border p-2 rounded">
+            </Select>
+            <Select id="paymentMethod" value={formData.paymentMethod} onChange={handleChange}>
               <option>Cash on Delivery</option>
               <option>Online Payment</option>
-            </select>
-          </div>
-          <button type="submit" className="mt-4 bg-blue-600 text-white px-4 py-2 rounded">{loading ? 'Processing...' : 'Place Order'}</button>
+            </Select>
+          </SimpleGrid>
+
+          <Button type="submit" mt={4} bg="blue.600" color="white" px={6} py={2} borderRadius="md" _hover={{ bg: 'blue.700' }} isDisabled={loading}>
+            {loading ? 'Processing...' : 'Place Order'}
+          </Button>
         </form>
-        {success && <p className="text-green-600">{success}</p>}
-        {error && <p className="text-red-600">{error}</p>}
-      </div>
+
+        {success && <Text mt={4} color="green.600">{success}</Text>}
+        {error && <Text mt={4} color="red.600">{error}</Text>}
+      </Box>
       <Footer />
-    </div>
+    </Box>
   );
 }

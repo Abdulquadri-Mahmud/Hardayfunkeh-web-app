@@ -18,7 +18,15 @@ import {
   Image,
   Button,
   Grid,
+  HStack,
+  SimpleGrid,
+  Container,
+  GridItem,
+  Badge,
 } from "@chakra-ui/react";
+import { addWishlist } from "../store/wishlists/Wishlists";
+import { IoHeart } from "react-icons/io5";
+import { IoMdCart } from "react-icons/io";
 
 export default function SearchPage() {
   const [products, setProducts] = useState([]);
@@ -90,45 +98,74 @@ export default function SearchPage() {
     navigate(`/search?${params.toString()}`);
   };
 
+  const handleAddToCart = (product) => {
+    const cartItem = {
+      productID: product._id,
+      productImage: product.image?.length > 0 ? product.image[0] : "/placeholder.png",
+      productName: product.name,
+      productPrice: product.price,
+      quantity: 1,
+    };
+
+    dispatch(addToCart(cartItem));
+  };
+
+  const handleWishlistItem = (product) => {
+      const cartItem = {
+        productID: product._id || '',
+        productName: product.name || [],
+        productImage: product.image?.length > 0 ? product.image[0] :  product.image || [],
+        productPrice: product.price || '',
+        stock: product.stock || [],
+        quantity: 1,
+      };
+      dispatch(addWishlist(cartItem))
+    };
+
+  const handleBack = () => navigate(-1);
+
   return (
-    <Box bg="pink.100">
+    <Box bg="gray.50">
       <Header />
-      <Flex direction={{ base: "column", lg: "row" }} wrap="wrap" gap={6} maxW="container.xl" mx="auto" p={{ base: 3, lg: 6 }}>
-        <Box
-          w={{ base: "100%", lg: "300px" }}
-          h={{ lg: "400px" }}
-          bg="white"
-          p={4}
-          shadow="md"
-          rounded="md"
-        >
+      <Container mt={8}>
+        <Box border={'1px solid'} borderColor={'gray.200'} bg="white" p={4} borderRadius="lg" boxShadow="" mb={6}>
+          <Flex justify="space-between" align="center" mb={4}>
+            <HStack spacing={1} align="center">
+              <Link to="/">
+                <Text fontSize="sm" color="gray.500">Home</Text>
+              </Link>
+              <Text size={12} color="gray.400">
+                /
+              </Text>
+              <Link to="/cart">
+                <Text fontSize="sm" color="gray.500">{query}</Text>
+              </Link>
+            </HStack>
+            <Button onClick={handleBack} bg="pink.600" color={'white'}>Back</Button>
+          </Flex>
+
+          <Box mt={6}>
+            <Heading fontSize={'5xl'} color={'pink.600'}>{query}</Heading>
+          </Box>
+        </Box>
+      </Container>
+
+      <Flex color='gray.800' direction={{ base: "column", lg: "row" }} wrap="wrap" gap={6} maxW="container.xl" mx="auto" p={{ base: 3, lg: 6 }}>
+        <Box w={{ base: "100%", lg: "300px" }} h={{ lg: "400px" }} bg="white" p={4} border={'1px solid'} borderColor={'gray.200'} rounded="xl">
           <Heading as="h3" size="md" mb={4}>
             Filters
           </Heading>
 
-          <Input
-            value={query}
-            onChange={(e) => updateFilters("query", e.target.value)}
-            placeholder="Search for products"
-            mb={4}
-          />
+          <Input value={query} onChange={(e) => updateFilters("query", e.target.value)} placeholder="Search for products" mb={4}/>
 
           <Box mb={4}>
             <Text fontWeight="semibold" mb={1}>
               Price Range
             </Text>
-            <Slider
-              range
-              min={0}
-              max={100000}
-              step={500}
-              value={priceRange}
-              onChange={(values) => setPriceRange(values)}
-              onAfterChange={() => {
+            <Slider range min={0} max={100000} step={500} value={priceRange} onChange={(values) => setPriceRange(values)} onAfterChange={() => {
                 updateFilters("minPrice", priceRange[0]);
                 updateFilters("maxPrice", priceRange[1]);
-              }}
-            />
+              }}/>
             <Flex justify="space-between" fontSize="sm" mt={2}>
               <Text>N{priceRange[0]}</Text>
               <Text>N{priceRange[1]}</Text>
@@ -139,17 +176,7 @@ export default function SearchPage() {
             <Text fontWeight="semibold" mb={1}>
               Size
             </Text>
-            <Box
-              as="select"
-              value={size}
-              onChange={(e) => updateFilters("size", e.target.value)}
-              width="100%"
-              px={3}
-              py={2}
-              borderWidth={1}
-              borderRadius="md"
-              borderColor="gray.300"
-            >
+            <Box as="select" value={size} onChange={(e) => updateFilters("size", e.target.value)} width="100%" px={3} py={2} borderWidth={1} borderRadius="md" borderColor="gray.300">
               <option value="">All Sizes</option>
               <option value="S">Small</option>
               <option value="M">Medium</option>
@@ -162,17 +189,7 @@ export default function SearchPage() {
             <Text fontWeight="semibold" mb={1}>
               Deals
             </Text>
-            <Box
-              as="select"
-              value={deal}
-              onChange={(e) => updateFilters("deal", e.target.value)}
-              width="100%"
-              px={3}
-              py={2}
-              borderWidth={1}
-              borderRadius="md"
-              borderColor="gray.300"
-            >
+            <Box as="select" value={deal} onChange={(e) => updateFilters("deal", e.target.value)} width="100%" px={3} py={2} borderWidth={1} borderRadius="md" borderColor="gray.300">
               <option value="">All Deals</option>
               <option value="good">Good</option>
               <option value="great">Great</option>
@@ -180,19 +197,8 @@ export default function SearchPage() {
           </Box>
         </Box>
 
-        <Box
-          flex="1"
-          bg="white"
-          shadow="xl"
-          rounded="2xl"
-          p={{ base: 2, lg: 4 }}
-        >
-          <Flex
-            wrap="wrap"
-            justify="space-between"
-            align="center"
-            mb={4}
-          >
+        <Box flex="1" bg="white" border={'1px solid'} borderColor={'gray.200'} rounded="2xl" p={{ base: 2, lg: 4 }}>
+          <Flex wrap="wrap" justify="space-between" align="center" mb={4}>
             <Heading size={{ base: "sm", lg: "lg" }}>
               Search Results for: <Text as="span" color="pink.600">{query}</Text>
             </Heading>
@@ -207,62 +213,59 @@ export default function SearchPage() {
             <Text color="gray.500">No products found.</Text>
           )}
 
-          <Grid templateColumns={{ base: "repeat(2, 1fr)", md: "repeat(3, 1fr)", lg: "repeat(4, 1fr)" }} gap={4}>
-            {products.map((product) => (
-              <Box
-                key={product._id}
-                position="relative"
-                shadow="lg"
-                rounded="lg"
-                bg="white"
-                overflow="hidden"
-                transition="transform 0.3s"
-                _hover={{ transform: "scale(1.05)" }}
-              >
-                <Link to={`/product-details/${product._id}`}>
-                  <Image
-                    src={product.image?.length > 0 ? product.image[0] : "/placeholder.png"}
-                    alt={product.name}
-                    objectFit="cover"
-                    w="full"
-                    h="180px"
-                  />
-                </Link>
-                <Box p={2}>
-                  <Text fontWeight="semibold" fontSize="lg" mb={2} noOfLines={1} color="gray.800">
-                    {product.name}
-                  </Text>
-                  <Text fontSize="sm" color="gray.600" noOfLines={1}>
-                    {product.description}
-                  </Text>
-                  {product.oldprice && (
-                    <Box position="absolute" top={3} left={3} bg="yellow.100" color="pink.600" py={1} px={2} fontSize="xs" rounded="full">
-                      -{((product.oldprice - product.price) / product.oldprice * 100).toFixed(2)}%
-                    </Box>
-                  )}
-                  <Flex mt={2} align="center" justify="space-between">
-                    <Text fontSize="sm" fontWeight="semibold" color="pink.600" display="flex" alignItems="center">
-                      <TbCurrencyNaira />
-                      {product.price?.toLocaleString() || "N/A"}
-                    </Text>
-                    <Text fontSize="sm" px={2} rounded="full" bg="pink.200">
-                      {product.category}
-                    </Text>
+          <SimpleGrid bg={'white'} p={{md: 3}} rounded={'xl'} gap={4} columns={{ base: 2, md: 2, lg: 3, xl: 4 }} spacing={3}>
+            {products.map((item) => (
+              <GridItem key={item._id} bg="white" borderRadius="lg" border={'1px solid'} borderColor={'gray.200'} position="relative">
+                <Link to={`/product-details/${item._id}`}>
+                  <Flex w={{ base: "full", md: "100%" }} p={3} h="220px" mx="auto" justify={'center'} alignItems={'center'}>
+                    <Image src={item.image?.length > 0 ? item.image[0] : "/placeholder.png"} alt={item.name} h="full" objectFit="cover" borderRadius="md"/>
                   </Flex>
-                  <Button
-                    leftIcon={<FaCartShopping />}
-                    colorScheme="pink"
-                    size="sm"
-                    w="full"
-                    mt={3}
-                    onClick={() => handleAddToCart(product)}
-                  >
+                </Link>
+                <Flex zIndex={1} justifyContent={'center'} alignItems={'center'} fontSize={'2xl'} onClick={() => handleWishlistItem(item)} aria-label="Add to wishlist" position="absolute" top="2" right="2" w="35px" h="35px" bg="yellow.400" color="white" rounded="full" _hover={{ color: "pink.600", bg: "gray.400" }} _active={{ color: "pink.600", bg: "gray.400" }}>
+                  <IoHeart/>
+                </Flex>
+                <Box p={2}>
+                  <Heading as={'h2'} fontWeight={500} color={'gray.600'} size="md" isTruncated mb={1} className="truncate">
+                    {item.name}
+                  </Heading>
+                  <Text color="gray.600" fontSize="12px" bg='gray.100' p='1' rounded='md' isTruncated className="truncate" mb={1}>
+                    {item.description}
+                  </Text>
+                  <Flex justify="space-between" align="center" mt={1} w="full">
+                    <Box>
+                      {item.oldprice ? (
+                          <Badge bg="gray.100" color='gray.800' variant="subtle" mt={2} fontSize="xs">
+                            {((item.oldprice - item.price) / item.oldprice * 100).toFixed(2)}% OFF
+                          </Badge>
+                        ) : <Badge bg="gray.100" color='gray.800' variant="subtle" fontSize="xs" mt={2}>
+                            No Discount Available
+                          </Badge>
+                        }
+                    </Box>
+            
+                    <Badge bg="gray.100" color='gray.800' variant="subtle" mt={1} fontSize="xs">
+                      {item.category}
+                    </Badge>
+                  </Flex>
+                  <Flex justify="space-between" mt={1}>
+                    <Text display={'flex'} alignItems={'center'} fontWeight="semibold" color="pink.600" fontSize="lg">
+                      <TbCurrencyNaira className="mr-1" />
+                      {item.price?.toLocaleString() || "N/A"}
+                    </Text>
+                    {item.oldprice && (
+                      <Flex fontSize="sm" color="gray.400" textDecoration="line-through" align="center" ml="3">
+                        <TbCurrencyNaira fontSize="13px" />
+                        <Text ml="1">{item.oldprice}</Text>
+                      </Flex>
+                    )}
+                  </Flex>
+                  <Button onClick={() => handleAddToCart(item)} mt={4} w="full" bg="pink.600" color='white' leftIcon={<IoMdCart />}>
                     Add to Cart
                   </Button>
                 </Box>
-              </Box>
+              </GridItem>
             ))}
-          </Grid>
+          </SimpleGrid>
         </Box>
       </Flex>
       <Footer />

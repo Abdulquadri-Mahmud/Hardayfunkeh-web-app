@@ -4,8 +4,14 @@ import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { Box,Button,Container,Flex, Heading, HStack, Text } from '@chakra-ui/react';
 // import { toast } from 'react-toastify';
-
+import {
+  Grid,
+  Input,
+  Select,
+  Textarea,
+} from '@chakra-ui/react';
 export default function CheckOutPage() {
   const { items } = useSelector((state) => state.cart);
   const { currentUser } = useSelector((state) => state.user);
@@ -83,154 +89,190 @@ export default function CheckOutPage() {
 
   let navigate = useNavigate();
 
-  const handleBack = () => {
-    navigate(-1)
-  }
+  const handleBack = () => navigate(-1);
 
   return (
-    <div className="bg-zinc-100">
+    <Box className="bg-zinc-100">
         <Header/>
-      <div className="2xl:max-w-[80%] xl:max-w-[90%] max-w-[100%] mx-auto my-10">
-        <div>
-          <div className="py-3 px-4 rounded-md bg-white flex gap-2 font-medium text-sm max-w-xs">
-            <p>
-              <Link className='text-[13px] text-gray-500' to={'/'}>Home / </Link>
-            </p>
-            <p>
-              <Link className='text-[13px] text-gray-500' to={'/cart'}>My Carts / </Link>
-            </p>
-            <p>
-              <Link className='text-[13px] text-gray-500' to={'/create-order'}>
-                Checkout
-              </Link>
-            </p>
-          </div>
-          <div className="py-5 px-2">
-            <div className="flex justify-between mb-2 p-2 bg-pink-600 rounded-t-md">
-              <h2 className="text-2xl font-medium text-white">Basic Information</h2>
-              <button onClick={handleBack} className="py-1 h-[40px] px-6 text-black rounded-md bg-white">
-                Back
-              </button>
-            </div>
-            <div className="flex justify-between gap-3 flex-wrap">
-              <form onSubmit={handleSubmit} className="font-medium md:w-[45%] w-full bg-white py-3 rounded-b-md">
-                <div className="grid md:grid-cols-2 gap-3 grid-cols-1 p-3">
-                  <div>
-                    {/* <p className='text-gray-700 font-semibold'>First Name</p> */}
-                    <input onChange={handleChange} defaultValue={formData.firstname} type="text" id="firstname" className="outline-none text-gray-500 border border-gray-200 placeholder:text-sm font-normal w-full text-sm rounded-md p-2" placeholder="First Name"/>
-                  </div>
-                  <div>
-                    {/* <p className='text-gray-700 font-semibold'>Last Name</p> */}
-                    <input onChange={handleChange} defaultValue={formData.lastname} type="text" id="lastname" className="outline-none text-gray-500 border border-gray-200 placeholder:text-sm font-normal w-full text-sm rounded-md p-2" placeholder="Last Name"/>
-                  </div>
-                </div>
+      <Box maxW={{ base: '100%', xl: '90%', '2xl': '80%' }} mx="auto" my="10">
+        <Box>
+          <Container mt={8}>
+            <Box border={'1px solid'} borderColor={'gray.200'} bg="white" p={4} borderRadius="lg" boxShadow="" mb={6}>
+              <Flex justify="space-between" align="center" mb={4}>
+                <HStack spacing={1} align="center">
+                  <Text fontSize="13px" color="gray.500">
+                    <Link to="/">Home / </Link>
+                  </Text>
+                  <Text fontSize="13px" color="gray.500">
+                    <Link to="/cart">My Carts / </Link>
+                  </Text>
+                  <Text fontSize="13px" color="gray.500">
+                    <Link to="/create-order">Checkout</Link>
+                  </Text>
+                </HStack>
+                <Button onClick={handleBack} bg="pink.600" color={'white'}>Back</Button>
+              </Flex>
+              <Box mt={4}>
+                <Heading fontSize={'5xl'} color={'pink.600'}>Checkout</Heading>
+              </Box>
+            </Box>
+          </Container>
+          <Container py={5} px={2}>
+            <Box mb={2} p={2} bg="pink.600" borderTopRadius="md">
+              <Heading as="h2" fontSize="2xl" fontWeight="medium" color="white">
+                Basic Information
+              </Heading>
+            </Box>
+            <Flex color={'gray.800'} justify="space-between" gap={3} flexWrap="wrap">
+              {/* FORM SECTION */}
+              <form onSubmit={handleSubmit}
+                style={{
+                  fontWeight: 500,
+                  width: '100%',
+                  maxWidth: '100%',
+                  backgroundColor: 'white',
+                  paddingTop: '12px',
+                  paddingBottom: '12px',
+                  borderBottomLeftRadius: '0.375rem',
+                  borderBottomRightRadius: '0.375rem',
+                  flexBasis: '45%'
+                }}
+              >
+                <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }} gap={3} p={3}>
+                  <Input onChange={handleChange} defaultValue={formData.firstname} id="firstname" type="text" placeholder="First Name" fontWeight="normal" fontSize="sm" color="gray.500" border="1px solid" borderColor="gray.200" rounded="md" p={2}/>
+                  <Input onChange={handleChange} defaultValue={formData.lastname} id="lastname" type="text" placeholder="Last Name" fontWeight="normal" fontSize="sm" color="gray.500" border="1px solid" borderColor="gray.200" rounded="md" p={2}/>
+                </Grid>
 
-                <div className="grid md:grid-cols-2 gap-3 grid-cols-1 p-3">
-                  <div>
-                    {/* <p className='text-gray-700 font-semibold'>Phone Number</p> */}
-                    <input onChange={handleChange} defaultValue={formData.phone} type="text" id="phone" className="outline-none text-gray-500 border border-gray-200 placeholder:text-sm font-normal w-full text-sm rounded-md p-2" placeholder="Phone Number"/>
-                  </div>
-                  <div>
-                    {/* <p className='text-gray-700 font-semibold'>Email Address</p> */}
-                    <input onChange={handleChange} defaultValue={formData.email} type="email" id="email" className="outline-none text-gray-500 border border-gray-200 placeholder:text-sm font-normal w-full text-sm rounded-md p-2" placeholder="Email Address"/>
-                  </div>
-                </div>
+                <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }} gap={3} p={3}>
+                  <Input onChange={handleChange} defaultValue={formData.phone} id="phone" type="text" placeholder="Phone Number" fontWeight="normal" fontSize="sm" color="gray.500" border="1px solid" borderColor="gray.200" rounded="md" p={2}/>
+                  <Input onChange={handleChange} defaultValue={formData.email} id="email" type="email" placeholder="Email Address" fontWeight="normal" fontSize="sm" color="gray.500" border="1px solid" borderColor="gray.200" rounded="md" p={2}/>
+                </Grid>
 
-                <div className="grid md:grid-cols-2 gap-3 grid-cols-1 p-3">
-                  <select id="deliveryMethod" value={formData.deliveryMethod} onChange={handleChange} className="border text-gray-600 p-2 rounded">
-                    <option>Standard</option>
-                    <option>Express</option>
+                <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }} gap={3} p={3}>
+                  <select id="deliveryMethod" value={formData.deliveryMethod} onChange={handleChange} color="gray.600" p={2} borderRadius="md">
+                    <option>Standard</option> <option>Express</option>
                   </select>
-                  <select id="paymentMethod" value={formData.paymentMethod} onChange={handleChange} className="border text-gray-600 p-2 rounded">
+                  <select id="paymentMethod" value={formData.paymentMethod} onChange={handleChange} color="gray.600" p={2} borderRadius="md">
                     <option>Cash on Delivery</option>
                     <option>Online Payment</option>
                   </select>
-                </div>
+                </Grid>
 
-                <div className="p-3">
-                  <p>Full Address</p>
-                  <textarea id="address" onChange={handleChange} defaultValue={formData.address} className="outline-none text-gray-500 w-full h-[80px] border border-gray-200 placeholder:text-sm font-normal text-sm rounded-md p-2" placeholder="Full Address"></textarea>
-                </div>
+                <Box p={3}>
+                  <Text mb={1}>Full Address</Text>
+                  <Textarea id="address" onChange={handleChange} defaultValue={formData.address} placeholder="Full Address" fontWeight="normal" fontSize="sm" color="gray.500" h="80px" border="1px solid" borderColor="gray.200" rounded="md" p={2}/>
+                </Box>
 
-                <div className="flex justify-end p-3">
-                  <button type="submit"
-                    className="py-3 px-4 rounded-md bg-pink-600 cursor-pointer hover:bg-red-800 duration-200 text-white" >
-                    {loading ? 'Placing Order...' : 'Place Order Now'}
-                  </button>
-                </div>
+                <Flex justify="flex-end" p={3}>
+                  <Button type="submit" bg="pink.600" _hover={{ bg: 'red.800' }} color="white" py={3} px={4} rounded="md" transition="background-color 0.2s" isLoading={loading} loadingText="Placing Order..." >
+                    Place Order Now
+                  </Button>
+                </Flex>
               </form>
 
-              <div className="flex-1 bg-white rounded-md p-4">
-                <div className="max-w-[90vw] mx-auto overflow-auto">
-                  <table className="w-full">
-                    <thead className="bg-blue-300">
+              {/* ORDER TABLE SECTION */}
+              <Box flex="1" bg="white" rounded="md" p={4}>
+                <Box maxW="90vw" mx="auto" overflowX="auto">
+                  <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                    <thead>
                       <tr>
-                        <th className="rounded-tl-md font-medium p-[10px] text-white bg-yellow-400 text-start">Product</th>
-                        <th className="font-medium p-[10px] text-white bg-yellow-400 text-start">Price</th>
-                        <th className="font-medium p-[10px] text-white bg-yellow-400 text-start">Quantity</th>
-                        <th className="font-medium p-[10px] text-white bg-yellow-400 text-start rounded-tr-md">Total</th>
+                        <th style={{
+                            backgroundColor: '#facc15', // yellow.400
+                            color: 'white',
+                            textAlign: 'left',
+                            fontWeight: '500',
+                            padding: '10px',
+                            borderTopLeftRadius: '8px',
+                          }}>
+                          Product
+                        </th>
+                        <th
+                          style={{
+                            backgroundColor: '#facc15',
+                            color: 'white',
+                            textAlign: 'left',
+                            fontWeight: '500',
+                            padding: '10px',
+                          }}
+                        >
+                          Price
+                        </th>
+                        <th style={{
+                            backgroundColor: '#facc15',
+                            color: 'white',
+                            textAlign: 'left',
+                            fontWeight: '500',
+                            padding: '10px',
+                          }}>
+                          Quantity
+                        </th>
+                        <th
+                          style={{
+                            backgroundColor: '#facc15',
+                            color: 'white',
+                            textAlign: 'left',
+                            fontWeight: '500',
+                            padding: '10px',
+                            borderTopRightRadius: '8px',
+                          }}
+                        >
+                          Total
+                        </th>
                       </tr>
                     </thead>
-                    <tbody className="w-full">
+                    <tbody>
                       {items.map((item, index) => {
                         total += item.productPrice * item.quantity;
-
                         return (
-                          <tr className="px-2 border border-gray-300  border-r-0 border-l-0" key={index}>
-                            <td className="pl-2 py-2 font-normal truncate">
-                            {
-                              item.productName && (
-                                  <p className="text-sm">{item.productName.slice(0, 30)}...</p>
-                              )
-                            }
+                          <tr key={index} style={{ borderBottom: '1px solid #d1d5db' }}>
+                            <td
+                              style={{
+                                padding: '8px',
+                                fontWeight: '400',
+                                maxWidth: '150px',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                                whiteSpace: 'nowrap',
+                              }}
+                            >
+                              {item.productName && (
+                                <span style={{ fontSize: '14px' }}>{item.productName.slice(0, 30)}...</span>
+                              )}
                             </td>
-                            <td className="py-3 font-normal w-[20%]">
-                              <p className="pl-2 flex items-center gap-1">
-                                <FaNairaSign className='text-sm'/>
-                                {
-                                  item.productPrice && (
-                                    <>
-                                      {item.productPrice.toLocaleString()}.00
-                                    </>
-                                  )
-                                }
-                              </p>
-                            </td>
-                            <td className="py-2 font-normal">
-                              <div className="pl-3 h-full gap-2">
-                                <span>{item.quantity}</span>
+                            <td style={{ padding: '12px', fontWeight: '400' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                <FaNairaSign style={{ fontSize: '14px' }} />
+                                {item.productPrice?.toLocaleString()}.00
                               </div>
                             </td>
-                            <td className="py-3 font-normal w-[20%]">
-                              <p className="pl-2 flex items-center">
-                                <FaNairaSign className='text-sm'/>
-                                {
-                                  item.productPrice && (
-                                    <>
-                                      {(item.productPrice * item.quantity).toLocaleString()}.00
-                                    </>
-                                  )
-                                }
-                              </p>
+                            <td style={{ padding: '8px', fontWeight: '400' }}>
+                              <div style={{ paddingLeft: '12px' }}>{item.quantity}</div>
+                            </td>
+                            <td style={{ padding: '12px', fontWeight: '400' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', paddingLeft: '8px' }}>
+                                <FaNairaSign style={{ fontSize: '14px' }} />
+                                {(item.productPrice * item.quantity).toLocaleString()}.00
+                              </div>
                             </td>
                           </tr>
                         );
                       })}
                     </tbody>
                   </table>
-                  <div className="font-medium py-2 grid grid-cols-2 border-b border-gray-300 items-center w-full">
-                    <p className="text-xl px-2">Grand Total</p>
-                    <p className="flex justify-end px-2 items-center w-full">
+
+                  <Grid templateColumns="1fr 1fr" alignItems="center" borderBottom="1px solid" borderColor="gray.300" py={2}>
+                    <Text fontSize="xl" px={2} fontWeight="medium">Grand Total</Text>
+                    <Flex justify="flex-end" align="center" px={2}>
                       <FaNairaSign />
                       {total.toLocaleString()}.00
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+                    </Flex>
+                  </Grid>
+                </Box>
+              </Box>
+            </Flex>
+          </Container>
+        </Box>
+      </Box>
 
       {/* Modal */}
       {showModal && (
@@ -253,6 +295,6 @@ export default function CheckOutPage() {
         </div>
       )}
       <Footer/>
-    </div>
+    </Box>
   );
 }
