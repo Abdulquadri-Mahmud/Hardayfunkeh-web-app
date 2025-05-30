@@ -96,9 +96,9 @@ const HomePage = () => {
   return (
     <Box className="bg-gray-50">
       <Header />
-      <div className="absolute">
-        <SearchProductInput/>
-      </div>
+      {/* <div className="absolute">
+      </div> */}
+      <SearchProductInput/>
       <HeroSection/>
       {/*  */}
       <Features/>

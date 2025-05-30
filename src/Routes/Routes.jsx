@@ -22,23 +22,26 @@ import CartPage from '../pages/CartPage';
 import Details from '../pages/Product_details';
 import ForgotPassword from '../pages/auth/user/ForgotPassword';
 import ResetPassword from '../pages/auth/user/ResetPassword';
-import CheckOutPage from '../pages/Checkout_page';
+import CheckOutPage from '../pages/order/Checkout_page';
 import Wishlists from '../pages/WishlistsPag';
 import JewelleryPage from '../pages/Shop_pages/JewelleryPage';
 import JalabPage from '../pages/Shop_pages/JalabPage';
 import FabricPage from '../pages/Shop_pages/FabricPage';
 import AbayaPage from '../pages/Shop_pages/AbayaPage';
 import Admin_Private_Route from '../components/private/Admin.private.routes';
-import Order from '../pages/Order';
 import ProdDetails from '../pages/Details';
+import Order from '../pages/order/Order';
+import SearchProductInput from '../components/SearchProductInput';
+import { Box } from '@chakra-ui/react';
 
 export default function AppRoutes() {
   return (
-    <div >
+    <Box pos={''}>
 
       <Router>
-          {/* <Header/> */}
-
+          <SearchProductInput/>
+        {/* <Box pos={'fixed'} top={0}>
+        </Box> */}
           <Routes>
             <Route path='/' element={<HomePage/>}/>
             <Route path='/search' element={<SearchPage/>}/>
@@ -70,7 +73,7 @@ export default function AppRoutes() {
 
             <Route element={<User_Private_Route/>}>
               <Route path='/order' element={<Order/>}/>
-              <Route path='/checkout' element={<CheckOutPage/>}/>
+              <Route path='/checkout/summary' element={<CheckOutPage/>}/>
               <Route path='/profile/:userId' element={<Profile/>}/>
             </Route>
             <Route element={<Admin_Private_Route/>}>
@@ -85,6 +88,6 @@ export default function AppRoutes() {
             </Route>
           </Routes>
       </Router>
-    </div>
+    </Box>
   )
 }

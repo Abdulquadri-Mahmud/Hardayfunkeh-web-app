@@ -76,62 +76,20 @@ export default function SearchProductInput() {
   };
 
   return (
-    <Flex position="fixed" zIndex={30} alignItems="center" mt={10}>
+    <Flex position="fixed" top={0} zIndex={30} alignItems="center" mt={10}>
       {/* Search Icon Button */}
-      <Box
-        onClick={toggleSearch}
-        w="40px"
-        h="40px"
-        bg="pink.600"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        borderRightRadius="full"
-        cursor="pointer"
-        zIndex={30}
-      >
+      <Box onClick={toggleSearch} w="40px" h="40px" bg="pink.600" display="flex" alignItems="center" justifyContent="center" borderRightRadius="full" cursor="pointer" zIndex={30}>
         <Box aria-label="Search" color="gray.100"
           _hover={{ color: "yellow.400" }}><FaSearch size={20} /></Box>
       </Box>
 
       {/* Search Input */}
       {isOpen && (
-        <Box
-          position="absolute"
-          left="10"
-          zIndex={10}
-          bg="white"
-          rounded="md"
-          w="16rem"
-          display="flex"
-          flexDirection="column"
-        >
+        <Box position="absolute" left="10" zIndex={10} bg="white" rounded="md" w="16rem" display="flex" flexDirection="column">
           <form onSubmit={handleSearch}>
             <Flex>
-              <Input
-                type="text"
-                value={query}
-                onChange={handleInputChange}
-                placeholder="Search for products"
-                px={4}
-                py={2}
-                color={'gray.600'}
-                border="1px solid"
-                borderColor="gray.300"
-                borderLeftRadius="md"
-                _focus={{ outline: "none", boxShadow: "outline" }}
-                autoFocus
-              />
-              <Button
-                type="submit"
-                bg="yellow.400"
-                fontWeight="semibold"
-                color="white"
-                px={4}
-                py={2}
-                borderRightRadius="md"
-                _hover={{ bg: "yellow.500" }}
-              >
+              <Input type="text" value={query} onChange={handleInputChange} placeholder="Search for products" px={4} py={2} color={'gray.600'} border="1px solid" borderColor="gray.300" borderLeftRadius="md" _focus={{ outline: "none", boxShadow: "outline" }} autoFocus/>
+              <Button type="submit" bg="yellow.400" fontWeight="semibold" color="white" px={4} py={2} borderRightRadius="md" _hover={{ bg: "yellow.500" }}>
                 Go
               </Button>
             </Flex>
@@ -139,35 +97,14 @@ export default function SearchProductInput() {
 
           {/* Clear History Button */}
           {searchHistory.length > 0 && (
-            <Box
-              bg="pink.100"
-              roundedBottom="2xl"
-              position="absolute"
-              bottom="-7.2rem"
-              w="full"
-            >
+            <Box bg="pink.100" roundedBottom="2xl" position="absolute" bottom="-7.2rem" w="full">
               <VStack spacing={0} align="stretch">
                 {filteredSuggestions.map((item, index) => (
-                  <Box
-                    key={index}
-                    px={4}
-                    py={2}
-                    _hover={{ bg: "gray.100" }}
-                    cursor="pointer"
-                    onClick={() => selectSuggestion(item)}
-                  >
+                  <Box key={index} px={4} py={2} _hover={{ bg: "gray.100" }} cursor="pointer" onClick={() => selectSuggestion(item)}>
                     {item}
                   </Box>
                 ))}
-                <Button
-                  variant="ghost"
-                  color="red.500"
-                  fontSize="sm"
-                  px={4}
-                  py={2}
-                  onClick={clearHistory}
-                  _hover={{ textDecoration: "underline" }}
-                >
+                <Button variant="ghost" color="red.500" fontSize="sm" px={4} py={2} onClick={clearHistory} _hover={{ textDecoration: "underline" }}>
                   Clear Search History
                 </Button>
               </VStack>

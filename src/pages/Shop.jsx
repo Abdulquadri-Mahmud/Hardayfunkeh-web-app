@@ -128,7 +128,7 @@ export default function Shop() {
               <Heading fontSize="xl" fontWeight="semibold">
                 {category} Collection
               </Heading>
-              <Link to="/" style={{ display: "flex", alignItems: "center", fontSize: "12px" }}>
+              <Link to={`/${category}`} style={{ display: "flex", alignItems: "center", fontSize: "12px" }}>
                 See All <FaAngleRight style={{ marginLeft: "4px", fontSize: "20px" }} />
               </Link>
             </Flex>

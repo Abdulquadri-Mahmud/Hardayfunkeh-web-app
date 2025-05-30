@@ -10,11 +10,10 @@ import {
   SimpleGrid,
 } from '@chakra-ui/react';
 
-import { FaNairaSign } from 'react-icons/fa6';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
 // import { clearCart } from '../redux/cartSlice';
 
 export default function Order() {

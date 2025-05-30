@@ -89,7 +89,7 @@ export default function CartPage() {
   return (
     <Box bg="gray.100">
       <Header />
-      <Box maxW="90%" mx="auto" py={5}>
+      <Box maxW="95%" mx="auto" py={5}>
         <Box bg="white" p={4} rounded="md">
           <Flex justify="space-between" align="center" mb={4}>
             <HStack spacing={1} align="center">
@@ -116,7 +116,7 @@ export default function CartPage() {
             </Text>
           </Box>
 
-          <Flex justify="space-between" bg="pink.200" p={3} rounded="md" mb={4}>
+          <Flex justify="space-between" alignItems={'center'} border="1px solid" borderColor="gray.300" bg="gray.100" p={3} rounded="md" mb={4}>
             <Link to="/shop">
               <Text fontSize="xl" color="#C70039" display="flex" alignItems="center">
                 <BiLeftArrowAlt /> Continue Shopping
@@ -168,7 +168,7 @@ export default function CartPage() {
             </Box>
 
             {/* Summary Section */}
-            <Box mt={{lg:4}} w={{md: "300px"}} h={'350px'} bg={{md: "gray.100", base: 'pink.100'}} border={'1px solid'} borderColor={'gray.300'} color={'gray.800'} p={4} rounded="md">
+            <Box mt={{lg:4}} w={{md: "300px"}} h={{md:'350px'}} bg={{md: "gray.100", base: 'gray.100'}} border={'1px solid'} borderColor={'gray.300'} color={'gray.800'} p={4} rounded="md">
               <VStack align="stretch" spacing={4}>
                 <Flex justify="space-between">
                   <Text fontWeight="medium">Order Summary</Text>
@@ -198,8 +198,8 @@ export default function CartPage() {
                   </Box>
                 )}
 
-                <Link to={currentUser && !emptyCart ? "/checkout" : "/cart"}>
-                  <Button w="full" bg="pink.600"  color="white" onClick={handleRedirect}>Proceed to Checkout</Button>
+                <Link to={currentUser && !emptyCart ? "/checkout/summary" : "/cart"}>
+                  <Button w="full" bg="green.600"  color="white" onClick={handleRedirect}>Proceed to Checkout</Button>
                 </Link>
               </VStack>
             </Box>
